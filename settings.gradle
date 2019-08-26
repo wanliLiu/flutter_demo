@@ -1,0 +1,9 @@
+include ':app'
+rootProject.name='FlutterTest'
+
+
+//通过 Depend on the module's source code
+if (usrSourceCode.toBoolean()) {
+    setBinding(new Binding([gradle: this]))
+    evaluate(new File(settingsDir,'./flutter_module/.android/include_flutter.groovy'))
+}
