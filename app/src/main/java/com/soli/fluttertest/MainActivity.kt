@@ -45,6 +45,6 @@ class MainActivity : AppCompatActivity() {
     private fun addFlutterFragment() {
         container.removeAllViews()
         supportFragmentManager.beginTransaction()
-            .replace(R.id.container, Flutter.createFragment("route2")).commit()
+            .replace(R.id.container, Flutter.createFragment("route21")).commit()
     }
 }
