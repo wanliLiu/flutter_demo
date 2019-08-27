@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     private fun addFlutterView() {
         container.removeAllViews()
         container.addView(
-            Flutter.createView(this, lifecycle, "route"),
+            Flutter.createView(this, lifecycle, "flutterview"),
             FrameLayout.LayoutParams.MATCH_PARENT,
             FrameLayout.LayoutParams.MATCH_PARENT
         )
@@ -45,6 +45,6 @@ class MainActivity : AppCompatActivity() {
     private fun addFlutterFragment() {
         container.removeAllViews()
         supportFragmentManager.beginTransaction()
-            .replace(R.id.container, Flutter.createFragment("route21")).commit()
+            .replace(R.id.container, Flutter.createFragment("route1")).commit()
     }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 //import 'package:flutter_boost/flutter_boost.dart';
 
-class FirstRouteWidget extends StatefulBuilder {
+class FirstRouteWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -237,37 +237,6 @@ class PushWidget extends StatefulWidget {
 }
 
 class _PushWidgetState extends State<PushWidget> {
-  VoidCallback _backPressedListenerUnsub;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-
-//    if (_backPressedListenerUnsub == null) {
-//      _backPressedListenerUnsub =
-//          BoostContainer.of(context).addBackPressedListener(() {
-//        if (BoostContainer.of(context).onstage &&
-//            ModalRoute.of(context).isCurrent) {
-//          Navigator.pop(context);
-//        }
-//      });
-//    }
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    _backPressedListenerUnsub?.call();
-  }
-
   @override
   Widget build(BuildContext context) {
     return FlutterRouteWidget(message:"Pushed Widget");

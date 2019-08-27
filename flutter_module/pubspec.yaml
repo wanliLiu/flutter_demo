@@ -40,6 +40,9 @@ dependencies:
 
   # Also update dev/benchmarks/complex_layout/pubspec.yaml
   flutter_gallery_assets: 0.1.9+2
+  http: ^0.12.0+2
+  transparent_image: ^1.0.0
+  cached_network_image: ^0.8.0
 
 dev_dependencies:
   flutter_test:
@@ -85,7 +88,9 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-
+  assets:
+    - images/like.jpeg
+    - images/timg.jpeg
 
   # This section identifies your Flutter project as a module meant for
   # embedding in a native host app.  These identifiers should _not_ ordinarily

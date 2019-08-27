@@ -2,24 +2,28 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'simple_page_widgets.dart';
+import 'flutterview.dart';
 
 void main() => runApp(_widgetForRoute(window.defaultRouteName));
 
 Widget _widgetForRoute(String route) {
   switch (route) {
-    case "route":
-      return MyApp();
+    case "flutterview":
+      return flutterview();
     case "route1":
-      return FirstRouteWidget();
+      return MyApp();
     case "route2":
       return SecondRouteWidget();
     default:
-      return MyApp();
-//      return Center(
-//          child: Text(
-//        "Unkonw route: $route no defaultRouteName",
-//        textDirection: TextDirection.ltr,
-//      ));
+      return Container(
+        color: Colors.white,
+        child: Center(
+            child: Text(
+          "Unkonw route: $route",
+          textDirection: TextDirection.ltr,
+          style: TextStyle(color: Colors.red,fontSize: 25),
+        )),
+      );
   }
 }
 
