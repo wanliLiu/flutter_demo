@@ -89,8 +89,8 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
   assets:
-    - images/like.jpeg
-    - images/timg.jpeg
+    - imgs/like.jpeg
+    - imgs/timg.jpeg
 
   # This section identifies your Flutter project as a module meant for
   # embedding in a native host app.  These identifiers should _not_ ordinarily

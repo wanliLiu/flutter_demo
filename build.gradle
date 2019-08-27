@@ -18,7 +18,7 @@ buildscript {
 allprojects {
     repositories {
         if (!usrSourceCode.toBoolean()) {
-            maven { url "file:/Users/soli/Downloads/flutter_demo/FlutterTest/flutter_module/build/host/outputs/repo" }
+            maven { url "file:/Users/soli/Documents/project/flutter/flutter_demo/flutter_module/build/host/outputs/repo"}
         }
         google()
         jcenter()

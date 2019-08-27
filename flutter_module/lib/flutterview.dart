@@ -14,21 +14,21 @@ class flutterview extends StatelessWidget {
             AspectRatio(
               aspectRatio: 2,
               child: Image.asset(
-                "images/like.jpeg",
+                "imgs/like.jpeg",
                 fit: BoxFit.cover,
               ),
             ),
             AspectRatio(
               aspectRatio: 2,
               child: Image.asset(
-                "images/timg.jpeg",
+                "imgs/timg.jpeg",
                 fit: BoxFit.cover,
               ),
             ),
             AspectRatio(
               aspectRatio: 2,
               child: Image.asset(
-                "images/like.jpeg",
+                "imgs/like.jpeg",
                 fit: BoxFit.cover,
               ),
             ),
