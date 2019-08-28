@@ -14,15 +14,17 @@ Widget _widgetForRoute(String route) {
       return MyApp();
     case "route2":
       return SecondRouteWidget();
+    case "/":
+      return MyApp();
     default:
       return Container(
         color: Colors.white,
         child: Center(
             child: Text(
-          "Unkonw route: $route",
-          textDirection: TextDirection.ltr,
-          style: TextStyle(color: Colors.red,fontSize: 25),
-        )),
+              "Unkonw route: $route",
+              textDirection: TextDirection.ltr,
+              style: TextStyle(color: Colors.red, fontSize: 25),
+            )),
       );
   }
 }
@@ -73,7 +75,10 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Text(
               '$_counter',
-              style: Theme.of(context).textTheme.display1,
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .display1,
             ),
             RaisedButton(
               onPressed: () {

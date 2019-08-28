@@ -12,23 +12,30 @@ class flutterview extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             AspectRatio(
-              aspectRatio: 2,
+              aspectRatio: 3,
               child: Image.asset(
                 "imgs/like.jpeg",
                 fit: BoxFit.cover,
               ),
             ),
             AspectRatio(
-              aspectRatio: 2,
+              aspectRatio: 3,
               child: Image.asset(
                 "imgs/timg.jpeg",
                 fit: BoxFit.cover,
               ),
             ),
             AspectRatio(
-              aspectRatio: 2,
+              aspectRatio: 3,
               child: Image.asset(
                 "imgs/like.jpeg",
+                fit: BoxFit.cover,
+              ),
+            ),
+            AspectRatio(
+              aspectRatio: 3,
+              child: Image.asset(
+                "imgs/timg.jpeg",
                 fit: BoxFit.cover,
               ),
             ),

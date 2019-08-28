@@ -5,7 +5,6 @@ buildscript {
     repositories {
         google()
         jcenter()
-        
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.0'
@@ -18,11 +17,13 @@ buildscript {
 allprojects {
     repositories {
         if (!usrSourceCode.toBoolean()) {
-            maven { url "file:/Users/soli/Documents/project/flutter/flutter_demo/flutter_module/build/host/outputs/repo"}
+            maven {
+                url rootProject.projectDir.getAbsolutePath() + "/flutter_module/build/host/outputs/repo"
+            }
         }
         google()
         jcenter()
-        
+
     }
 }
 
