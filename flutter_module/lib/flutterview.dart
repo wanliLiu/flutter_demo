@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class flutterview extends StatelessWidget {
+class Flutterview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
