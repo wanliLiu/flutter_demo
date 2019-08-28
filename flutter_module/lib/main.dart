@@ -101,9 +101,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         builder: (_) => TipRoute(
                               text: "我是提示 xxx,传过来的数据",
                             )));
+                print("路由返回值：$result");
                 if (result is String && result.isNotEmpty) {
                   _setBackContent(result);
-                }else
+                } else
                   _setBackContent(null);
               },
             ),
