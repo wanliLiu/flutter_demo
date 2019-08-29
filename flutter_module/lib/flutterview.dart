@@ -1,7 +1,26 @@
 import 'package:flutter/material.dart';
 
-class Flutterview extends StatelessWidget {
+class Echo extends StatelessWidget {
+  const Echo(
+      {Key key, @required this.text, this.backgroundColor: Colors.blueAccent})
+      : super(key: key);
 
+  final String text;
+  final Color backgroundColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        padding: EdgeInsets.all(10),
+        color: backgroundColor,
+        child: Text(text),
+      ),
+    );
+  }
+}
+
+class Flutterview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -11,6 +30,10 @@ class Flutterview extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
+            Echo(
+              text: "我是文字内容",
+              backgroundColor: Colors.yellow,
+            ),
             AspectRatio(
               aspectRatio: 3,
               child: Image.asset(

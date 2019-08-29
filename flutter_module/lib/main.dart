@@ -2,9 +2,10 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+
 import 'base/flutterbase.dart';
-import 'simple_page_widgets.dart';
 import 'flutterview.dart';
+import 'simple_page_widgets.dart';
 
 void collectLog(String line) {
   //收集日志
@@ -26,7 +27,6 @@ void main() {
     assert(details.exception != null);
     FlutterError.dumpErrorToConsole(details);
 
-
     reportErrorAndLog(details);
 
     //todo 比如错误日志收集统计上传
@@ -47,9 +47,6 @@ void main() {
     reportErrorAndLog(details);
   });
 }
-
-
-
 
 Widget _widgetForRoute(String route) {
   switch (route) {
@@ -228,10 +225,17 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
           ]),
+          Flutterview(),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () {
+          ScaffoldState state = Scaffold.of(context);
+          //调用ScaffoldState的showSnackBar来弹出SnackBar
+          state.showSnackBar(SnackBar(content: Text("我是SnackBar")));
+
+          _incrementCounter();
+        },
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ),

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter_boost/flutter_boost.dart';
 
@@ -27,6 +28,65 @@ class FirstRouteWidget extends StatelessWidget {
   }
 }
 
+class CounterWidget extends StatefulWidget {
+  const CounterWidget({Key key, this.initValue: 0}) : super(key: key);
+  final int initValue;
+
+  @override
+  _CounterWidgetState createState() => _CounterWidgetState();
+}
+
+class _CounterWidgetState extends State<CounterWidget> {
+  int _counter;
+
+  @override
+  void initState() {
+    super.initState();
+    _counter = widget.initValue;
+    debugPrint("CounterWidget---》initState");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    debugPrint("CounterWidget---》build");
+    return FlatButton(
+        onPressed: () {
+          setState(() => ++_counter);
+        },
+        child: Text("点击：${widget.initValue}"));
+  }
+
+  @override
+  void didUpdateWidget(CounterWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    debugPrint("CounterWidget---》didUpdateWidget");
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    debugPrint("CounterWidget---》didChangeDependencies");
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    debugPrint("CounterWidget---》deactivate");
+  }
+
+  @override
+  void reassemble() {
+    super.reassemble();
+    debugPrint("CounterWidget---》reassemble");
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    debugPrint("CounterWidget---》dispose");
+  }
+}
+
 class SecondRouteWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -34,11 +94,43 @@ class SecondRouteWidget extends StatelessWidget {
       appBar: AppBar(
         title: Text("Second Route"),
       ),
-      body: Center(
-        child: RaisedButton(
-          onPressed: () {
-            Navigator.pop(context);
-            // Navigate back to first route when tapped.
+      body: Column(
+        children: <Widget>[
+          CounterWidget(),
+          //ios风格的
+          CupertinoButton(
+              color: CupertinoColors.activeBlue,
+              child: Text("Press"),
+              onPressed: () {}
+          ),
+          RaisedButton(
+            onPressed: () {
+              // 查找父级最近的Scaffold对应的ScaffoldState对象
+//              ScaffoldState state =
+//                  context.ancestorStateOfType(TypeMatcher<ScaffoldState>());
+              ScaffoldState state = Scaffold.of(context);
+              //调用ScaffoldState的showSnackBar来弹出SnackBar
+              state.showSnackBar(SnackBar(content: Text("我是SnackBar")));
+            },
+            child: Text("显示SnackBar"),
+          ),
+          Builder(builder: (context) {
+            // 在Widget树中向上查找最近的父级`Scaffold` widget
+            Scaffold scaffold = context.ancestorWidgetOfExactType(Scaffold);
+//            Scaffold scaffold = Scaffold.of(context);
+            // 直接返回 AppBar的title， 此处实际上是Text("Context测试")
+            return Container(
+              color: Colors.red,
+              margin: EdgeInsets.all(10),
+              padding: EdgeInsets.all(20),
+              child: (scaffold.appBar as AppBar).title,
+            );
+          }),
+          Center(
+            child: RaisedButton(
+              onPressed: () {
+                Navigator.pop(context);
+                // Navigate back to first route when tapped.
 //
 //            BoostContainerSettings settings = BoostContainer.of(context).settings;
 //            if(settings.params.containsKey("result_id")){
@@ -47,9 +139,11 @@ class SecondRouteWidget extends StatelessWidget {
 //            }
 //
 //            FlutterBoost.singleton.closePageForContext(context);
-          },
-          child: Text('Go back!'),
-        ),
+              },
+              child: Text('Go back!'),
+            ),
+          ),
+        ],
       ),
     );
   }
