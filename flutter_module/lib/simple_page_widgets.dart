@@ -4,13 +4,17 @@ import 'package:flutter/material.dart';
 class FirstRouteWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    //通过命令路由传过来的参数 [ModalRoute]
+    var args = ModalRoute.of(context).settings.arguments;
+    debugPrint("FirstRouteWidget---->$args");
+
     return Scaffold(
       appBar: AppBar(
         title: Text('First Route'),
       ),
       body: Center(
         child: RaisedButton(
-          child: Text('Open second route'),
+          child: Text(args ?? 'Open second route'),
           onPressed: () {
 //
 //            FlutterBoost.singleton.openPage("second", {}, animated: true, resultHandler:(String key , Map<dynamic,dynamic> result){
@@ -33,6 +37,7 @@ class SecondRouteWidget extends StatelessWidget {
       body: Center(
         child: RaisedButton(
           onPressed: () {
+            Navigator.pop(context);
             // Navigate back to first route when tapped.
 //
 //            BoostContainerSettings settings = BoostContainer.of(context).settings;
@@ -51,19 +56,31 @@ class SecondRouteWidget extends StatelessWidget {
 }
 
 class TabRouteWidget extends StatelessWidget {
+  TabRouteWidget({this.from = "没有传过来的数据"});
+
+  final String from;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Tab Route"),
       ),
-      body: Center(
-        child: RaisedButton(
-          onPressed: () {
+      body: Column(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.all(20),
+            child: Text(from),
+          ),
+          Center(
+            child: RaisedButton(
+              onPressed: () {
 //            FlutterBoost.singleton.openPage("second", {}, animated: true);
-          },
-          child: Text('Open second route'),
-        ),
+              },
+              child: Text('Open second route'),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -239,6 +256,6 @@ class PushWidget extends StatefulWidget {
 class _PushWidgetState extends State<PushWidget> {
   @override
   Widget build(BuildContext context) {
-    return FlutterRouteWidget(message:"Pushed Widget");
+    return FlutterRouteWidget(message: "Pushed Widget");
   }
 }

@@ -116,7 +116,7 @@ class TipRoute extends StatelessWidget {
               Text(text),
               RaisedButton(
                 onPressed: () {
-                  Navigator.of(context).pop("我是返回值哦  大胜靠德！！！");
+                  Navigator.of(context).pop("TipRoute返回--->\n我是TipRoute返回值 你看看你！！！");
                 },
                 child: Text("返回"),
               )
