@@ -221,24 +221,25 @@ class _MyHomePageState extends State<MyHomePage> {
             RaisedButton(
               child: Text("未注册：onGenerateRoute"),
               onPressed: () {
-                Navigator.pushNamed(context, "SecondOther");
+//                Navigator.pushNamed(context, "SecondOther");
+                Navigator.of(context).pushNamed("SecondOther");
               },
             ),
           ]),
           Flutterview(),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          ScaffoldState state = Scaffold.of(context);
-          //调用ScaffoldState的showSnackBar来弹出SnackBar
-          state.showSnackBar(SnackBar(content: Text("我是SnackBar")));
-
-          _incrementCounter();
-        },
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
+      floatingActionButton: Builder(
+          builder: (context) => FloatingActionButton(
+                onPressed: () {
+                  //调用ScaffoldState的showSnackBar来弹出SnackBar
+                  Scaffold.of(context)
+                      .showSnackBar(SnackBar(content: Text("我是SnackBar")));
+                  _incrementCounter();
+                },
+                tooltip: 'Increment',
+                child: Icon(Icons.add),
+              )),
     );
   }
 }
