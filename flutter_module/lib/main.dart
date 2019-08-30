@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_module/redux/app.dart';
 
 import 'flutterDemo.dart';
 
@@ -50,11 +51,12 @@ Widget _widgetForRoute(String route) {
     case "flutterview":
       return Flutterview();
     case "route1":
-      return MyApp();
+      return createApp();
     case "route2":
       return SecondRouteWidget();
     case "/":
-      return MyApp();
+//      return MyApp();
+      return createApp();
     default:
       return Container(
         color: Colors.white,

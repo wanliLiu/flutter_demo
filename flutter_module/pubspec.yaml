@@ -46,6 +46,7 @@ dependencies:
 
 #  flutter_boost: ^0.0.415
 #  xservice_kit: ^0.0.27
+  fish_redux: ^0.2.5
 
 dev_dependencies:
   flutter_test:
