@@ -129,10 +129,8 @@ class CounterWidgetState extends State<CounterWidget> {
 
 ///仅仅测试用
 
-
 class SecondRouteWidget extends StatelessWidget {
-
-  static GlobalKey<CounterWidgetState> _globalKey = GlobalKey();
+  GlobalKey<CounterWidgetState> _globalKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
