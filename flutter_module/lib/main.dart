@@ -1,11 +1,8 @@
 import 'dart:async';
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
-import 'base/flutterbase.dart';
-import 'flutterview.dart';
-import 'simple_page_widgets.dart';
+import 'flutterDemo.dart';
 
 void collectLog(String line) {
   //收集日志
@@ -166,6 +163,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: ListView(
         children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[TapBoxA(), ParentWidget(), ParentWidgetC()],
+          ),
           Column(
             children: <Widget>[
               CustomHome(),
