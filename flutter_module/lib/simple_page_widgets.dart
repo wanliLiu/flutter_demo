@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'flutterDemo.dart';
 //import 'package:flutter_boost/flutter_boost.dart';
 
 class FirstRouteWidget extends StatelessWidget {
@@ -141,6 +143,7 @@ class SecondRouteWidget extends StatelessWidget {
         body: Builder(
           builder: (context) => Column(
             children: <Widget>[
+              InheritedWidgetTestRoute(),
               CounterWidget(
                 tag: "第一",
                 child: Builder(

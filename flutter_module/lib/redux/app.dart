@@ -26,7 +26,8 @@ Widget createApp() {
         /// 建立 AppStore 驱动 PageStore 的单向数据连接
         /// 1. 参数1 AppStore
         /// 2. 参数2 当 AppStore.state 变化时, PageStore.state 该如何变化
-        page.connectExtraStore<GlobalState>(GlobalStore.store, (Object pagestate, GlobalState appState) {
+        page.connectExtraStore<GlobalState>(GlobalStore.store,
+            (Object pagestate, GlobalState appState) {
           final GlobalBaseState p = pagestate;
           if (p.themeColor != appState.themeColor) {
             if (pagestate is Cloneable) {
@@ -85,14 +86,13 @@ Widget createApp() {
 /// 简单的 Effect AOP
 /// 只针对页面的生命周期进行打印
 EffectMiddleware<T> _pageAnalyticsMiddleware<T>({String tag = 'redux'}) {
-  return (AbstractLogic<dynamic> logic, Store<T> store) {
-    return (Effect<dynamic> effect) {
-      return (Action action, Context<dynamic> ctx) {
-        if (logic is Page<dynamic, dynamic> && action.type is Lifecycle) {
-          print('${logic.runtimeType} ${action.type.toString()} ');
-        }
-        return effect?.call(action, ctx);
-      };
-    };
-  };
+  return (AbstractLogic<dynamic> logic, Store<T> store) =>
+      (Effect<dynamic> effect) => effect == null
+          ? null
+          : (Action action, Context<dynamic> ctx) {
+              if (logic is Page<dynamic, dynamic> && action.type is Lifecycle) {
+                print('${logic.runtimeType} ${action.type.toString()} ');
+              }
+              return effect(action, ctx);
+            };
 }

@@ -55,8 +55,8 @@ Widget _widgetForRoute(String route) {
     case "route2":
       return SecondRouteWidget();
     case "/":
-//      return MyApp();
-      return createApp();
+      return MyApp();
+//      return createApp();
     default:
       return Container(
         color: Colors.white,
