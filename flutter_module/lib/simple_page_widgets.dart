@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'flutterDemo.dart';
+import 'testprovider/cart.dart';
 //import 'package:flutter_boost/flutter_boost.dart';
 
 class FirstRouteWidget extends StatelessWidget {
@@ -130,9 +131,9 @@ class CounterWidgetState extends State<CounterWidget> {
 }
 
 ///仅仅测试用
+GlobalKey<CounterWidgetState> _globalKey = GlobalKey();
 
 class SecondRouteWidget extends StatelessWidget {
-  GlobalKey<CounterWidgetState> _globalKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -144,6 +145,7 @@ class SecondRouteWidget extends StatelessWidget {
           builder: (context) => Column(
             children: <Widget>[
               InheritedWidgetTestRoute(),
+              ProviderRoute(),
               CounterWidget(
                 tag: "第一",
                 child: Builder(
