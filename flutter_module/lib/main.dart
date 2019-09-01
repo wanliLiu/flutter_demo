@@ -1,9 +1,13 @@
 import 'dart:async';
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as prefix0;
+import 'package:flutter_module/common/Global.dart';
 import 'package:flutter_module/redux/app.dart';
 
 import 'flutterDemo.dart';
+import 'routes/textfiled.dart';
 
 void collectLog(String line) {
   //收集日志
@@ -34,7 +38,9 @@ void main() {
   };
 
   //异步异常的捕获
-  runZoned(() => runApp(_widgetForRoute(window.defaultRouteName)),
+  runZoned(
+      () => Global.init()
+          .then((e) => runApp(_widgetForRoute(window.defaultRouteName))),
       //可以拦截
       zoneSpecification: ZoneSpecification(
           print: (Zone self, ZoneDelegate parent, Zone zone, String line) {
@@ -89,7 +95,8 @@ class MyApp extends StatelessWidget {
           debugPrint("FlutterRoute---in--->$data");
           return FlutterRouteWidget(message: data ?? "路由传入的数据");
         },
-        "LaunchHome": (context) => MyHomePage(title: 'Flutter Demo Home Page')
+        "LaunchHome": (context) => MyHomePage(title: 'Flutter Demo Home Page'),
+        "textFIled": (context) => TextFiledPage()
       },
       //没有注册的路由，才会走这里，这里通常可以做一些权限的控制，比如满足什么才进行什么
       onGenerateRoute: (RouteSettings settings) {
@@ -157,6 +164,21 @@ class _MyHomePageState extends State<MyHomePage> {
       ? Padding(padding: EdgeInsets.all(20), child: Text(upContent))
       : Text("Nothing");
 
+  bool _switchSelected = true; //维护单选开关状态
+  bool _checkboxSelected = true; //维护复选框状态
+
+  void _dealCheck(bool isCheck, bool show) {
+    setState(() {
+      if (isCheck) {
+        _checkboxSelected = !show;
+        _switchSelected = _checkboxSelected;
+      } else {
+        _switchSelected = !show;
+        _checkboxSelected = _switchSelected;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -167,11 +189,87 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[TapBoxA(), ParentWidget(), ParentWidgetC()],
+            children: <Widget>[
+              TapBoxA(),
+              IconButton(icon: Icon(Icons.thumb_up), onPressed: () {}),
+              ParentWidget(),
+              ParentWidgetC()
+            ],
           ),
           Column(
             children: <Widget>[
-              CustomHome(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Switch(
+                          value: _switchSelected,
+                          onChanged: (chose) {
+                            _dealCheck(false, !chose);
+                          }),
+                      Text(_switchSelected ? "开" : "关")
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Checkbox(
+                          value: !_checkboxSelected,
+                          onChanged: (chose) {
+                            _dealCheck(true, chose);
+                          }),
+                      Text(!_checkboxSelected ? "选中" : "未选中")
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Switch(
+                          value: !_switchSelected,
+                          onChanged: (chose) {
+                            _dealCheck(false, chose);
+                          }),
+                      Text(!_switchSelected ? "开" : "关")
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Checkbox(
+                          value: _checkboxSelected,
+                          onChanged: (chose) {
+                            _dealCheck(true, !chose);
+                          }),
+                      Text(_checkboxSelected ? "选中" : "未选中")
+                    ],
+                  ),
+                ],
+              ),
+              Text(
+                "Hello 我是apple---" * 40,
+                textAlign: TextAlign.left,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text.rich(TextSpan(text: "我是一个", children: [
+                TextSpan(
+                  text: "@打不死的小强",
+                  style: TextStyle(color: Colors.blue),
+                )
+              ])),
+              DefaultTextStyle(
+                  style: TextStyle(color: Colors.red, fontSize: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      Text("我是第一"),
+                      Text("我是第二"),
+                      CustomHome(),
+                      Text(
+                        "我是第三",
+                        style:
+                            prefix0.TextStyle(color: Colors.blue, fontSize: 10),
+                      )
+                    ],
+                  )),
               backView(),
               Text(
                 'You have pushed the button this many times:',
@@ -183,8 +281,12 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
           Wrap(spacing: 10, children: <Widget>[
-            RaisedButton(
-              child: Text("打开提示页面(返回值）"),
+            RaisedButton.icon(
+              icon: Icon(
+                Icons.send,
+                color: Colors.red,
+              ),
+              label: Text("打开提示页面(返回值）"),
               onPressed: () async {
                 var result = await Navigator.pushNamed(context, "Tips",
                     arguments: "Hello,我是通过onGenerateRoute过来的，并获取返回来的数据,注意：\n\n"
@@ -200,7 +302,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   _setBackContent(null);
               },
             ),
-            RaisedButton(
+            OutlineButton(
               child: Text('开启一个新的'),
               onPressed: () {
                 Navigator.push(
@@ -208,7 +310,14 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             RaisedButton(
-              child: Text("目标节点获取参数"),
+              child: Column(
+                children: <Widget>[
+                  Text.rich(TextSpan(text: "我是", children: [
+                    TextSpan(text: "一头猪", style: TextStyle(color: Colors.red))
+                  ])),
+                  Text("目标节点获取参数")
+                ],
+              ),
               onPressed: () {
                 Navigator.pushNamed(context, "FlutterRoute",
                     arguments: "不在Target里面获取参数，直接在路由那里的时候获取（外面获取）");
@@ -226,6 +335,12 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
 //                Navigator.pushNamed(context, "SecondOther");
                 Navigator.of(context).pushNamed("SecondOther");
+              },
+            ),
+            RaisedButton(
+              child: Text("TextFiled"),
+              onPressed: () {
+                Navigator.of(context).pushNamed("textFIled");
               },
             ),
           ]),
