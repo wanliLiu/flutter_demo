@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:collection';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as prefix0;
 import 'package:flutter_module/common/Global.dart';
 import 'package:flutter_module/redux/app.dart';
+import 'package:flutter_module/widget/DoubleTapExit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'flutterDemo.dart';
 import 'routes/textfiled.dart';
@@ -96,7 +98,12 @@ class MyApp extends StatelessWidget {
           return FlutterRouteWidget(message: data ?? "路由传入的数据");
         },
         "LaunchHome": (context) => MyHomePage(title: 'Flutter Demo Home Page'),
-        "textFIled": (context) => TextFiledPage()
+        "textFIled": (context) {
+          var data = ModalRoute.of(context).settings.arguments
+              as LinkedHashMap<String, String>;
+          return TextFiledPage(
+              defaultName: data["account"], defaultPwd: data["pwd"]);
+        }
       },
       //没有注册的路由，才会走这里，这里通常可以做一些权限的控制，比如满足什么才进行什么
       onGenerateRoute: (RouteSettings settings) {
@@ -179,9 +186,88 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  Widget get _actionButton => Container(
+        color: Colors.grey[100],
+        padding: EdgeInsets.only(top: 20, bottom: 20),
+        child: Wrap(spacing: 10, children: <Widget>[
+          RaisedButton.icon(
+            icon: Icon(
+              Icons.send,
+              color: Colors.red,
+            ),
+            label: Text("打开提示页面(返回值）"),
+            onPressed: () async {
+              var result = await Navigator.pushNamed(context, "Tips",
+                  arguments: "Hello,我是通过onGenerateRoute过来的，并获取返回来的数据,注意：\n\n"
+                      "1.通过没有注册的路由传过来的参数是在：RouteSettings.arguments\n\n"
+                      "2.通过注册路由传过来的参数，是通过：ModalRoute.of(context).settings.arguments获取\n\n"
+                      "以上两点尤其要注意\n\n");
+
+              debugPrint("路由返回值：$result");
+
+              if (result is String && result.isNotEmpty) {
+                _setBackContent(result);
+              } else
+                _setBackContent(null);
+            },
+          ),
+          OutlineButton(
+            child: Text('开启一个新的'),
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => PushWidget()));
+            },
+          ),
+          RaisedButton(
+            child: Column(
+              children: <Widget>[
+                Text.rich(TextSpan(text: "我是", children: [
+                  TextSpan(text: "一头猪", style: TextStyle(color: Colors.red))
+                ])),
+                Text("目标节点获取参数")
+              ],
+            ),
+            onPressed: () {
+              Navigator.pushNamed(context, "FlutterRoute",
+                  arguments: "不在Target里面获取参数，直接在路由那里的时候获取（外面获取）");
+            },
+          ),
+          RaisedButton(
+            child: Text("通过路由打开"),
+            onPressed: () {
+              Navigator.pushNamed(context, "First",
+                  arguments: "命名路由参数传递样例,在里面获取");
+            },
+          ),
+          RaisedButton(
+            child: Text("未注册：onGenerateRoute"),
+            onPressed: () {
+//                Navigator.pushNamed(context, "SecondOther");
+              Navigator.of(context).pushNamed("SecondOther");
+            },
+          ),
+          RaisedButton(
+            child: Text("输入框和表单"),
+            onPressed: () async {
+              var result = await Navigator.of(context).pushNamed("textFIled",
+                  arguments: {
+                    "account": "fluttertest",
+                    "pwd": "23820302930923"
+                  });
+              if (result != null && result is String) {
+                Fluttertoast.showToast(
+                    msg: result,
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.CENTER);
+              }
+            },
+          ),
+        ]),
+      );
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    Widget child = Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
@@ -265,8 +351,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       CustomHome(),
                       Text(
                         "我是第三",
-                        style:
-                            prefix0.TextStyle(color: Colors.blue, fontSize: 10),
+                        style: TextStyle(color: Colors.blue, fontSize: 10),
                       )
                     ],
                   )),
@@ -280,70 +365,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ],
           ),
-          Wrap(spacing: 10, children: <Widget>[
-            RaisedButton.icon(
-              icon: Icon(
-                Icons.send,
-                color: Colors.red,
-              ),
-              label: Text("打开提示页面(返回值）"),
-              onPressed: () async {
-                var result = await Navigator.pushNamed(context, "Tips",
-                    arguments: "Hello,我是通过onGenerateRoute过来的，并获取返回来的数据,注意：\n\n"
-                        "1.通过没有注册的路由传过来的参数是在：RouteSettings.arguments\n\n"
-                        "2.通过注册路由传过来的参数，是通过：ModalRoute.of(context).settings.arguments获取\n\n"
-                        "以上两点尤其要注意\n\n");
-
-                debugPrint("路由返回值：$result");
-
-                if (result is String && result.isNotEmpty) {
-                  _setBackContent(result);
-                } else
-                  _setBackContent(null);
-              },
-            ),
-            OutlineButton(
-              child: Text('开启一个新的'),
-              onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (_) => PushWidget()));
-              },
-            ),
-            RaisedButton(
-              child: Column(
-                children: <Widget>[
-                  Text.rich(TextSpan(text: "我是", children: [
-                    TextSpan(text: "一头猪", style: TextStyle(color: Colors.red))
-                  ])),
-                  Text("目标节点获取参数")
-                ],
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, "FlutterRoute",
-                    arguments: "不在Target里面获取参数，直接在路由那里的时候获取（外面获取）");
-              },
-            ),
-            RaisedButton(
-              child: Text("通过路由打开"),
-              onPressed: () {
-                Navigator.pushNamed(context, "First",
-                    arguments: "命名路由参数传递样例,在里面获取");
-              },
-            ),
-            RaisedButton(
-              child: Text("未注册：onGenerateRoute"),
-              onPressed: () {
-//                Navigator.pushNamed(context, "SecondOther");
-                Navigator.of(context).pushNamed("SecondOther");
-              },
-            ),
-            RaisedButton(
-              child: Text("TextFiled"),
-              onPressed: () {
-                Navigator.of(context).pushNamed("textFIled");
-              },
-            ),
-          ]),
+          _actionButton,
           Flutterview(),
         ],
       ),
@@ -359,5 +381,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Icon(Icons.add),
               )),
     );
+
+    return DoubleTapExit(child: child);
   }
 }
