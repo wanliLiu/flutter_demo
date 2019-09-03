@@ -44,10 +44,13 @@ dependencies:
   transparent_image: ^1.0.0
   cached_network_image: ^0.8.0
 
-#  flutter_boost: ^0.0.415
-#  xservice_kit: ^0.0.27
+  #  flutter_boost: ^0.0.415
+  #  xservice_kit: ^0.0.27
   fish_redux: ^0.2.5
   fluttertoast: 2.2.11
+
+  #flutter 动画类 https://github.com/jogboms/flutter_spinkit
+  flutter_spinkit: "^4.0.0"
 
 dev_dependencies:
   flutter_test:

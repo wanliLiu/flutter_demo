@@ -4,9 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class TextFiledPage extends StatefulWidget {
   const TextFiledPage(
-      {Key key,
-        @required this.defaultName,
-        @required this.defaultPwd})
+      {Key key, @required this.defaultName, @required this.defaultPwd})
       : assert(defaultPwd != null),
         assert(defaultName != null),
         super(key: key);
@@ -64,6 +62,31 @@ class _TextFiledPageState extends State<TextFiledPage> {
                         prefixIcon: Icon(Icons.person)),
                     validator: (v) => v.trim().length > 0 ? null : "用户名不能为空",
                   ),
+                  Container(
+                    color: Colors.grey,
+                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            "----" * 200,
+                            maxLines: 1,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Text("下划线"),
+                        Expanded(
+                          child: Text(
+                            "----" * 200,
+                            maxLines: 1,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   TextFormField(
                     onChanged: (str) => debugPrint("onChanged--pwd->$str"),
                     controller: _pwdController,
@@ -83,7 +106,8 @@ class _TextFiledPageState extends State<TextFiledPage> {
                                 Navigator.of(context).pop(
                                     "用户名：${_nameController.text} \n 密码：${_pwdController.text}");
                               } else
-                                VaeToast.showToast("输入不合法",gravity: ToastGravity.CENTER);
+                                VaeToast.showToast("输入不合法",
+                                    gravity: ToastGravity.CENTER);
                             },
                           )),
                 ],

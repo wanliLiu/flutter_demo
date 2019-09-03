@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_module/common/Global.dart';
 import 'package:flutter_module/redux/app.dart';
+import 'package:flutter_module/routes/progress.dart';
 import 'package:flutter_module/widget/DoubleTapExit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -125,6 +126,9 @@ class MyApp extends StatelessWidget {
                   text: input ?? "我是提示 xxx,传过来的数据",
                 );
               }
+              break;
+            case "progressIndictor":
+              widget = ProgressPage();
               break;
             default:
               {
@@ -262,6 +266,11 @@ class _MyHomePageState extends State<MyHomePage> {
               }
             },
           ),
+          RaisedButton(
+            child: Text("进度指示器"),
+            onPressed: () =>
+                Navigator.of(context).pushNamed("progressIndictor"),
+          )
         ]),
       );
 
@@ -380,6 +389,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 tooltip: 'Increment',
                 child: Icon(Icons.add),
               )),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
 
     return DoubleTapExit(child: child);
