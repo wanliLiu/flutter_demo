@@ -11,49 +11,129 @@ class _ProgressPageState extends State<ProgressPage> {
       appBar: AppBar(
         title: Text('进度指示器'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Wrap(
-          spacing: 20,
-          runSpacing: 30,
-          crossAxisAlignment: WrapCrossAlignment.center,
-          children: <Widget>[
-            LinearProgressIndicator(
-              backgroundColor: Colors.grey[200],
-              valueColor: AlwaysStoppedAnimation(Colors.teal),
+      body: Stack(
+        fit: StackFit.loose,
+        alignment: AlignmentDirectional.centerStart,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Wrap(
+              spacing: 20,
+              runSpacing: 30,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: <Widget>[
+                RefreshProgressIndicator(
+                  backgroundColor: Colors.grey[200],
+                  valueColor: AlwaysStoppedAnimation(Colors.teal),
+                ),
+                Chip(
+                  avatar: CircleAvatar(
+                    backgroundColor: Colors.blue,
+                    child: Text("A"),
+                  ),
+                  label: Text("我是谁"),
+                ),
+                Chip(
+                  label: Text("---我是谁----"),
+                ),
+                SizedBox(
+                  width: 150,
+                  height: 2,
+                  child: LinearProgressIndicator(
+                    backgroundColor: Colors.grey[200],
+                    valueColor: AlwaysStoppedAnimation(Colors.teal),
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                  child: LinearProgressIndicator(
+                    backgroundColor: Colors.grey[200],
+                    valueColor: AlwaysStoppedAnimation(Colors.teal),
+                  ),
+                ),
+                LinearProgressIndicator(
+                  value: .3,
+                  backgroundColor: Colors.grey[200],
+                  valueColor: AlwaysStoppedAnimation(Colors.teal),
+                ),
+                SizedBox(
+                  width: 80,
+                  height: 80,
+                  child: CircularProgressIndicator(
+                    backgroundColor: Colors.grey[200],
+                    valueColor: AlwaysStoppedAnimation(Colors.teal),
+                  ),
+                ),
+                CircularProgressIndicator(
+                  value: .5,
+                  backgroundColor: Colors.grey[200],
+                  valueColor: AlwaysStoppedAnimation(Colors.teal),
+                ),
+                ProgressRoute(),
+                Container(
+                  color: Colors.blue[50],
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    widthFactor: 2,
+                    heightFactor: 1.5,
+                    child: FlutterLogo(
+                      size: 30,
+                    ),
+                  ),
+                ),
+              ],
             ),
-            SizedBox(
-              height: 10,
-              child: LinearProgressIndicator(
-                backgroundColor: Colors.grey[200],
-                valueColor: AlwaysStoppedAnimation(Colors.teal),
+          ),
+          Positioned(
+            right: 20,
+            child: Container(
+              color: Colors.red,
+              padding: EdgeInsets.all(10),
+              child: Text(
+                "hello world",
+                style: TextStyle(color: Colors.white),
               ),
             ),
-            LinearProgressIndicator(
-              value: .3,
-              backgroundColor: Colors.grey[200],
-              valueColor: AlwaysStoppedAnimation(Colors.teal),
+          ),
+          Positioned(
+              top: 20,
+              width: 200,
+              left: 20,
+              child: Container(
+                color: Colors.green,
+                child:
+                    Text("Coming again", style: TextStyle(color: Colors.white)),
+              )),
+          Container(
+            width: 200,
+            height: 150,
+            //容器外填充
+//            constraints: BoxConstraints.tightFor(width: 200.0, height: 150.0),
+            //卡片大小
+            decoration: BoxDecoration(
+                //背景装饰
+                gradient: RadialGradient(
+                    //背景径向渐变
+                    colors: [Colors.red, Colors.orange],
+                    center: Alignment.topLeft,
+                    radius: .98),
+                boxShadow: [
+                  //卡片阴影
+                  BoxShadow(
+                      color: Colors.black54,
+                      offset: Offset(-1.0, 2.0),
+                      blurRadius: 4.0)
+                ]),
+            transform: Matrix4.rotationZ(.2),
+            //卡片倾斜变换
+            alignment: Alignment.center,
+            //卡片内文字居中
+            child: Text(
+              //卡片文字
+              "5.20", style: TextStyle(color: Colors.white, fontSize: 40.0),
             ),
-            SizedBox(
-              width: 80,
-              height: 80,
-              child: CircularProgressIndicator(
-                backgroundColor: Colors.grey[200],
-                valueColor: AlwaysStoppedAnimation(Colors.teal),
-              ),
-            ),
-            CircularProgressIndicator(
-              value: .5,
-              backgroundColor: Colors.grey[200],
-              valueColor: AlwaysStoppedAnimation(Colors.teal),
-            ),
-            RefreshProgressIndicator(
-              backgroundColor: Colors.grey[200],
-              valueColor: AlwaysStoppedAnimation(Colors.teal),
-            ),
-            ProgressRoute()
-          ],
-        ),
+          )
+        ],
       ),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),

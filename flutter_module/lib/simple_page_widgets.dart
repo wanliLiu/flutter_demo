@@ -16,7 +16,8 @@ class FirstRouteWidget extends StatelessWidget {
       appBar: AppBar(
         title: Text('First Route'),
       ),
-      body: Center(
+      body: Align(
+        alignment: FractionalOffset(0.2,0.6),
         child: RaisedButton(
           child: Text(args ?? 'Open second route'),
           onPressed: () {

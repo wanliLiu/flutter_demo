@@ -48,6 +48,30 @@ class _TextFiledPageState extends State<TextFiledPage> {
         padding: const EdgeInsets.all(15.0),
         child: Column(
           children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(left: 10, right: 10),
+//                margin: EdgeInsets.only(top: 20),
+//                color: Colors.grey[100],
+              constraints: BoxConstraints(minHeight: 50, maxHeight: 100),
+              decoration: BoxDecoration(
+                  color: Colors.grey,
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              child: TextField(
+                  controller: _pwdController,
+                  //默认1行 null无线行
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+//                    focusNode: focusNode1,
+//                    textInputAction: TextInputAction.done,
+                  style: TextStyle(color: Color(0xFF333333), fontSize: 16),
+//                    onEditingComplete: () =>
+//                        VaeToast.showToast("onEditingComplete"),
+//                    onSubmitted: (value) => VaeToast.showToast(value),
+                  decoration: InputDecoration(
+                      hintText: "输入你想要的内容",
+                      hintStyle: TextStyle(color: Colors.grey, fontSize: 16),
+                      border: InputBorder.none)),
+            ),
             Form(
               autovalidate: true,
               child: Column(
@@ -76,7 +100,10 @@ class _TextFiledPageState extends State<TextFiledPage> {
                             textAlign: TextAlign.center,
                           ),
                         ),
-                        Text("下划线"),
+                        Transform.scale(
+                          scale: 2,
+                          child: Text("下划线"),
+                        ),
                         Expanded(
                           child: Text(
                             "----" * 200,
@@ -111,31 +138,6 @@ class _TextFiledPageState extends State<TextFiledPage> {
                             },
                           )),
                 ],
-              ),
-            ),
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.only(left: 10, right: 10),
-                margin: EdgeInsets.only(top: 20),
-//                color: Colors.grey[100],
-                decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
-                child: TextField(
-                    controller: _pwdController,
-                    //默认1行 null无线行
-                    keyboardType: TextInputType.multiline,
-                    maxLines: null,
-//                    focusNode: focusNode1,
-//                    textInputAction: TextInputAction.done,
-                    style: TextStyle(color: Color(0xFF333333), fontSize: 16),
-//                    onEditingComplete: () =>
-//                        VaeToast.showToast("onEditingComplete"),
-//                    onSubmitted: (value) => VaeToast.showToast(value),
-                    decoration: InputDecoration(
-                        hintText: "输入你想要的内容",
-                        hintStyle: TextStyle(color: Colors.grey, fontSize: 16),
-                        border: InputBorder.none)),
               ),
             ),
           ],
