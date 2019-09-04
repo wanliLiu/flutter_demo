@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_module/common/Global.dart';
 import 'package:flutter_module/redux/app.dart';
 import 'package:flutter_module/routes/progress.dart';
+import 'package:flutter_module/routes/tab_home.dart';
 import 'package:flutter_module/widget/DoubleTapExit.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 import 'flutterDemo.dart';
 import 'routes/textfiled.dart';
@@ -154,244 +154,164 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _MyHomePageState extends State<MyHomePage>
+    with SingleTickerProviderStateMixin {
+  TabController _tabController;
+  List tabs = ["新闻", "历史", "图片"];
 
-  String upContent;
+  int _selectedIndex = 0;
 
-  void _incrementCounter() {
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: tabs.length, vsync: this);
+  }
+
+  void _onItemTapped(int index) {
     setState(() {
-      _counter++;
+      _selectedIndex = index;
     });
   }
 
-  void _setBackContent(String content) {
-    setState(() {
-      upContent = content;
-    });
-  }
+  Widget get tabBarView => TabBarView(
+        controller: _tabController,
+        children: tabs.map((e) {
+          Widget deschild = Text(
+            "没有页面",
+            textScaleFactor: 2,
+          );
+          switch (e) {
+            case "新闻":
+              deschild = HomeView();
+              break;
+            case "历史":
+            case "图片":
+              deschild = Container(
+                constraints: BoxConstraints.expand(),
+                color: Colors.grey,
+                margin: EdgeInsets.all(20),
+                alignment: Alignment.center,
+                child: Text(
+                  e,
+                  textScaleFactor: 5,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              );
+              break;
+          }
+          return deschild;
+        }).toList(),
+      );
 
-  Widget backView() => upContent != null && upContent.isNotEmpty
-      ? Padding(padding: EdgeInsets.all(20), child: Text(upContent))
-      : Text("Nothing");
-
-  bool _switchSelected = true; //维护单选开关状态
-  bool _checkboxSelected = true; //维护复选框状态
-
-  void _dealCheck(bool isCheck, bool show) {
-    setState(() {
-      if (isCheck) {
-        _checkboxSelected = !show;
-        _switchSelected = _checkboxSelected;
-      } else {
-        _switchSelected = !show;
-        _checkboxSelected = _switchSelected;
-      }
-    });
-  }
-
-  Widget get _actionButton => Container(
-        color: Colors.grey[100],
-        padding: EdgeInsets.only(top: 20, bottom: 20),
-        child: Wrap(spacing: 10, children: <Widget>[
-          RaisedButton.icon(
-            icon: Icon(
-              Icons.send,
-              color: Colors.red,
-            ),
-            label: Text("打开提示页面(返回值）"),
-            onPressed: () async {
-              var result = await Navigator.pushNamed(context, "Tips",
-                  arguments: "Hello,我是通过onGenerateRoute过来的，并获取返回来的数据,注意：\n\n"
-                      "1.通过没有注册的路由传过来的参数是在：RouteSettings.arguments\n\n"
-                      "2.通过注册路由传过来的参数，是通过：ModalRoute.of(context).settings.arguments获取\n\n"
-                      "以上两点尤其要注意\n\n");
-
-              debugPrint("路由返回值：$result");
-
-              if (result is String && result.isNotEmpty) {
-                _setBackContent(result);
-              } else
-                _setBackContent(null);
-            },
+  Widget get _homeView => Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
+          bottom: TabBar(
+            labelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            unselectedLabelStyle: TextStyle(fontSize: 16),
+            controller: _tabController,
+            tabs: tabs
+                .map((e) => Tab(
+                      text: e,
+                    ))
+                .toList(),
           ),
-          OutlineButton(
-            child: Text('开启一个新的'),
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => PushWidget()));
-            },
-          ),
-          RaisedButton(
-            child: Column(
-              children: <Widget>[
-                Text.rich(TextSpan(text: "我是", children: [
-                  TextSpan(text: "一头猪", style: TextStyle(color: Colors.red))
-                ])),
-                Text("目标节点获取参数")
-              ],
-            ),
-            onPressed: () {
-              Navigator.pushNamed(context, "FlutterRoute",
-                  arguments: "不在Target里面获取参数，直接在路由那里的时候获取（外面获取）");
-            },
-          ),
-          RaisedButton(
-            child: Text("通过路由打开"),
-            onPressed: () {
-              Navigator.pushNamed(context, "First",
-                  arguments: "命名路由参数传递样例,在里面获取");
-            },
-          ),
-          RaisedButton(
-            child: Text("未注册：onGenerateRoute"),
-            onPressed: () {
-//                Navigator.pushNamed(context, "SecondOther");
-              Navigator.of(context).pushNamed("SecondOther");
-            },
-          ),
-          RaisedButton(
-            child: Text("输入框和表单"),
-            onPressed: () async {
-              var result = await Navigator.of(context).pushNamed("textFIled",
-                  arguments: {
-                    "account": "fluttertest",
-                    "pwd": "23820302930923"
-                  });
-              if (result != null && result is String) {
-                Fluttertoast.showToast(
-                    msg: result,
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.CENTER);
-              }
-            },
-          ),
-          RaisedButton(
-            child: Text("进度指示器"),
-            onPressed: () =>
-                Navigator.of(context).pushNamed("progressIndictor"),
-          )
-        ]),
+          leading: Builder(
+              builder: (context) => IconButton(
+                  icon: Icon(Icons.memory),
+                  onPressed: () => Scaffold.of(context).openEndDrawer())),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+                icon: Icon(Icons.home), title: Text("Home")),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.business), title: Text("Redux")),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.school), title: Text("School")),
+          ],
+          currentIndex: _selectedIndex,
+          fixedColor: Colors.red,
+          onTap: _onItemTapped,
+        ),
+//        backgroundColor: Colors.grey[100],
+        drawer: MyDrawer(),
+        endDrawer: MyDrawer(),
+        body: tabBarView,
+        floatingActionButton: Builder(
+            builder: (context) => FloatingActionButton(
+                  onPressed: () {
+                    //调用ScaffoldState的showSnackBar来弹出SnackBar
+                    Scaffold.of(context)
+                        .showSnackBar(SnackBar(content: Text("我是SnackBar")));
+//                    _incrementCounter();
+                    ChangeNotifierProvider.of<Increment>(context,
+                            isListen: false)
+                        .changeValue();
+                  },
+                  tooltip: 'Increment',
+                  child: Icon(Icons.add),
+                )),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       );
 
   @override
   Widget build(BuildContext context) {
-    Widget child = Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: ListView(
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              TapBoxA(),
-              IconButton(icon: Icon(Icons.thumb_up), onPressed: () {}),
-              ParentWidget(),
-              ParentWidgetC()
-            ],
-          ),
-          Column(
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Switch(
-                          value: _switchSelected,
-                          onChanged: (chose) {
-                            _dealCheck(false, !chose);
-                          }),
-                      Text(_switchSelected ? "开" : "关")
-                    ],
+    return DoubleTapExit(
+        child: ChangeNotifierProvider<Increment>(
+      data: Increment(),
+      child: _homeView,
+    ));
+  }
+}
+
+class MyDrawer extends StatelessWidget {
+  const MyDrawer({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: MediaQuery.removePadding(
+          context: context,
+          removeTop: true,
+          child: Container(
+            child: Column(
+              children: <Widget>[
+                ClipOval(
+                    child: Image.asset(
+                  "imgs/like.jpeg",
+                  fit: BoxFit.cover,
+                  width: 80,
+                  height: 80,
+                )),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 18),
+                  child: Text(
+                    "Wendux",
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  Row(
+                ),
+                Expanded(
+                  child: ListView(
                     children: <Widget>[
-                      Checkbox(
-                          value: !_checkboxSelected,
-                          onChanged: (chose) {
-                            _dealCheck(true, chose);
-                          }),
-                      Text(!_checkboxSelected ? "选中" : "未选中")
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Switch(
-                          value: !_switchSelected,
-                          onChanged: (chose) {
-                            _dealCheck(false, chose);
-                          }),
-                      Text(!_switchSelected ? "开" : "关")
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Checkbox(
-                          value: _checkboxSelected,
-                          onChanged: (chose) {
-                            _dealCheck(true, !chose);
-                          }),
-                      Text(_checkboxSelected ? "选中" : "未选中")
-                    ],
-                  ),
-                ],
-              ),
-              Text(
-                "Hello 我是apple---" * 40,
-                textAlign: TextAlign.left,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              Text.rich(TextSpan(text: "我是一个", children: [
-                TextSpan(
-                  text: "@打不死的小强",
-                  style: TextStyle(color: Colors.blue),
-                )
-              ])),
-              DefaultTextStyle(
-                  style: TextStyle(color: Colors.red, fontSize: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Text("我是第一"),
-                      Text("我是第二"),
-                      CustomHome(),
-                      Text(
-                        "我是第三",
-                        style: TextStyle(color: Colors.blue, fontSize: 10),
+                      ListTile(
+                        leading: const Icon(Icons.add),
+                        title: const Text("Add account"),
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.settings),
+                        title: const Text("Manage accounts"),
                       )
                     ],
-                  )),
-              backView(),
-              Text(
-                'You have pushed the button this many times:',
-              ),
-              Text(
-                '$_counter',
-                style: Theme.of(context).textTheme.display1,
-              ),
-            ],
-          ),
-          _actionButton,
-          Flutterview(),
-        ],
-      ),
-      floatingActionButton: Builder(
-          builder: (context) => FloatingActionButton(
-                onPressed: () {
-                  //调用ScaffoldState的showSnackBar来弹出SnackBar
-                  Scaffold.of(context)
-                      .showSnackBar(SnackBar(content: Text("我是SnackBar")));
-                  _incrementCounter();
-                },
-                tooltip: 'Increment',
-                child: Icon(Icons.add),
-              )),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+                  ),
+                ),
+                CircleAvatar(
+                  radius: 40,
+                  backgroundImage: AssetImage("imgs/like.jpeg"),
+                ),
+              ],
+            ),
+          )),
     );
-
-    return DoubleTapExit(child: child);
   }
 }

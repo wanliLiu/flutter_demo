@@ -13,79 +13,81 @@ class _ProgressPageState extends State<ProgressPage> {
       ),
       body: Stack(
         fit: StackFit.loose,
-        alignment: AlignmentDirectional.centerStart,
+        alignment: AlignmentDirectional.bottomCenter,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Wrap(
-              spacing: 20,
-              runSpacing: 30,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: <Widget>[
-                RefreshProgressIndicator(
-                  backgroundColor: Colors.grey[200],
-                  valueColor: AlwaysStoppedAnimation(Colors.teal),
-                ),
-                Chip(
-                  avatar: CircleAvatar(
-                    backgroundColor: Colors.blue,
-                    child: Text("A"),
-                  ),
-                  label: Text("我是谁"),
-                ),
-                Chip(
-                  label: Text("---我是谁----"),
-                ),
-                SizedBox(
-                  width: 150,
-                  height: 2,
-                  child: LinearProgressIndicator(
+          Container(
+              constraints: BoxConstraints.expand(),
+              padding: const EdgeInsets.all(10),
+              color: Colors.grey[400],
+              child: Wrap(
+                spacing: 20,
+                runSpacing: 30,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: <Widget>[
+                  RefreshProgressIndicator(
                     backgroundColor: Colors.grey[200],
                     valueColor: AlwaysStoppedAnimation(Colors.teal),
                   ),
-                ),
-                SizedBox(
-                  height: 10,
-                  child: LinearProgressIndicator(
-                    backgroundColor: Colors.grey[200],
-                    valueColor: AlwaysStoppedAnimation(Colors.teal),
+                  Chip(
+                    avatar: CircleAvatar(
+                      backgroundColor: Colors.blue,
+                      child: Text("A"),
+                    ),
+                    label: Text("我是谁"),
                   ),
-                ),
-                LinearProgressIndicator(
-                  value: .3,
-                  backgroundColor: Colors.grey[200],
-                  valueColor: AlwaysStoppedAnimation(Colors.teal),
-                ),
-                SizedBox(
-                  width: 80,
-                  height: 80,
-                  child: CircularProgressIndicator(
-                    backgroundColor: Colors.grey[200],
-                    valueColor: AlwaysStoppedAnimation(Colors.teal),
+                  Chip(
+                    label: Text("---我是谁----"),
                   ),
-                ),
-                CircularProgressIndicator(
-                  value: .5,
-                  backgroundColor: Colors.grey[200],
-                  valueColor: AlwaysStoppedAnimation(Colors.teal),
-                ),
-                ProgressRoute(),
-                Container(
-                  color: Colors.blue[50],
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    widthFactor: 2,
-                    heightFactor: 1.5,
-                    child: FlutterLogo(
-                      size: 30,
+                  SizedBox(
+                    width: 150,
+                    height: 2,
+                    child: LinearProgressIndicator(
+                      backgroundColor: Colors.grey[200],
+                      valueColor: AlwaysStoppedAnimation(Colors.teal),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
+                  SizedBox(
+                    height: 10,
+                    child: LinearProgressIndicator(
+                      backgroundColor: Colors.grey[200],
+                      valueColor: AlwaysStoppedAnimation(Colors.teal),
+                    ),
+                  ),
+                  LinearProgressIndicator(
+                    value: .3,
+                    backgroundColor: Colors.grey[200],
+                    valueColor: AlwaysStoppedAnimation(Colors.teal),
+                  ),
+                  SizedBox(
+                    width: 80,
+                    height: 80,
+                    child: CircularProgressIndicator(
+                      backgroundColor: Colors.grey[200],
+                      valueColor: AlwaysStoppedAnimation(Colors.teal),
+                    ),
+                  ),
+                  CircularProgressIndicator(
+                    value: .5,
+                    backgroundColor: Colors.grey[200],
+                    valueColor: AlwaysStoppedAnimation(Colors.teal),
+                  ),
+                  ProgressRoute(),
+                  Container(
+                    color: Colors.blue[50],
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      widthFactor: 2,
+                      heightFactor: 1.5,
+                      child: FlutterLogo(
+                        size: 30,
+                      ),
+                    ),
+                  ),
+                ],
+              )),
           Positioned(
             right: 20,
+            top: 450,
             child: Container(
               color: Colors.red,
               padding: EdgeInsets.all(10),
@@ -96,7 +98,7 @@ class _ProgressPageState extends State<ProgressPage> {
             ),
           ),
           Positioned(
-              top: 20,
+              top: 50,
               width: 200,
               left: 20,
               child: Container(
@@ -137,9 +139,13 @@ class _ProgressPageState extends State<ProgressPage> {
       ),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
-        child: Container(
-          height: 50.0,
-        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+          IconButton(icon: Icon(Icons.home),onPressed: (){},),
+          SizedBox(),
+          IconButton(icon: Icon(Icons.business),onPressed: (){},),
+        ],),
       ),
       floatingActionButton: FloatingActionButton(
         tooltip: 'Increment Counter',
