@@ -5,7 +5,7 @@ class TabPicture extends StatelessWidget {
   Widget build(BuildContext context) {
     return Align(
       child: Text(
-        "图片",
+        "Scrol",
         textScaleFactor: 5,
       ),
     );
