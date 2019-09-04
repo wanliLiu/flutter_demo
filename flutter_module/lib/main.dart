@@ -6,7 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_module/common/Global.dart';
 import 'package:flutter_module/redux/app.dart';
 import 'package:flutter_module/routes/progress.dart';
+import 'package:flutter_module/routes/tab_business.dart';
+import 'package:flutter_module/routes/tab_history.dart';
 import 'package:flutter_module/routes/tab_home.dart';
+import 'package:flutter_module/routes/tab_picture.dart';
+import 'package:flutter_module/routes/tab_school.dart';
 import 'package:flutter_module/widget/DoubleTapExit.dart';
 
 import 'flutterDemo.dart';
@@ -157,20 +161,66 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
-  List tabs = ["新闻", "历史", "图片"];
+  List tabs = ["新闻", "Clip", "图片"];
 
   int _selectedIndex = 0;
+  int _tabSelect = 0;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: tabs.length, vsync: this);
+    _tabController = TabController(
+      vsync: this,
+      length: tabs.length,
+    );
+    _tabController.addListener(_handleTabSelection);
   }
 
-  void _onItemTapped(int index) {
+  void _handleTabSelection() {
     setState(() {
-      _selectedIndex = index;
+      _selectedIndex = _tabController.index;
+      debugPrint("selectInde--->$_selectedIndex");
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _tabController.dispose();
+  }
+
+  void _onTabTapped(int index) {
+    setState(() {
+      _tabSelect = index;
+      debugPrint("_onTabTapped--->$_tabSelect");
+    });
+  }
+
+  Widget floatActionButton() {
+    if (_selectedIndex == 0) {
+      return Builder(
+          builder: (context) => FloatingActionButton(
+                onPressed: () {
+                  ChangeNotifierProvider.of<Increment>(context, isListen: false)
+                      .changeValue();
+                },
+                tooltip: 'Increment',
+                child: Icon(Icons.add),
+              ));
+    } else if (_selectedIndex == 1) {
+      return Builder(
+          builder: (context) => FloatingActionButton.extended(
+                onPressed: () {
+                  Scaffold.of(context)
+                      .showSnackBar(SnackBar(content: Text("我是SnackBar")));
+                },
+                tooltip: 'Increment',
+                icon: Icon(Icons.add),
+                label: Text("测试"),
+              ));
+    }
+
+    return null;
   }
 
   Widget get tabBarView => TabBarView(
@@ -184,19 +234,11 @@ class _MyHomePageState extends State<MyHomePage>
             case "新闻":
               deschild = HomeView();
               break;
-            case "历史":
+            case "Clip":
+              deschild = TabHistory();
+              break;
             case "图片":
-              deschild = Container(
-                constraints: BoxConstraints.expand(),
-                color: Colors.grey,
-                margin: EdgeInsets.all(20),
-                alignment: Alignment.center,
-                child: Text(
-                  e,
-                  textScaleFactor: 5,
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              );
+              deschild = TabPicture();
               break;
           }
           return deschild;
@@ -206,16 +248,19 @@ class _MyHomePageState extends State<MyHomePage>
   Widget get _homeView => Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
-          bottom: TabBar(
-            labelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            unselectedLabelStyle: TextStyle(fontSize: 16),
-            controller: _tabController,
-            tabs: tabs
-                .map((e) => Tab(
-                      text: e,
-                    ))
-                .toList(),
-          ),
+          bottom: _tabSelect == 0
+              ? TabBar(
+                  labelStyle:
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  unselectedLabelStyle: TextStyle(fontSize: 16),
+                  controller: _tabController,
+                  tabs: tabs
+                      .map((e) => Tab(
+                            text: e,
+                          ))
+                      .toList(),
+                )
+              : null,
           leading: Builder(
               builder: (context) => IconButton(
                   icon: Icon(Icons.memory),
@@ -226,32 +271,24 @@ class _MyHomePageState extends State<MyHomePage>
             BottomNavigationBarItem(
                 icon: Icon(Icons.home), title: Text("Home")),
             BottomNavigationBarItem(
-                icon: Icon(Icons.business), title: Text("Redux")),
+                icon: Icon(Icons.business), title: Text("Business")),
             BottomNavigationBarItem(
                 icon: Icon(Icons.school), title: Text("School")),
           ],
-          currentIndex: _selectedIndex,
+          currentIndex: _tabSelect,
           fixedColor: Colors.red,
-          onTap: _onItemTapped,
+          onTap: _onTabTapped,
         ),
 //        backgroundColor: Colors.grey[100],
         drawer: MyDrawer(),
         endDrawer: MyDrawer(),
-        body: tabBarView,
-        floatingActionButton: Builder(
-            builder: (context) => FloatingActionButton(
-                  onPressed: () {
-                    //调用ScaffoldState的showSnackBar来弹出SnackBar
-                    Scaffold.of(context)
-                        .showSnackBar(SnackBar(content: Text("我是SnackBar")));
-//                    _incrementCounter();
-                    ChangeNotifierProvider.of<Increment>(context,
-                            isListen: false)
-                        .changeValue();
-                  },
-                  tooltip: 'Increment',
-                  child: Icon(Icons.add),
-                )),
+        body: () {
+          if (_tabSelect == 0)
+            return tabBarView;
+          else if (_tabSelect == 1) return TabBusiness();
+          return TabSchool();
+        }(),
+        floatingActionButton: floatActionButton(),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       );
 

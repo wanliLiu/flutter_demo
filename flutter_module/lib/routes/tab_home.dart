@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_module/base/demo.dart';
 import 'package:flutter_module/base/flutterbase.dart';
 import 'package:flutter_module/base/stateManage.dart';
+import 'package:flutter_module/redux/app.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../flutterview.dart';
@@ -125,6 +126,11 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
             child: Text("进度指示器"),
             onPressed: () =>
                 Navigator.of(context).pushNamed("progressIndictor"),
+          ),
+          RaisedButton(
+            child: Text("Redux"),
+            onPressed: () =>
+                runApp(createApp()),
           )
         ]),
       );
