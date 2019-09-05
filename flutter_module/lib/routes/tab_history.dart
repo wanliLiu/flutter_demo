@@ -1,5 +1,21 @@
 import 'package:flutter/material.dart';
 
+class DefaultPadding extends StatelessWidget {
+  DefaultPadding(Widget mchild, {Key key})
+      : child = mchild,
+        super(key: key);
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(top: 20),
+      child: child,
+    );
+  }
+}
+
 class TabHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -10,22 +26,19 @@ class TabHistory extends StatelessWidget {
       fit: BoxFit.cover,
     );
 
-    return Padding(
+    return Scrollbar( child: SingleChildScrollView(
       padding: const EdgeInsets.all(15.0),
-      child: Wrap(
-        crossAxisAlignment: WrapCrossAlignment.center,
-        spacing: 20,
-        runSpacing: 20,
+      child: Column(
         children: <Widget>[
           avatar,
-          ClipOval(
+          DefaultPadding(ClipOval(
             child: avatar,
-          ),
-          ClipRRect(
+          )),
+          DefaultPadding(ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: avatar,
-          ),
-          Container(
+          )),
+          DefaultPadding(Container(
             width: 150,
             height: 100,
             foregroundDecoration: BoxDecoration(
@@ -34,8 +47,8 @@ class TabHistory extends StatelessWidget {
                 image: DecorationImage(
                     image: AssetImage("imgs/timg.jpeg"), fit: BoxFit.cover)),
             child: avatar,
-          ),
-          ConstrainedBox(
+          )),
+          DefaultPadding(ConstrainedBox(
             constraints: BoxConstraints.loose(Size(100, double.infinity)),
             child: Row(
 //            mainAxisAlignment: MainAxisAlignment.center,
@@ -51,8 +64,8 @@ class TabHistory extends StatelessWidget {
                 )
               ],
             ),
-          ),
-          ConstrainedBox(
+          )),
+          DefaultPadding(ConstrainedBox(
             constraints: BoxConstraints.loose(Size(100, double.infinity)),
             child: Row(
 //            mainAxisAlignment: MainAxisAlignment.center,
@@ -70,17 +83,17 @@ class TabHistory extends StatelessWidget {
                 )
               ],
             ),
-          ),
-          DecoratedBox(
+          )),
+          DefaultPadding(DecoratedBox(
             decoration: BoxDecoration(color: Colors.red),
             child: ClipRect(
               clipper: MyClipper(),
               child: avatar,
             ),
-          ),
+          )),
         ],
       ),
-    );
+    ));
   }
 }
 

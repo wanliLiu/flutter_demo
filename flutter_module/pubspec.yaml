@@ -49,8 +49,12 @@ dependencies:
   fish_redux: ^0.2.5
   fluttertoast: 2.2.11
 
+  english_words: ^3.1.0
+
   #flutter 动画类 https://github.com/jogboms/flutter_spinkit
   flutter_spinkit: "^4.0.0"
+
+  flutter_staggered_grid_view: "^0.3.0"
 
 dev_dependencies:
   flutter_test:

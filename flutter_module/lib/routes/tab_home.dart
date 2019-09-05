@@ -3,6 +3,7 @@ import 'package:flutter_module/base/demo.dart';
 import 'package:flutter_module/base/flutterbase.dart';
 import 'package:flutter_module/base/stateManage.dart';
 import 'package:flutter_module/redux/app.dart';
+import 'package:flutter_module/routes/demo_scroll.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../flutterview.dart';
@@ -129,9 +130,36 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
           ),
           RaisedButton(
             child: Text("Redux"),
-            onPressed: () =>
-                runApp(createApp()),
-          )
+            onPressed: () => runApp(createApp()),
+          ),
+          RaisedButton(
+            child: Text("ListView"),
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    PageListRoot(ListType.ListView))),
+          ),
+          RaisedButton(
+            child: Text("SingleChildScrollView"),
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    PageListRoot(ListType.SingleChildScrollView))),
+          ),
+          RaisedButton(
+            child: Text("GridView"),
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    PageListRoot(ListType.GridView))),
+          ),
+          RaisedButton(
+            child: Text("StaggeredGridView"),
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => PageListRoot(ListType.StaggeredGridView))),
+          ),
+          RaisedButton(
+            child: Text("CustomScrollView"),
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => CustomScrollViewTestRoute())),
+          ),
         ]),
       );
 

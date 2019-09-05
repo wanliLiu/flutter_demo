@@ -161,7 +161,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
-  List tabs = ["Base", "Clip", "Scrol"];
+  List tabs = ["Base", "Clip", "Scroll"];
 
   int _selectedIndex = 0;
   int _tabSelect = 0;
@@ -237,7 +237,7 @@ class _MyHomePageState extends State<MyHomePage>
             case "Clip":
               deschild = TabHistory();
               break;
-            case "Scrol":
+            case "Scroll":
               deschild = TabPicture();
               break;
           }
