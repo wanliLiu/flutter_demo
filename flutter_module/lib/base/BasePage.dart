@@ -17,6 +17,8 @@ class _ShowProgressWidgetState extends State<_ShowProgressWidget> {
   String _progress = "";
 
   bool _notificationListener(ScrollNotification notification) {
+    debugPrint("_ShowProgressWidgetState---->offset---->${notification.metrics.pixels}");
+    debugPrint(notification.toString());
     bool _change = false;
     if (notification is ScrollStartNotification) {
       _change = true;
