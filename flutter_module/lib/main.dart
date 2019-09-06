@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_module/common/Global.dart';
 import 'package:flutter_module/redux/app.dart';
+import 'package:flutter_module/routes/demo_scroll.dart';
 import 'package:flutter_module/routes/progress.dart';
 import 'package:flutter_module/routes/tab_business.dart';
 import 'package:flutter_module/routes/tab_history.dart';
@@ -232,13 +233,13 @@ class _MyHomePageState extends State<MyHomePage>
           );
           switch (e) {
             case "Base":
-              deschild = HomeView();
+              deschild = HomeView(key: PageStorageKey("Base"),);
               break;
             case "Clip":
-              deschild = TabHistory();
+              deschild = TabHistory(key: PageStorageKey("Clip"),);
               break;
             case "Scroll":
-              deschild = TabPicture();
+              deschild = InfiniteListView(key: PageStorageKey("Scroll"),);
               break;
           }
           return deschild;

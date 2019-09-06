@@ -16,40 +16,53 @@ class PageListRoot extends StatefulWidget {
 }
 
 class _PageRootState extends State<PageListRoot> with BasePage {
-  @override
-  Widget get content => () {
-        if (widget.type == ListType.SingleChildScrollView)
-          return TabHistory();
-        else if (widget.type == ListType.ListView)
-          return InfiniteListView();
-        else if (widget.type == ListType.GridView)
-          return TestGridView();
-        else if (widget.type == ListType.StaggeredGridView)
-          return TestGridView.staggered();
-        else
-          return Center(
-            child: Text("没有"),
-          );
-      }();
 
   @override
-  Widget get title => () {
-        if (widget.type == ListType.SingleChildScrollView)
-          return Text("SingleChildScrollView");
-        else if (widget.type == ListType.ListView)
-          return Text("ListView");
-        else if (widget.type == ListType.GridView)
-          return Text("GridView");
-        else if (widget.type == ListType.StaggeredGridView)
-          return Text("StaggeredGridView");
-        else
-          return Center(
-            child: Text("没有"),
-          );
-      }();
+  Widget get content {
+    if (widget.type == ListType.SingleChildScrollView)
+      return TabHistory(
+        controller: controller,
+      );
+    else if (widget.type == ListType.ListView)
+      return InfiniteListView(
+        controller: controller,
+      );
+    else if (widget.type == ListType.GridView)
+      return TestGridView(
+        controller: controller,
+      );
+    else if (widget.type == ListType.StaggeredGridView)
+      return TestGridView.staggered(
+        controller: controller,
+      );
+    else
+      return Center(
+        child: Text("没有"),
+      );
+  }
+
+  @override
+  Widget get title {
+    if (widget.type == ListType.SingleChildScrollView)
+      return Text("SingleChildScrollView");
+    else if (widget.type == ListType.ListView)
+      return Text("ListView");
+    else if (widget.type == ListType.GridView)
+      return Text("GridView");
+    else if (widget.type == ListType.StaggeredGridView)
+      return Text("StaggeredGridView");
+    else
+      return Center(
+        child: Text("没有"),
+      );
+  }
 }
 
 class InfiniteListView extends StatefulWidget {
+  InfiniteListView({Key key, this.controller}) : super(key: key);
+
+  final ScrollController controller;
+
   @override
   _InfiniteListViewState createState() => _InfiniteListViewState();
 }
@@ -61,7 +74,6 @@ class _InfiniteListViewState extends State<InfiniteListView> {
   @override
   void initState() {
     super.initState();
-
     _retrieveData();
   }
 
@@ -92,6 +104,7 @@ class _InfiniteListViewState extends State<InfiniteListView> {
             child: Scrollbar(
               child: ListView.separated(
                 itemCount: _words.length,
+                controller: widget.controller,
                 padding: EdgeInsets.all(10),
                 itemBuilder: (BuildContext context, int index) {
                   if (_words[index] == loadingTag) {
@@ -150,11 +163,13 @@ class _InfiniteListViewState extends State<InfiniteListView> {
 }
 
 class TestGridView extends StatefulWidget {
-  TestGridView({this.useStr: false});
+  TestGridView({this.useStr: false, this.controller});
 
-  TestGridView.staggered({this.useStr: true});
+  TestGridView.staggered({this.useStr: true, this.controller});
 
   final bool useStr;
+
+  final ScrollController controller;
 
   @override
   _TestGridViewState createState() => _TestGridViewState();
@@ -198,6 +213,7 @@ class _TestGridViewState extends State<TestGridView> {
     if (widget.useStr)
       return Scrollbar(
         child: StaggeredGridView.countBuilder(
+            controller: widget.controller,
             crossAxisCount: 3,
             itemCount: _list.length,
             padding: EdgeInsets.all(10),
@@ -214,6 +230,7 @@ class _TestGridViewState extends State<TestGridView> {
       );
 
     return GridView.builder(
+        controller: widget.controller,
         itemCount: _list.length,
         padding: EdgeInsets.all(10),
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(

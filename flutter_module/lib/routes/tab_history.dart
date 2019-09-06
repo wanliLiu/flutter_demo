@@ -17,6 +17,10 @@ class DefaultPadding extends StatelessWidget {
 }
 
 class TabHistory extends StatelessWidget {
+  TabHistory({Key key, this.controller}) : super(key: key);
+
+  final ScrollController controller;
+
   @override
   Widget build(BuildContext context) {
     Widget avatar = Image.asset(
@@ -26,7 +30,9 @@ class TabHistory extends StatelessWidget {
       fit: BoxFit.cover,
     );
 
-    return Scrollbar( child: SingleChildScrollView(
+    return Scrollbar(
+        child: SingleChildScrollView(
+      controller: controller,
       padding: const EdgeInsets.all(15.0),
       child: Column(
         children: <Widget>[
