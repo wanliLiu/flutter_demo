@@ -19,6 +19,8 @@ class _PageRootState extends State<PageListRoot> with BasePage {
 
   @override
   Widget get content {
+    debugPrint("_PageRootState------>content");
+
     if (widget.type == ListType.SingleChildScrollView)
       return TabHistory(
         controller: controller,
@@ -78,7 +80,7 @@ class _InfiniteListViewState extends State<InfiniteListView> {
   }
 
   void _retrieveData() {
-    Future.delayed(Duration(seconds: 2)).then((e) {
+    Future.delayed(Duration(milliseconds: 500)).then((e) {
       _words.insertAll(_words.length - 1,
           generateWordPairs().take(20).map((e) => e.asPascalCase).toList());
 
