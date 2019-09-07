@@ -3,6 +3,7 @@ import 'package:flutter_module/base/demo.dart';
 import 'package:flutter_module/base/flutterbase.dart';
 import 'package:flutter_module/base/stateManage.dart';
 import 'package:flutter_module/redux/app.dart';
+import 'package:flutter_module/routes/demo_dialog.dart';
 import 'package:flutter_module/routes/demo_scroll.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -149,6 +150,11 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) =>
                     PageListRoot(ListType.GridView))),
+          ),
+          RaisedButton(
+            child: Text("Dialog"),
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => DialogPage())),
           ),
           RaisedButton(
             child: Text("StaggeredGridView"),
