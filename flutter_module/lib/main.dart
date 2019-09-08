@@ -4,15 +4,16 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_module/common/Global.dart';
+import 'package:flutter_module/common/Toast.dart';
 import 'package:flutter_module/redux/app.dart';
 import 'package:flutter_module/routes/demo_scroll.dart';
 import 'package:flutter_module/routes/progress.dart';
 import 'package:flutter_module/routes/tab_business.dart';
 import 'package:flutter_module/routes/tab_history.dart';
 import 'package:flutter_module/routes/tab_home.dart';
-import 'package:flutter_module/routes/tab_picture.dart';
 import 'package:flutter_module/routes/tab_school.dart';
 import 'package:flutter_module/widget/DoubleTapExit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'flutterDemo.dart';
 import 'routes/textfiled.dart';
@@ -177,6 +178,10 @@ class _MyHomePageState extends State<MyHomePage>
     _tabController.addListener(_handleTabSelection);
   }
 
+  void _eventbus(args) {
+    VaeToast.showToast(args, gravity: ToastGravity.CENTER);
+  }
+
   void _handleTabSelection() {
     setState(() {
       _selectedIndex = _tabController.index;
@@ -233,13 +238,19 @@ class _MyHomePageState extends State<MyHomePage>
           );
           switch (e) {
             case "Base":
-              deschild = HomeView(key: PageStorageKey("Base"),);
+              deschild = HomeView(
+                key: PageStorageKey("Base"),
+              );
               break;
             case "Clip":
-              deschild = TabHistory(key: PageStorageKey("Clip"),);
+              deschild = TabHistory(
+                key: PageStorageKey("Clip"),
+              );
               break;
             case "Scroll":
-              deschild = InfiniteListView(key: PageStorageKey("Scroll"),);
+              deschild = InfiniteListView(
+                key: PageStorageKey("Scroll"),
+              );
               break;
           }
           return deschild;

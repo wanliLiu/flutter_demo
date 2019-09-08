@@ -1,9 +1,12 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_module/base/demo.dart';
 import 'package:flutter_module/base/flutterbase.dart';
 import 'package:flutter_module/base/stateManage.dart';
+import 'package:flutter_module/common/Toast.dart';
 import 'package:flutter_module/redux/app.dart';
 import 'package:flutter_module/routes/demo_dialog.dart';
+import 'package:flutter_module/routes/demo_pointer.dart';
 import 'package:flutter_module/routes/demo_scroll.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -20,10 +23,17 @@ class HomeView extends StatefulWidget {
 class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
   String upContent;
 
+  TapGestureRecognizer _tapGestureRecognizer = TapGestureRecognizer();
+
   void _setBackContent(String content) {
     setState(() {
       upContent = content;
     });
+  }
+
+  void dispose() {
+    super.dispose();
+    _tapGestureRecognizer.dispose();
   }
 
   Widget backView() => upContent != null && upContent.isNotEmpty
@@ -159,12 +169,19 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
           RaisedButton(
             child: Text("StaggeredGridView"),
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => PageListRoot(ListType.StaggeredGridView))),
+                builder: (BuildContext context) =>
+                    PageListRoot(ListType.StaggeredGridView))),
           ),
           RaisedButton(
             child: Text("CustomScrollView"),
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => CustomScrollViewTestRoute())),
+                builder: (BuildContext context) =>
+                    CustomScrollViewTestRoute())),
+          ),
+          RaisedButton(
+            child: Text("事件处理"),
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => PointerPage())),
           ),
         ]),
       );
@@ -243,7 +260,11 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
               TextSpan(
                 text: "@打不死的小强",
                 style: TextStyle(color: Colors.blue),
-              )
+                recognizer: _tapGestureRecognizer
+                  ..onTap = () => VaeToast.showToast("@打不死的小强",
+                      gravity: ToastGravity.CENTER),
+              ),
+              TextSpan(text: "新多岁的老")
             ])),
             DefaultTextStyle(
                 style: TextStyle(color: Colors.red, fontSize: 20),
