@@ -1,10 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_module/base/FadeRoute.dart';
 import 'package:flutter_module/base/demo.dart';
 import 'package:flutter_module/base/flutterbase.dart';
 import 'package:flutter_module/base/stateManage.dart';
 import 'package:flutter_module/common/Toast.dart';
 import 'package:flutter_module/redux/app.dart';
+import 'package:flutter_module/routes/demo_animation.dart';
 import 'package:flutter_module/routes/demo_dialog.dart';
 import 'package:flutter_module/routes/demo_pointer.dart';
 import 'package:flutter_module/routes/demo_scroll.dart';
@@ -174,14 +177,31 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
           ),
           RaisedButton(
             child: Text("CustomScrollView"),
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+            onPressed: () => Navigator.of(context).push(FadeRoute(
                 builder: (BuildContext context) =>
                     CustomScrollViewTestRoute())),
           ),
           RaisedButton(
             child: Text("事件处理"),
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+            onPressed: () => Navigator.of(context).push(CupertinoPageRoute(
                 builder: (BuildContext context) => PointerPage())),
+          ),
+          RaisedButton(
+            child: Text("动画"),
+            onPressed: () => Navigator.of(context).push(PageRouteBuilder(
+                transitionDuration: const Duration(milliseconds: 500),
+                pageBuilder: (BuildContext context, Animation<double> animation,
+                    Animation<double> secondaryAnimation) {
+                  return AnimationPage();
+                },
+                transitionsBuilder: (BuildContext context,
+                        Animation<double> animation,
+                        Animation<double> secondaryAnimation,
+                        Widget child) =>
+                    FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    ))),
           ),
         ]),
       );
