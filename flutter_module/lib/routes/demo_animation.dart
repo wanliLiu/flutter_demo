@@ -11,6 +11,7 @@ class AnimationPage extends StatelessWidget {
         children: <Widget>[
           HeroAnimationRoute(),
           StaggerRoute(),
+          AnimatedWidgetsTest(),
           ScalAnimationWidget(),
         ],
       ),
@@ -146,7 +147,7 @@ class HeroAnimationRoute extends StatelessWidget {
                     ),
                     body: HeroAnimationRouteB(),
                   )));
-
+//
 //          Navigator.of(context).push(PageRouteBuilder(pageBuilder:
 //              (BuildContext context, Animation<double> animation,
 //                  Animation<double> secondaryAnimation) {
@@ -258,6 +259,209 @@ class _StaggerRouteState extends State<StaggerRoute>
         child: StaggerAnimation(
           controller: _controller,
         ),
+      ),
+    );
+  }
+}
+
+//和SlideTransition唯一的不同就是对动画的反向执行进行了（从左边滑出隐藏）
+class MySlideTransition extends SlideTransition {
+  const MySlideTransition({
+    Key key,
+    @required Animation<Offset> position,
+    transformHitTests = true,
+    textDirection,
+    child,
+  }) : super(
+            key: key,
+            position: position,
+            transformHitTests: transformHitTests,
+            textDirection: textDirection,
+            child: child);
+
+  @override
+  Widget build(BuildContext context) {
+    Offset offset = position.value;
+    //动画反向执行时，调整x偏移，实现“从左边滑出隐藏”
+    if (position.status == AnimationStatus.reverse)
+      offset = Offset(-offset.dx, offset.dy);
+    return FractionalTranslation(
+      translation: offset,
+      transformHitTests: transformHitTests,
+      child: child,
+    );
+  }
+}
+
+class SlideTransitionX extends AnimatedWidget {
+  SlideTransitionX({
+    Key key,
+    Animation<double> position,
+    this.direction = AxisDirection.left,
+    this.transformHitTests = true,
+    this.child,
+  }) : super(key: key, listenable: position) {
+    switch (direction) {
+      case AxisDirection.up:
+        _tween = Tween<Offset>(begin: Offset(0, 1), end: Offset(0, 0));
+        break;
+      case AxisDirection.down:
+        _tween = Tween<Offset>(begin: Offset(0, -1), end: Offset(0, 0));
+        break;
+      case AxisDirection.right:
+        _tween = Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0));
+        break;
+      case AxisDirection.left:
+        _tween = Tween<Offset>(begin: Offset(1, 0), end: Offset(0, 0));
+        break;
+    }
+  }
+
+  Animation<double> get position => listenable;
+
+  final AxisDirection direction;
+
+  final bool transformHitTests;
+
+  final Widget child;
+
+  Tween<Offset> _tween;
+
+  @override
+  Widget build(BuildContext context) {
+    Offset offset = _tween.evaluate(position);
+    //动画反向执行时，调整x偏移，实现“从左边滑出隐藏”
+    if (position.status == AnimationStatus.reverse) {
+      switch (direction) {
+        case AxisDirection.up:
+          offset = Offset(offset.dx, -offset.dy);
+          break;
+        case AxisDirection.down:
+          offset = Offset(offset.dx, -offset.dy);
+          break;
+        case AxisDirection.right:
+          offset = Offset(-offset.dx, offset.dy);
+          break;
+        case AxisDirection.left:
+          offset = Offset(-offset.dx, offset.dy);
+          break;
+      }
+    }
+    return FractionalTranslation(
+      translation: offset,
+      transformHitTests: transformHitTests,
+      child: child,
+    );
+  }
+}
+
+class AnimatedWidgetsTest extends StatefulWidget {
+  @override
+  _AnimatedWidgetsTestState createState() => _AnimatedWidgetsTestState();
+}
+
+class _AnimatedWidgetsTestState extends State<AnimatedWidgetsTest> {
+  double _padding = 10;
+  var _align = Alignment.topRight;
+  double _height = 100;
+  double _left = 0;
+  Color _color = Colors.red;
+  TextStyle _style = TextStyle(color: Colors.black);
+
+  @override
+  Widget build(BuildContext context) {
+    var duration = Duration(milliseconds: 800);
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          RaisedButton(
+            onPressed: () {
+              setState(() {
+                _padding = 20;
+              });
+            },
+            child: AnimatedPadding(
+              duration: duration,
+              padding: EdgeInsets.all(_padding),
+              child: Text("AnimatedPadding"),
+            ),
+          ),
+          SizedBox(
+            height: 50,
+            child: Stack(
+              children: <Widget>[
+                AnimatedPositioned(
+                  duration: duration,
+                  left: _left,
+                  child: RaisedButton(
+                    onPressed: () {
+                      setState(() {
+                        _left = 100;
+                      });
+                    },
+                    child: Text("AnimatedPositioned"),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Container(
+            height: 100,
+            color: Colors.grey,
+            child: AnimatedAlign(
+              duration: duration,
+              alignment: _align,
+              child: RaisedButton(
+                onPressed: () {
+                  setState(() {
+                    _align = Alignment.center;
+                  });
+                },
+                child: Text("AnimatedAlign"),
+              ),
+            ),
+          ),
+          AnimatedContainer(
+            duration: duration,
+            height: _height,
+            color: _color,
+            child: FlatButton(
+              onPressed: () {
+                setState(() {
+                  _height = 150;
+                  _color = Colors.blue;
+                });
+              },
+              child: Text(
+                "AnimatedContainer",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+          AnimatedDefaultTextStyle(
+            child: GestureDetector(
+              child: Text("hello world"),
+              onTap: () {
+                setState(() {
+                  _style = TextStyle(
+                    color: Colors.blue,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    decorationStyle: TextDecorationStyle.solid,
+                    decorationColor: Colors.blue,
+                  );
+                });
+              },
+            ),
+            style: _style,
+            duration: duration,
+          ),
+        ].map((e) {
+          return Padding(
+            padding: EdgeInsets.symmetric(vertical: 16),
+            child: e,
+          );
+        }).toList(),
       ),
     );
   }

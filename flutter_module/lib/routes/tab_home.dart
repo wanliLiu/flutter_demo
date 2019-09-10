@@ -304,11 +304,42 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
             Text(
               'You have pushed the button this many times:',
             ),
-            Consumer<Increment>(
-                builder: (BuildContext context, Increment inc) => Text(
-                      '${inc.counter}',
-                      style: Theme.of(context).textTheme.display1,
-                    )),
+            Consumer<Increment>(builder: (BuildContext context, Increment inc) {
+
+              return AnimatedSwitcher(
+                duration: Duration(seconds: 1),
+                reverseDuration: Duration(milliseconds: 500),
+//                switchInCurve: Curves.bounceIn,
+                transitionBuilder: (Widget child, Animation<double> animation) {
+                  return SlideTransitionX(
+                    position: animation,
+                    child: child,
+                    direction: AxisDirection.left,
+                  );
+
+//                  return MySlideTransition(
+//                    child: child,
+//                    position:
+//                        Tween<Offset>(begin: Offset(1, 0), end: Offset(0, 0))
+//                            .animate(animation),
+//                  );
+
+
+//                  return ScaleTransition(
+//                    scale: animation,
+//                    child: child,
+//                  );
+                },
+                child: Text(
+                  '${inc.counter}',
+                  key: ValueKey<int>(inc.counter),
+                  style: Theme.of(context)
+                      .textTheme
+                      .display4
+                      .copyWith(fontWeight: FontWeight.bold),
+                ),
+              );
+            }),
           ],
         ),
         _actionButton,

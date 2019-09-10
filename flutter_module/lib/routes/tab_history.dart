@@ -1,23 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-
-class DefaultPadding extends StatelessWidget {
-  DefaultPadding(Widget mchild, {Key key})
-      : child = mchild,
-        super(key: key);
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: 20),
-      child: child,
-    );
-  }
-}
 
 class TabHistory extends StatelessWidget {
   TabHistory({Key key, this.controller}) : super(key: key);
@@ -44,14 +26,14 @@ class TabHistory extends StatelessWidget {
             useStream: true,
           ),
           avatar,
-          DefaultPadding(ClipOval(
+          ClipOval(
             child: avatar,
-          )),
-          DefaultPadding(ClipRRect(
+          ),
+          ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: avatar,
-          )),
-          DefaultPadding(Container(
+          ),
+          Container(
             width: 150,
             height: 100,
             foregroundDecoration: BoxDecoration(
@@ -60,8 +42,8 @@ class TabHistory extends StatelessWidget {
                 image: DecorationImage(
                     image: AssetImage("imgs/timg.jpeg"), fit: BoxFit.cover)),
             child: avatar,
-          )),
-          DefaultPadding(ConstrainedBox(
+          ),
+          ConstrainedBox(
             constraints: BoxConstraints.loose(Size(100, double.infinity)),
             child: Row(
 //            mainAxisAlignment: MainAxisAlignment.center,
@@ -77,8 +59,8 @@ class TabHistory extends StatelessWidget {
                 )
               ],
             ),
-          )),
-          DefaultPadding(ConstrainedBox(
+          ),
+          ConstrainedBox(
             constraints: BoxConstraints.loose(Size(100, double.infinity)),
             child: Row(
 //            mainAxisAlignment: MainAxisAlignment.center,
@@ -96,15 +78,20 @@ class TabHistory extends StatelessWidget {
                 )
               ],
             ),
-          )),
-          DefaultPadding(DecoratedBox(
+          ),
+          DecoratedBox(
             decoration: BoxDecoration(color: Colors.red),
             child: ClipRect(
               clipper: MyClipper(),
               child: avatar,
             ),
-          )),
-        ],
+          ),
+        ].map((e) {
+          return Padding(
+            padding: EdgeInsets.symmetric(vertical: 16),
+            child: e,
+          );
+        }).toList(),
       ),
     ));
   }
