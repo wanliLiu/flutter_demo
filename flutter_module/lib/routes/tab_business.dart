@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_module/widget/TurnBox.dart';
 
 class TabBusiness extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Align(
-      child: Text(
-        "Business",
-        textScaleFactor: 5,
-      ),
-    );
+    debugPrint("TabBusiness---build");
+    return TurnBoxRoute();
   }
 }
