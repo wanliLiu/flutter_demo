@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +14,8 @@ import 'package:flutter_module/routes/demo_dialog.dart';
 import 'package:flutter_module/routes/demo_pointer.dart';
 import 'package:flutter_module/routes/demo_scroll.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../flutterview.dart';
 import '../simple_page_widgets.dart';
@@ -176,6 +180,16 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
                     PageListRoot(ListType.StaggeredGridView))),
           ),
           RaisedButton(
+            child: Text("UrlLanucher"),
+            onPressed: () async {
+              const url = "https://flutter.dev";
+              if (await canLaunch(url)) {
+                await launch(url);
+              } else
+                throw "Could not launch $url";
+            },
+          ),
+          RaisedButton(
             child: Text("CustomScrollView"),
             onPressed: () => Navigator.of(context).push(FadeRoute(
                 builder: (BuildContext context) =>
@@ -304,8 +318,74 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
             Text(
               'You have pushed the button this many times:',
             ),
-            Consumer<Increment>(builder: (BuildContext context, Increment inc) {
 
+            Builder(builder: (context) {
+              return AnimatedSwitcher(
+                duration: Duration(seconds: 1),
+                reverseDuration: Duration(milliseconds: 500),
+//                switchInCurve: Curves.bounceIn,
+                transitionBuilder: (Widget child, Animation<double> animation) {
+                  return SlideTransitionX(
+                    position: animation,
+                    child: child,
+                    direction: AxisDirection.left,
+                  );
+
+//                  return MySlideTransition(
+//                    child: child,
+//                    position:
+//                        Tween<Offset>(begin: Offset(1, 0), end: Offset(0, 0))
+//                            .animate(animation),
+//                  );
+
+//                  return ScaleTransition(
+//                    scale: animation,
+//                    child: child,
+//                  );
+                },
+                child: FutureBuilder<int>(
+                  future: () async {
+                    return await Future<int>.value(
+                        ChangeNotifierProvider.of<Increment>(context)
+                            .readCounter());
+                  }(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    Widget child;
+                    int key;
+                    // 请求已结束
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      if (snapshot.hasError) {
+                        // 请求失败，显示错误
+                        child = Text("Error: ${snapshot.error}");
+                      } else {
+                        // 请求成功，显示数据
+                        key = snapshot.data;
+                        child = Text(
+                          "$key",
+                          style: Theme.of(context)
+                              .textTheme
+                              .display4
+                              .copyWith(fontWeight: FontWeight.bold),
+                        );
+                      }
+                    } else {
+                      // 请求未结束，显示loading
+                      child = CircularProgressIndicator();
+                    }
+
+                    return Container(
+                      key: ValueKey<int>(key),
+                      alignment: Alignment.center,
+                      width: 130,
+                      height: 130,
+                      child: child,
+                    );
+                  },
+                ),
+              );
+            }),
+
+            Consumer<Increment>(builder: (BuildContext context, Increment inc) {
               return AnimatedSwitcher(
                 duration: Duration(seconds: 1),
                 reverseDuration: Duration(milliseconds: 500),
@@ -353,8 +433,33 @@ class Increment extends ChangeNotifier {
   int get counter => _counter;
   int _counter = 0;
 
-  void changeValue() {
+  set counter(int value) {
+    _counter = value;
+  }
+
+  Future<int> readCounter() async {
+    counter = await _readCounter();
+    return counter;
+  }
+
+  void changeValue() async {
     _counter++;
+    await (await _getLocalFile()).writeAsString("$_counter");
     notifyListeners();
+  }
+
+  Future<File> _getLocalFile() async {
+    var dir = (await getApplicationDocumentsDirectory()).path;
+    return File("$dir/counter.txt");
+  }
+
+  Future<int> _readCounter() async {
+    try {
+      var file = await _getLocalFile();
+      String contents = await file.readAsString();
+      return int.parse(contents);
+    } on FileSystemException {
+      return 0;
+    }
   }
 }
