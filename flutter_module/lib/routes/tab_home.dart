@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -184,7 +185,11 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
             onPressed: () async {
               const url = "https://flutter.dev";
               if (await canLaunch(url)) {
-                await launch(url);
+                await launch(url,
+                    enableDomStorage: true,
+                    enableJavaScript: true,
+                    forceWebView: true,
+                    statusBarBrightness: Brightness.light);
               } else
                 throw "Could not launch $url";
             },
@@ -318,73 +323,61 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
             Text(
               'You have pushed the button this many times:',
             ),
-
             Builder(builder: (context) {
-              return AnimatedSwitcher(
-                duration: Duration(seconds: 1),
-                reverseDuration: Duration(milliseconds: 500),
-//                switchInCurve: Curves.bounceIn,
-                transitionBuilder: (Widget child, Animation<double> animation) {
-                  return SlideTransitionX(
-                    position: animation,
-                    child: child,
-                    direction: AxisDirection.left,
-                  );
-
-//                  return MySlideTransition(
-//                    child: child,
-//                    position:
-//                        Tween<Offset>(begin: Offset(1, 0), end: Offset(0, 0))
-//                            .animate(animation),
-//                  );
-
-//                  return ScaleTransition(
-//                    scale: animation,
-//                    child: child,
-//                  );
-                },
-                child: FutureBuilder<int>(
-                  future: () async {
-                    return await Future<int>.value(
-                        ChangeNotifierProvider.of<Increment>(context)
-                            .readCounter());
-                  }(),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    Widget child;
-                    int key;
-                    // 请求已结束
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      if (snapshot.hasError) {
-                        // 请求失败，显示错误
-                        child = Text("Error: ${snapshot.error}");
-                      } else {
-                        // 请求成功，显示数据
-                        key = snapshot.data;
-                        child = Text(
-                          "$key",
-                          style: Theme.of(context)
-                              .textTheme
-                              .display4
-                              .copyWith(fontWeight: FontWeight.bold),
-                        );
-                      }
+              return FutureBuilder<int>(
+                future: () async {
+                  return await ChangeNotifierProvider.of<Increment>(context)
+                      .readCounter();
+                }(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  Widget child;
+                  int key = -1;
+                  // 请求已结束
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasError) {
+                      // 请求失败，显示错误
+                      child = Text("Error: ${snapshot.error}");
                     } else {
-                      // 请求未结束，显示loading
-                      child = CircularProgressIndicator();
+                      // 请求成功，显示数据
+                      key = snapshot.data;
+                      child = Text(
+                        "$key",
+                        style: Theme.of(context)
+                            .textTheme
+                            .display2
+                            .copyWith(fontWeight: FontWeight.bold),
+                      );
                     }
+                  } else {
+                    // 请求未结束，显示loading
+                    child = SizedBox();
+                  }
 
-                    return Container(
-                      key: ValueKey<int>(key),
-                      alignment: Alignment.center,
-                      width: 130,
-                      height: 130,
-                      child: child,
-                    );
-                  },
-                ),
+                  if (key == -1) key = Random().nextInt(100);
+
+                  return AnimatedSwitcher(
+                      duration: Duration(seconds: 1),
+                      reverseDuration: Duration(milliseconds: 500),
+//                switchInCurve: Curves.bounceIn,
+                      transitionBuilder:
+                          (Widget child, Animation<double> animation) {
+                        return SlideTransitionX(
+                          position: animation,
+                          child: child,
+                          direction: AxisDirection.left,
+                        );
+                      },
+                      child: Container(
+                        key: ValueKey<int>(key),
+                        color: Colors.grey,
+                        alignment: Alignment.center,
+                        width: 100,
+                        height: 60,
+                        child: child,
+                      ));
+                },
               );
             }),
-
             Consumer<Increment>(builder: (BuildContext context, Increment inc) {
               return AnimatedSwitcher(
                 duration: Duration(seconds: 1),
@@ -394,7 +387,7 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
                   return SlideTransitionX(
                     position: animation,
                     child: child,
-                    direction: AxisDirection.left,
+                    direction: AxisDirection.right,
                   );
 
 //                  return MySlideTransition(
@@ -404,19 +397,21 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
 //                            .animate(animation),
 //                  );
 
-
 //                  return ScaleTransition(
 //                    scale: animation,
 //                    child: child,
 //                  );
                 },
-                child: Text(
-                  '${inc.counter}',
+                child: Container(
                   key: ValueKey<int>(inc.counter),
-                  style: Theme.of(context)
-                      .textTheme
-                      .display4
-                      .copyWith(fontWeight: FontWeight.bold),
+                  color: Colors.grey.withOpacity(0.4),
+                  child: Text(
+                    '${inc.counter}',
+                    style: Theme.of(context)
+                        .textTheme
+                        .display2
+                        .copyWith(fontWeight: FontWeight.bold),
+                  ),
                 ),
               );
             }),

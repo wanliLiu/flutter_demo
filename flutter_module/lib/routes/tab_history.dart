@@ -115,11 +115,7 @@ class testFutureBuilder extends StatelessWidget {
   Future<String> mockNetworkData({String content = "body"}) async {
     String dataUrl = "https://jsonplaceholder.typicode.com/posts";
     Response response = await get(dataUrl);
-//    var widgets = jsonDecode(response.body)[0][content];
-//    debugPrint("$widgets");
-//    return Future.value(widgets);
-    return Future.value(response.body);
-//    return Future.delayed(Duration(seconds: 2), () => "我是从互联网上获取的数据");
+    return response.body;
   }
 
   Stream<String> counter() {

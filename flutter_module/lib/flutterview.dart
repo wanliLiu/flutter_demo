@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_module/common/Global.dart';
+import 'package:path_provider/path_provider.dart';
 
 class Echo extends StatelessWidget {
   const Echo(
@@ -62,7 +64,48 @@ class Flutterview extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
+            PathDirecory(),
           ],
         ));
+  }
+}
+
+class PathDirecory extends StatelessWidget {
+  Future<String> getPath() async {
+    var temporaryDirectory = (await getTemporaryDirectory()).path;
+    var applicationSupportDirectory =
+        (await getApplicationSupportDirectory()).path;
+//    var libraryDirectory = (await getLibraryDirectory()).path;
+    var applicationDocumentsDirectory =
+        (await getApplicationDocumentsDirectory()).path;
+
+    var externalStorageDirectory = "";
+    if (Global.isAndroid)
+      externalStorageDirectory = (await getExternalStorageDirectory()).path;
+
+    return "\ntemporaryDirectory:\n$temporaryDirectory\n\n"
+        "applicationSupportDirectory:\n$applicationSupportDirectory\n\n"
+//        "libraryDirectory:$libraryDirectory\n"
+        "applicationDocumentsDirectory:\n$applicationDocumentsDirectory\n\n"
+        "${Global.isAndroid ? "externalStorageDirectory:\n$externalStorageDirectory\n\n" : ""}";
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<String>(
+      future: getPath(),
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasError)
+            return Text("error");
+          else
+            return Text(
+              snapshot.data,
+              style: TextStyle(fontSize: 16, wordSpacing: 10),
+            );
+        } else
+          return CircularProgressIndicator();
+      },
+    );
   }
 }
