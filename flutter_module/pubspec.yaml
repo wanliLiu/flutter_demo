@@ -41,7 +41,7 @@ dependencies:
   flutter_gallery_assets: 0.1.9+2
   http: ^0.12.0+2
   transparent_image: ^1.0.0
-  cached_network_image: ^1.1.1
+#  cached_network_image: ^1.1.1
 
   #  flutter_boost: ^0.0.415
   #  xservice_kit: ^0.0.27
