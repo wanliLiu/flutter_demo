@@ -20,6 +20,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../flutterview.dart';
 import '../simple_page_widgets.dart';
+import 'demo_status_bar.dart';
 
 class HomeView extends StatefulWidget {
   HomeView({Key key}) : super(key: key);
@@ -222,6 +223,11 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
                       child: child,
                     ))),
           ),
+          RaisedButton(
+            child: Text("StatusBar"),
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (BuildContext context) => DemoStatusBar())),
+          )
         ]),
       );
 
