@@ -16,7 +16,6 @@ class PageListRoot extends StatefulWidget {
 }
 
 class _PageRootState extends State<PageListRoot> with BasePage {
-
   @override
   Widget get content {
     debugPrint("_PageRootState------>content");
@@ -288,10 +287,163 @@ class ItemGridView extends StatelessWidget {
   }
 }
 
+class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
+  final double collapsedHeight;
+  final double expandedHeight;
+  final double paddingTop;
+  final String coverImgUrl;
+  final String title;
+
+  SliverCustomHeaderDelegate({
+    this.collapsedHeight,
+    this.expandedHeight,
+    this.paddingTop,
+    this.coverImgUrl,
+    this.title,
+  });
+
+  @override
+  double get minExtent => this.collapsedHeight + this.paddingTop;
+
+  @override
+  double get maxExtent => this.expandedHeight;
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
+    return true;
+  }
+
+  Color makeStickyHeaderBgColor(shrinkOffset) {
+    final int alpha = (shrinkOffset / (this.maxExtent - this.minExtent) * 255)
+        .clamp(0, 255)
+        .toInt();
+    return Color.fromARGB(alpha, 255, 255, 255);
+  }
+
+  Color makeStickyHeaderTextColor(shrinkOffset, isIcon) {
+    if (shrinkOffset <= 50) {
+      return isIcon ? Colors.white : Colors.transparent;
+    } else {
+      final int alpha = (shrinkOffset / (this.maxExtent - this.minExtent) * 255)
+          .clamp(0, 255)
+          .toInt();
+      return Color.fromARGB(alpha, 0, 0, 0);
+    }
+  }
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    debugPrint('SliverCustomHeaderDelegate----->build---->$shrinkOffset');
+    return Container(
+      height: this.maxExtent,
+      width: MediaQuery.of(context).size.width,
+      child: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          // 背景图
+          Container(child: Image.network(this.coverImgUrl, fit: BoxFit.cover)),
+          // 收起头部
+          Positioned(
+            left: 0,
+            right: 0,
+            top: 0,
+            child: Container(
+              color: this.makeStickyHeaderBgColor(shrinkOffset), // 背景颜色
+              child: SafeArea(
+                bottom: false,
+                child: Container(
+                  height: this.collapsedHeight,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      const BackButtonIcon(),
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_back_ios,
+                          color: this.makeStickyHeaderTextColor(
+                              shrinkOffset, true), // 返回图标颜色
+                        ),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                      Text(
+                        this.title,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: this.makeStickyHeaderTextColor(
+                              shrinkOffset, false), // 标题颜色
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.share,
+                          color: this.makeStickyHeaderTextColor(
+                              shrinkOffset, true), // 分享图标颜色
+                        ),
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
+  StickyTabBarDelegate({this.child});
+
+  final TabBar child;
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    debugPrint('StickyTabBarDelegate--->build--->$shrinkOffset');
+    return child;
+  }
+
+  @override
+  double get maxExtent => child.preferredSize.height;
+
+  @override
+  double get minExtent => child.preferredSize.height;
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
+    return true;
+  }
+}
+
+class CustomScrollViewTestRoute extends StatefulWidget {
+  @override
+  _CustomScrollViewTestRouteState createState() =>
+      _CustomScrollViewTestRouteState();
+}
+
 ///
 /// 这个和Android那一套效果一样
 ///
-class CustomScrollViewTestRoute extends StatelessWidget {
+class _CustomScrollViewTestRouteState extends State<CustomScrollViewTestRoute>
+    with SingleTickerProviderStateMixin {
+  TabController tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(length: 2, vsync: this, initialIndex: 1);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    tabController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -310,40 +462,79 @@ class CustomScrollViewTestRoute extends StatelessWidget {
               ),
             ),
           ),
-          SliverPadding(
-            padding: const EdgeInsets.all(8),
-            sliver: SliverGrid(
-                delegate: SliverChildBuilderDelegate((context, index) {
-                  return Container(
-                    alignment: Alignment.center,
-                    color: Colors.cyan[100 * (index % 9)],
-                    child: Text("Grid item $index"),
-                  );
-                }, childCount: 20),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 10,
-                    childAspectRatio: 4)),
-          ),
-          SliverList(
-              delegate: SliverChildBuilderDelegate((context, index) {
-            //创建列表项
-            return ListTile(
-              title: Text("我是内容-->$index"),
-            );
-          }, childCount: 10)),
 
-          SliverFixedExtentList(
-              delegate: SliverChildBuilderDelegate((context, index) {
-                //创建列表项
-                return new Container(
-                  alignment: Alignment.center,
-                  color: Colors.lightBlue[100 * (index % 9)],
-                  child: new Text('list item $index'),
-                );
-              }, childCount: 50),
-              itemExtent: 50)
+//          SliverPersistentHeader(
+//              pinned: true,
+//              delegate: SliverCustomHeaderDelegate(
+//                  collapsedHeight: kToolbarHeight,
+//                  expandedHeight: 250,
+//                  coverImgUrl: 'https://s2.showstart.com/img/2019/20190509/b39fdd31c1364a34a9fd493ced5c7bb8_600_800_124429.0x0.jpg?imageMogr2/thumbnail/!275x368r/gravity/Center/crop/!275x368',
+//                  title: ('我是谁'))),
+
+          SliverPersistentHeader(
+              pinned: true,
+//              floating: true,
+              delegate: StickyTabBarDelegate(
+                  child: TabBar(
+                      controller: tabController,
+                      labelColor: Colors.black,
+                      tabs: <Widget>[
+                    Tab(
+                      text: "Home",
+                    ),
+                    Tab(
+                      text: "Profile",
+                    )
+                  ]))),
+
+          SliverFillRemaining(
+            child: TabBarView(controller: tabController, children: <Widget>[
+              Center(child: Text('Content of Home')),
+              Center(child: Text('Content of Profile')),
+            ]),
+          )
+//          SliverToBoxAdapter(
+//            child: Container(
+//              constraints: BoxConstraints.expand(height: 20),
+//              color: Colors.red.withOpacity(0.5),
+//            ),
+//          ),
+//
+//          SliverPadding(
+//            padding: const EdgeInsets.all(8),
+//            sliver: SliverGrid(
+//                delegate: SliverChildBuilderDelegate((context, index) {
+//                  return Container(
+//                    alignment: Alignment.center,
+//                    color: Colors.cyan[100 * (index % 9)],
+//                    child: Text("Grid item $index"),
+//                  );
+//                }, childCount: 20),
+//                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//                    crossAxisCount: 2,
+//                    mainAxisSpacing: 10,
+//                    crossAxisSpacing: 10,
+//                    childAspectRatio: 4)),
+//          ),
+//
+//          SliverList(
+//              delegate: SliverChildBuilderDelegate((context, index) {
+//            //创建列表项
+//            return ListTile(
+//              title: Text("我是内容-->$index"),
+//            );
+//          }, childCount: 10)),
+//
+//          SliverFixedExtentList(
+//              delegate: SliverChildBuilderDelegate((context, index) {
+//                //创建列表项
+//                return new Container(
+//                  alignment: Alignment.center,
+//                  color: Colors.lightBlue[100 * (index % 9)],
+//                  child: new Text('list item $index'),
+//                );
+//              }, childCount: 50),
+//              itemExtent: 50)
         ],
       ),
     );
