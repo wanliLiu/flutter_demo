@@ -20,6 +20,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../flutterview.dart';
 import '../simple_page_widgets.dart';
+import 'demo_custom_layout.dart';
 import 'demo_scroll_customview.dart';
 import 'demo_status_bar.dart';
 
@@ -233,6 +234,11 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
             child: Text("StatusBar"),
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) => DemoStatusBar())),
+          ),
+          RaisedButton(
+            child: Text('DemoCustomLayout'),
+            onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => DemoCustomLayout())),
           )
         ]),
       );
