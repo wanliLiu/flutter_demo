@@ -24,6 +24,7 @@ class FadeRoute extends PageRoute {
       return FadeTransition(opacity: animation, child: child);
     else
       return ScaleTransition(
+        alignment: Alignment.bottomCenter,
         scale: animation,
         child: child,
       );

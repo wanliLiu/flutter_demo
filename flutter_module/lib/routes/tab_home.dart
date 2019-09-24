@@ -20,6 +20,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../flutterview.dart';
 import '../simple_page_widgets.dart';
+import 'demo_scroll_customview.dart';
 import 'demo_status_bar.dart';
 
 class HomeView extends StatefulWidget {
@@ -197,6 +198,11 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
           ),
           RaisedButton(
             child: Text("CustomScrollView"),
+            onPressed: () => Navigator.of(context).push(
+                FadeRoute(builder: (BuildContext context) => DemoCustomView())),
+          ),
+          RaisedButton(
+            child: Text("NestedScrollView"),
             onPressed: () => Navigator.of(context).push(FadeRoute(
                 builder: (BuildContext context) =>
                     CustomScrollViewTestRoute())),
