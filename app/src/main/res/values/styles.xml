@@ -14,4 +14,7 @@
         <item name="android:windowBackground">@drawable/launch_background</item>
     </style>
 
+    <style name="MyTheme" parent="@android:style/Theme.Black.NoTitleBar">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 </resources>

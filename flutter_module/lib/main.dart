@@ -74,7 +74,7 @@ Widget _widgetForRoute(String route) {
 //      return createApp();
     default:
       return Container(
-        color: Colors.white,
+        color: Colors.transparent,
         child: Center(
             child: Text(
           "Unkonw route: $route",

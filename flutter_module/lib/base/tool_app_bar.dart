@@ -382,6 +382,8 @@ class NewAppBar extends StatefulWidget implements PreferredSizeWidget {
         return false;
       case TargetPlatform.iOS:
         return actions == null || actions.length < 2;
+      case TargetPlatform.macOS:
+        break;
     }
     return null;
   }
@@ -473,6 +475,8 @@ class _NewAppBarState extends State<NewAppBar> {
           namesRoute = true;
           break;
         case TargetPlatform.iOS:
+          break;
+        case TargetPlatform.macOS:
           break;
       }
       title = DefaultTextStyle(

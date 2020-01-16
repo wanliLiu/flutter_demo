@@ -27,7 +27,7 @@ class Flutterview extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         padding: const EdgeInsets.all(32),
-        color: Colors.white,
+        color: Colors.transparent,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

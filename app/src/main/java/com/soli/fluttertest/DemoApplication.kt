@@ -1,7 +1,7 @@
 package com.soli.fluttertest
 
 import android.content.Context
-import android.support.multidex.MultiDex
+import androidx.multidex.MultiDex
 import io.flutter.app.FlutterApplication
 
 /**
