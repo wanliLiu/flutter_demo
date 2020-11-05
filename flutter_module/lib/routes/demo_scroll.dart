@@ -693,7 +693,7 @@ class _CustomScrollViewTestRouteState extends State<CustomScrollViewTestRoute>
                       SliverOverlapAbsorber(
                         handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
                             context),
-                        child: SliverPersistentHeader(
+                        sliver: SliverPersistentHeader(
                             pinned: true,
                             delegate: SliverCustomHeaderDelegate(
                               collapsedHeight: kToolbarHeight,

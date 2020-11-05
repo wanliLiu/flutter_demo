@@ -2,7 +2,6 @@ package com.soli.fluttertest
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.FrameLayout
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -52,7 +51,7 @@ class MainActivity : AppCompatActivity(), SplashScreenProvider {
         }
 
         transparency.setOnClickListener {
-            if (useCacheFlutterEngine){
+            if (useCacheFlutterEngine) {
                 startActivity(
                     Intent(this, FlutterActivity::class.java).apply {
                         putExtra("cached_engine_id", pre_warm_engien_id)
@@ -60,7 +59,7 @@ class MainActivity : AppCompatActivity(), SplashScreenProvider {
                         putExtra("destroy_engine_with_activity", false)
                     }
                 )
-            }else{
+            } else {
                 startActivity(
                     Intent(this, FlutterActivity::class.java).apply {
                         putExtra("initial_route", "/")
@@ -112,12 +111,12 @@ class MainActivity : AppCompatActivity(), SplashScreenProvider {
             fluFragment =
                 if (useCacheFlutterEngine) {
                     FlutterFragment.withCachedEngine(pre_warm_engien_id)
-                        .renderMode(FlutterView.RenderMode.surface)
+                        .renderMode(RenderMode.surface)
                         .build()
                 } else
                     FlutterFragment.withNewEngine()
                         .initialRoute("flutterview")
-                        .renderMode(FlutterView.RenderMode.surface)
+                        .renderMode(RenderMode.surface)
                         .build()
 
 //            container.removeAllViews()
