@@ -43,7 +43,7 @@ android {
     }
 
     buildTypes {
-        
+
         profile {
             initWith debug
         }
@@ -89,8 +89,10 @@ dependencies {
     if (usrSourceCode.toBoolean()) {
         implementation project(':flutter')
     } else {
-        debugImplementation 'com.soli.flutter_module:flutter_debug:1.0'
-        profileImplementation 'com.soli.flutter_module:flutter_profile:1.0'
-        releaseImplementation 'com.soli.flutter_module:flutter_release:1.0'
+//        debugImplementation 'com.soli.flutter_module:flutter_debug:1.0'
+//        profileImplementation 'com.soli.flutter_module:flutter_profile:1.0'
+//        releaseImplementation 'com.soli.flutter_module:flutter_release:1.0'
+
+        implementation 'com.soli.flutter_module:flutter_release:1.0'
     }
 }

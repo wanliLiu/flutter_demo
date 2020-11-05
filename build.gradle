@@ -18,9 +18,10 @@ allprojects {
     repositories {
         if (!usrSourceCode.toBoolean()) {
             String storageUrl = System.env.FLUTTER_STORAGE_BASE_URL ?: "https://storage.googleapis.com"
-            maven {
-                url rootProject.projectDir.getAbsolutePath() + "/flutter_module/build/host/outputs/repo"
-            }
+//            maven {
+//                url rootProject.projectDir.getAbsolutePath() + "/flutter_module/build/host/outputs/repo"
+//            }
+            maven { url "http://10.20.120.200:8081/nexus/content/repositories/taiheRepo/" }
             maven {
                 url storageUrl + '/download.flutter.io'
             }
