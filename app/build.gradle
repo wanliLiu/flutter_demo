@@ -86,7 +86,7 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
 
 
-    if (usrSourceCode.toBoolean()) {
+    if (useSourceCode.toBoolean()) {
         implementation project(':flutter')
     } else {
 //        debugImplementation 'com.soli.flutter_module:flutter_debug:1.0'
