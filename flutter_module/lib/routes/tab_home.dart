@@ -362,7 +362,7 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
                         "$key",
                         style: Theme.of(context)
                             .textTheme
-                            .display2
+                            .headline3
                             .copyWith(fontWeight: FontWeight.bold),
                       );
                     }
@@ -427,7 +427,7 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
                     '${inc.counter}',
                     style: Theme.of(context)
                         .textTheme
-                        .display2
+                        .headline3
                         .copyWith(fontWeight: FontWeight.bold),
                   ),
                 ),

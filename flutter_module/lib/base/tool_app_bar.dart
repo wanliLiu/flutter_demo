@@ -409,7 +409,7 @@ class _NewAppBarState extends State<NewAppBar> {
     assert(debugCheckHasMaterialLocalizations(context));
     final ThemeData theme = Theme.of(context);
     final AppBarTheme appBarTheme = AppBarTheme.of(context);
-    final ScaffoldState scaffold = Scaffold.of(context, nullOk: true);
+    final ScaffoldState scaffold = Scaffold.of(context);
     final ModalRoute<dynamic> parentRoute = ModalRoute.of(context);
 
     final bool hasDrawer = scaffold?.hasDrawer ?? false;
@@ -584,8 +584,8 @@ class _NewAppBarState extends State<NewAppBar> {
         appBarTheme.brightness ??
         theme.primaryColorBrightness;
     final SystemUiOverlayStyle overlayStyle = brightness == Brightness.dark
-        ? SystemUiOverlayStyle.light
-        : SystemUiOverlayStyle.dark;
+        ? SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.transparent)
+        : SystemUiOverlayStyle.dark.copyWith(statusBarColor: Colors.transparent);
 
     return Semantics(
       container: true,

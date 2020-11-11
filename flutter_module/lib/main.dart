@@ -15,6 +15,7 @@ import 'package:flutter_module/routes/tab_school.dart';
 import 'package:flutter_module/widget/DoubleTapExit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import 'base/tool_app_bar.dart';
 import 'flutterDemo.dart';
 import 'routes/textfiled.dart';
 
@@ -93,8 +94,8 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       initialRoute: "LaunchHome",
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+          primarySwatch: Colors.blue,
+          appBarTheme: AppBarTheme(centerTitle: true)),
       routes: {
         "First": (context) => FirstRouteWidget(),
         "Second": (context) => SecondRouteWidget(),
@@ -258,7 +259,7 @@ class _MyHomePageState extends State<MyHomePage>
       );
 
   Widget get _homeView => Scaffold(
-        appBar: AppBar(
+        appBar: NewAppBar(
           title: Text(widget.title),
           bottom: _tabSelect == 0
               ? TabBar(
@@ -280,12 +281,10 @@ class _MyHomePageState extends State<MyHomePage>
         ),
         bottomNavigationBar: BottomNavigationBar(
           items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.home), title: Text("Home")),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.business), title: Text("Business")),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.school), title: Text("School")),
+                icon: Icon(Icons.business), label: "Business"),
+            BottomNavigationBarItem(icon: Icon(Icons.school), label: "School"),
           ],
           currentIndex: _tabSelect,
           fixedColor: Colors.red,

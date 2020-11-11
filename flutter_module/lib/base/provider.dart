@@ -14,8 +14,6 @@ class InheritedProvider<T> extends InheritedWidget {
   }
 }
 
-Type _typeof<T>() => T;
-
 class ChangeNotifierProvider<T extends ChangeNotifier> extends StatefulWidget {
   ChangeNotifierProvider({Key key, this.data, this.child}) : super(key: key);
 
@@ -28,11 +26,13 @@ class ChangeNotifierProvider<T extends ChangeNotifier> extends StatefulWidget {
   ///
   ///
   static T of<T>(BuildContext context, {bool isListen = true}) {
-    final type = _typeof<InheritedProvider<ChangeNotifier>>();
     final provider = isListen
-        ? context.inheritFromWidgetOfExactType(type) as InheritedProvider
-        : context.ancestorInheritedElementForWidgetOfExactType(type)?.widget
-            as InheritedProvider;
+        ? context.dependOnInheritedWidgetOfExactType<
+            InheritedProvider<ChangeNotifier>>()
+        : context
+            .getElementForInheritedWidgetOfExactType<
+                InheritedProvider<ChangeNotifier>>()
+            ?.widget as InheritedProvider;
 
     return provider.data as T;
   }

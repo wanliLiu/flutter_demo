@@ -17,7 +17,7 @@ class FirstRouteWidget extends StatelessWidget {
         title: Text('First Route'),
       ),
       body: Align(
-        alignment: FractionalOffset(0.2,0.6),
+        alignment: FractionalOffset(0.2, 0.6),
         child: RaisedButton(
           child: Text(args ?? 'Open second route'),
           onPressed: () {
@@ -51,7 +51,7 @@ class CounterWidget extends StatefulWidget {
   static CounterWidgetState of(BuildContext context, {bool nullOk = false}) {
     assert(context != null);
     CounterWidgetState state =
-        context.ancestorStateOfType(const TypeMatcher<CounterWidgetState>());
+        context.findAncestorStateOfType<CounterWidgetState>();
 
     assert(() {
       if (state == null && !nullOk) {
@@ -134,7 +134,6 @@ class CounterWidgetState extends State<CounterWidget> {
 GlobalKey<CounterWidgetState> _globalKey = GlobalKey();
 
 class SecondRouteWidget extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -175,7 +174,8 @@ class SecondRouteWidget extends StatelessWidget {
               ),
               Builder(builder: (context) {
                 // 在Widget树中向上查找最近的父级`Scaffold` widget
-                Scaffold scaffold = context.ancestorWidgetOfExactType(Scaffold);
+                Scaffold scaffold =
+                    context.findAncestorWidgetOfExactType<Scaffold>();
 //            Scaffold scaffold = Scaffold.of(context);
                 // 直接返回 AppBar的title， 此处实际上是Text("Context测试")
                 return Container(
