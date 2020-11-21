@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
 class _ShowProgressWidget extends StatefulWidget {
-  _ShowProgressWidget({Key key, @required this.child})
+  _ShowProgressWidget({Key? key, @required this.child})
       : assert(child != null),
         super(key: key);
 
-  final Widget child;
+  final Widget? child;
 
   @override
   _ShowProgressWidgetState createState() => _ShowProgressWidgetState();
 }
 
 class _ShowProgressWidgetState extends State<_ShowProgressWidget> {
-  double _lastProgress;
+  double? _lastProgress;
   bool _showProgress = false;
   String _progress = "";
 
@@ -33,7 +33,7 @@ class _ShowProgressWidgetState extends State<_ShowProgressWidget> {
     if (progress != _lastProgress) {
       _lastProgress = progress;
       _change = true;
-      _progress = "${(_lastProgress * 100).toInt()}%";
+      _progress = "${(_lastProgress! * 100).toInt()}%";
     }
 
     if (_change) {
@@ -50,7 +50,7 @@ class _ShowProgressWidgetState extends State<_ShowProgressWidget> {
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[
-            widget.child,
+            widget.child!,
             Visibility(
                 visible: _showProgress,
                 maintainState: true,
@@ -97,12 +97,12 @@ mixin BasePage<T extends StatefulWidget> on State<T> {
   @protected
   Widget get content;
 
-  Widget _content;
+  Widget? _content;
 
   @protected
   Widget get title;
 
-  Widget _title;
+  Widget? _title;
 
   @override
   Widget build(BuildContext context) {

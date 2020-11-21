@@ -5,7 +5,7 @@ import 'custom_paint.dart';
 
 class TurnBox extends StatefulWidget {
   const TurnBox(
-      {Key key,  this.turns = 0, this.speed: 10, @required this.child})
+      {Key? key,  this.turns = 0, this.speed: 10, required this.child})
       : assert(child != null),
         super(key: key);
 
@@ -18,7 +18,7 @@ class TurnBox extends StatefulWidget {
 }
 
 class _TurnBoxState extends State<TurnBox> with SingleTickerProviderStateMixin {
-  AnimationController _controller;
+  late AnimationController _controller;
 
   @override
   void initState() {
@@ -58,7 +58,7 @@ class _TurnBoxState extends State<TurnBox> with SingleTickerProviderStateMixin {
 class FixedSizeLayoutDelegate extends SingleChildLayoutDelegate {
   const FixedSizeLayoutDelegate({this.size});
 
-  final Size size;
+  final Size? size;
 
   @override
   bool shouldRelayout(FixedSizeLayoutDelegate oldDelegate) {
@@ -67,12 +67,12 @@ class FixedSizeLayoutDelegate extends SingleChildLayoutDelegate {
 
   @override
   Size getSize(BoxConstraints constraints) {
-    return size;
+    return size!;
   }
 
   @override
   BoxConstraints getConstraintsForChild(BoxConstraints constraints) {
-    return BoxConstraints.tight(size);
+    return BoxConstraints.tight(size!);
   }
 }
 

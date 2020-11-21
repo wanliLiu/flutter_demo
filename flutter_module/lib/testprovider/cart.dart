@@ -52,7 +52,7 @@ class _ProviderRouteState extends State<ProviderRoute> {
                         child: Text("添加商品"),
                         onPressed: () =>
                             ChangeNotifierProvider.of<CartModel>(context,isListen: false)
-                                .add(Item(0.23, 20)));
+                                ?.add(Item(0.23, 20)));
                   })
                 ],
               );

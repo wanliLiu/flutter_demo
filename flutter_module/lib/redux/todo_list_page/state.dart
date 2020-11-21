@@ -6,10 +6,10 @@ import 'report_component/component.dart';
 import 'todo_component/component.dart';
 
 class PageState implements GlobalBaseState, Cloneable<PageState> {
-  List<ToDoState> toDos;
+  late List<ToDoState> toDos;
 
   @override
-  Color themeColor;
+  late Color themeColor;
 
   @override
   PageState clone() {

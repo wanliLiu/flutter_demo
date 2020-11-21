@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Box extends StatelessWidget {
-  const Box({Key key, @required this.active, this.highligt = false})
+  const Box({Key? key, required this.active, this.highligt = false})
       : super(key: key);
 
   final bool active;
@@ -18,7 +18,7 @@ class Box extends StatelessWidget {
       margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
           border:
-              highligt ? Border.all(color: Colors.teal[700], width: 5) : null,
+              highligt ? Border.all(color: Colors.teal[700]!, width: 5) : null,
           color: active ? Colors.lightGreen[700] : Colors.grey[600]),
     );
   }
@@ -69,7 +69,7 @@ class _ParentWidgetState extends State<ParentWidget> {
 }
 
 class TapboxB extends StatelessWidget {
-  TapboxB({Key key, this.active: false, @required this.onChanged})
+  TapboxB({Key? key, this.active: false, required this.onChanged})
       : assert(onChanged != null),
         super(key: key) {
     debugPrint("构造函数");
@@ -114,7 +114,7 @@ class _ParentWidgetCState extends State<ParentWidgetC> {
 }
 
 class TapboxC extends StatefulWidget {
-  TapboxC({Key key, this.active: false, @required this.onChanged})
+  TapboxC({Key? key, this.active: false, required this.onChanged})
       : assert(onChanged != null),
         super(key: key) {
     debugPrint("构造函数");

@@ -9,7 +9,7 @@ abstract class GlobalBaseState {
 
 class GlobalState implements GlobalBaseState, Cloneable<GlobalState> {
   @override
-  Color themeColor;
+  late Color themeColor;
 
   @override
   GlobalState clone() {

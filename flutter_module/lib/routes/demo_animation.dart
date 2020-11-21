@@ -26,8 +26,8 @@ class ScalAnimationWidget extends StatefulWidget {
 
 class _ScalAnimationWidgetState extends State<ScalAnimationWidget>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  Animation<double> _animation;
+  late AnimationController _controller;
+  late Animation<double> _animation;
 
   @override
   void initState() {
@@ -104,12 +104,12 @@ class _ScalAnimationWidgetState extends State<ScalAnimationWidget>
 }
 
 class AnimateImage extends AnimatedWidget {
-  AnimateImage({Key key, Animation<double> animation})
+  AnimateImage({Key? key, required Animation<double> animation})
       : super(key: key, listenable: animation);
 
   @override
   Widget build(BuildContext context) {
-    final Animation<double> _animation = listenable;
+    final Animation<double> _animation = listenable as Animation<double>;
     return Container(
       alignment: Alignment.topCenter,
       child: Image.asset(
@@ -140,7 +140,7 @@ class HeroAnimationRoute extends StatelessWidget {
               ),
             )),
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
+          Navigator.of(context)?.push(MaterialPageRoute(
               builder: (context) => Scaffold(
                     appBar: AppBar(
                       title: Text("原图"),
@@ -179,26 +179,26 @@ class HeroAnimationRouteB extends StatelessWidget {
 }
 
 class StaggerAnimation extends StatelessWidget {
-  StaggerAnimation({Key key, this.controller}) : super(key: key) {
+  StaggerAnimation({Key? key, this.controller}) : super(key: key) {
     _height = Tween<double>(begin: 0, end: 200).animate(CurvedAnimation(
-        parent: controller, curve: Interval(.0, .6, curve: Curves.ease)));
+        parent: controller!, curve: Interval(.0, .6, curve: Curves.ease)));
 
-    _color = ColorTween(begin: Colors.green, end: Colors.red).animate(
+    _color = ColorTween(begin: Colors.green!, end: Colors.red!).animate(
         CurvedAnimation(
-            parent: controller, curve: Interval(.0, .6, curve: Curves.ease)));
+            parent: controller!, curve: Interval(.0, .6, curve: Curves.ease)));
 
     _padding = Tween<EdgeInsets>(
             begin: EdgeInsets.only(left: .0), end: EdgeInsets.only(left: 150))
         .animate(CurvedAnimation(
-            parent: controller, curve: Interval(.6, 1.0, curve: Curves.ease)));
+            parent: controller!, curve: Interval(.6, 1.0, curve: Curves.ease)));
   }
 
-  final AnimationController controller;
-  Animation<double> _height;
-  Animation<EdgeInsets> _padding;
-  Animation<Color> _color;
+  final AnimationController? controller;
+  late Animation<double> _height;
+  late Animation<EdgeInsets> _padding;
+  late Animation<Color?> _color;
 
-  Widget _buildAnimation(BuildContext context, Widget child) {
+  Widget _buildAnimation(BuildContext context, Widget? child) {
     return Container(
       alignment: Alignment.bottomLeft,
       padding: _padding.value,
@@ -212,7 +212,7 @@ class StaggerAnimation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(animation: controller, builder: _buildAnimation);
+    return AnimatedBuilder(animation: controller!, builder: _buildAnimation);
   }
 }
 
@@ -223,7 +223,7 @@ class StaggerRoute extends StatefulWidget {
 
 class _StaggerRouteState extends State<StaggerRoute>
     with TickerProviderStateMixin {
-  AnimationController _controller;
+  late AnimationController _controller;
 
   @override
   void initState() {
@@ -267,8 +267,8 @@ class _StaggerRouteState extends State<StaggerRoute>
 //和SlideTransition唯一的不同就是对动画的反向执行进行了（从左边滑出隐藏）
 class MySlideTransition extends SlideTransition {
   const MySlideTransition({
-    Key key,
-    @required Animation<Offset> position,
+    Key? key,
+    required Animation<Offset> position,
     transformHitTests = true,
     textDirection,
     child,
@@ -295,12 +295,12 @@ class MySlideTransition extends SlideTransition {
 
 class SlideTransitionX extends AnimatedWidget {
   SlideTransitionX({
-    Key key,
-    Animation<double> position,
+    Key? key,
+    Animation<double>? position,
     this.direction = AxisDirection.left,
     this.transformHitTests = true,
     this.child,
-  }) : super(key: key, listenable: position) {
+  }) : super(key: key, listenable: position as Listenable) {
     switch (direction) {
       case AxisDirection.up:
         _tween = Tween<Offset>(begin: Offset(0, 1), end: Offset(0, 0));
@@ -317,21 +317,21 @@ class SlideTransitionX extends AnimatedWidget {
     }
   }
 
-  Animation<double> get position => listenable;
+  Animation<double>? get position => listenable as Animation<double>;
 
   final AxisDirection direction;
 
   final bool transformHitTests;
 
-  final Widget child;
+  final Widget? child;
 
-  Tween<Offset> _tween;
+  late Tween<Offset> _tween;
 
   @override
   Widget build(BuildContext context) {
-    Offset offset = _tween.evaluate(position);
+    Offset offset = _tween.evaluate(position!);
     //动画反向执行时，调整x偏移，实现“从左边滑出隐藏”
-    if (position.status == AnimationStatus.reverse) {
+    if (position!.status == AnimationStatus.reverse) {
       switch (direction) {
         case AxisDirection.up:
           offset = Offset(offset.dx, -offset.dy);

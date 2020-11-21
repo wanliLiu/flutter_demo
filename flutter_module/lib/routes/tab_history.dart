@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
 class TabHistory extends StatelessWidget {
-  TabHistory({Key key, this.controller}) : super(key: key);
+  TabHistory({Key? key,  this.controller}) : super(key: key);
 
-  final ScrollController controller;
+  final ScrollController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +106,7 @@ class MyClipper extends CustomClipper<Rect> {
 }
 
 class testFutureBuilder extends StatelessWidget {
-  testFutureBuilder({Key key, bool useStream = false})
+  testFutureBuilder({Key? key, bool useStream = false})
       : _useStream = useStream,
         super(key: key);
 
@@ -135,7 +135,6 @@ class testFutureBuilder extends StatelessWidget {
       case ConnectionState.done:
         return Text('Stream已关闭');
     }
-    return null; // unreachable
   }
 
   Widget _result(BuildContext context, AsyncSnapshot snapshot) {

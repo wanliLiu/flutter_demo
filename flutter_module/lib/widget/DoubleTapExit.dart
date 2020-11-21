@@ -2,10 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_module/common/Global.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:fluttertoast/fluttertoast.dart';
 
 class DoubleTapExit extends StatefulWidget {
-  DoubleTapExit({Key key, @required this.child})
+  DoubleTapExit({Key? key, required this.child})
       : assert(child != null, "child不能为空"),
         super(key: key);
 

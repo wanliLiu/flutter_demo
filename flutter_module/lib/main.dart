@@ -23,11 +23,11 @@ void collectLog(String line) {
   //收集日志
 }
 
-void reportErrorAndLog(FlutterErrorDetails details) {
+void reportErrorAndLog(FlutterErrorDetails? details) {
   //上报错误和日志逻辑
 }
 
-FlutterErrorDetails makeDetails(Object obj, StackTrace stack) {
+FlutterErrorDetails? makeDetails(Object obj, StackTrace stack) {
   // 构建错误信息
 }
 
@@ -101,13 +101,13 @@ class MyApp extends StatelessWidget {
         "Second": (context) => SecondRouteWidget(),
         "Tab": (context) => TabRouteWidget(),
         "FlutterRoute": (context) {
-          var data = ModalRoute.of(context).settings.arguments;
+          var data = ModalRoute.of(context)?.settings.arguments;
           debugPrint("FlutterRoute---in--->$data");
-          return FlutterRouteWidget(message: data ?? "路由传入的数据");
+          return FlutterRouteWidget(message: data?.toString() ?? "路由传入的数据");
         },
         "LaunchHome": (context) => MyHomePage(title: 'Flutter Demo Home Page'),
         "textFIled": (context) {
-          var data = ModalRoute.of(context).settings.arguments
+          var data = ModalRoute.of(context)?.settings.arguments
               as LinkedHashMap<String, String>;
           return TextFiledPage(
               defaultName: data["account"], defaultPwd: data["pwd"]);
@@ -130,7 +130,7 @@ class MyApp extends StatelessWidget {
                 var input = settings.arguments;
                 debugPrint("Tips--in-->$input");
                 widget = TipRoute(
-                  text: input ?? "我是提示 xxx,传过来的数据",
+                  text: input.toString() ?? "我是提示 xxx,传过来的数据",
                 );
               }
               break;
@@ -154,8 +154,8 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-  final String title;
+  MyHomePage({Key? key, this.title}) : super(key: key);
+  final String? title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -163,7 +163,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
-  TabController _tabController;
+  TabController? _tabController;
   List tabs = ["Base", "Clip", "Scroll"];
 
   int _selectedIndex = 0;
@@ -176,7 +176,7 @@ class _MyHomePageState extends State<MyHomePage>
       vsync: this,
       length: tabs.length,
     );
-    _tabController.addListener(_handleTabSelection);
+    _tabController!.addListener(_handleTabSelection);
   }
 
   void _eventbus(args) {
@@ -185,7 +185,7 @@ class _MyHomePageState extends State<MyHomePage>
 
   void _handleTabSelection() {
     setState(() {
-      _selectedIndex = _tabController.index;
+      _selectedIndex = _tabController!.index;
       debugPrint("selectInde--->$_selectedIndex");
     });
   }
@@ -193,7 +193,7 @@ class _MyHomePageState extends State<MyHomePage>
   @override
   void dispose() {
     super.dispose();
-    _tabController.dispose();
+    _tabController?.dispose();
   }
 
   void _onTabTapped(int index) {
@@ -203,13 +203,13 @@ class _MyHomePageState extends State<MyHomePage>
     });
   }
 
-  Widget floatActionButton() {
+  Widget? floatActionButton() {
     if (_selectedIndex == 0) {
       return Builder(
           builder: (context) => FloatingActionButton(
                 onPressed: () {
                   ChangeNotifierProvider.of<Increment>(context, isListen: false)
-                      .changeValue();
+                      ?.changeValue();
                 },
                 tooltip: 'Increment',
                 child: Icon(Icons.add),
@@ -259,8 +259,8 @@ class _MyHomePageState extends State<MyHomePage>
       );
 
   Widget get _homeView => Scaffold(
-        appBar: NewAppBar(
-          title: Text(widget.title),
+        appBar: Toolbar(
+          title: Text(widget.title!),
           bottom: _tabSelect == 0
               ? TabBar(
                   labelStyle:
@@ -314,7 +314,7 @@ class _MyHomePageState extends State<MyHomePage>
 }
 
 class MyDrawer extends StatelessWidget {
-  const MyDrawer({Key key}) : super(key: key);
+  const MyDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

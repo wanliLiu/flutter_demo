@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'demo_scroll.dart';
 
 class StickyBarDelegate extends SliverPersistentHeaderDelegate {
-  StickyBarDelegate({this.child});
+  StickyBarDelegate({required this.child});
 
   final Widget child;
 

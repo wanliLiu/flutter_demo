@@ -40,7 +40,7 @@ void _init(Action action, Context<PageState> ctx) {
 
 void _onAdd(Action action, Context<PageState> ctx) {
   Navigator.of(ctx.context)
-      .pushNamed('todo_edit', arguments: null)
+      ?.pushNamed('todo_edit', arguments: null)
       .then((dynamic toDo) {
     if (toDo != null &&
         (toDo.title?.isNotEmpty == true || toDo.desc?.isNotEmpty == true)) {

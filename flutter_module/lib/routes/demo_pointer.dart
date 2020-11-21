@@ -157,7 +157,7 @@ class TouchPointer extends StatefulWidget {
 }
 
 class _TouchPointerState extends State<TouchPointer> {
-  PointerEvent _event;
+  PointerEvent? _event;
 
   void _dealPointer(PointerEvent event) {
     setState(() {

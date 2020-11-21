@@ -31,7 +31,7 @@ class _ToDoListConnector extends ConnOp<PageState, List<ItemBean>> {
   void set(PageState state, List<ItemBean> toDos) {
     if (toDos?.isNotEmpty == true) {
       state.toDos = List<ToDoState>.from(
-          toDos.map<ToDoState>((ItemBean bean) => bean.data).toList());
+          toDos.map<ToDoState>((ItemBean bean) => bean!.data as ToDoState).toList());
     } else {
       state.toDos = <ToDoState>[];
     }

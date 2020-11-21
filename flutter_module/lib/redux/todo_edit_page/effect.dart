@@ -18,17 +18,17 @@ Effect<TodoEditState> buildEffect() {
 void _init(Action action, Context<TodoEditState> ctx) {
   ctx.state.nameEditController.addListener(() {
     ctx.dispatch(
-        ToDoEditActionCreator.update(ctx.state.nameEditController.text, null));
+        ToDoEditActionCreator.update(ctx.state.nameEditController.text, ''));
   });
 
   ctx.state.descEditController.addListener(() {
     ctx.dispatch(
-        ToDoEditActionCreator.update(null, ctx.state.descEditController.text));
+        ToDoEditActionCreator.update('', ctx.state.descEditController.text));
   });
 }
 
 void _onDone(Action action, Context<TodoEditState> ctx) {
-  Navigator.of(ctx.context).pop<ToDoState>(ctx.state.toDo);
+  Navigator.of(ctx.context)?.pop<ToDoState>(ctx.state.toDo);
 }
 
 void _onChangeTheme(Action action, Context<TodoEditState> ctx) {

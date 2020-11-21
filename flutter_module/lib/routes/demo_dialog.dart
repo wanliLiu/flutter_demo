@@ -11,7 +11,7 @@ class _DialogPageState extends State<DialogPage> {
   bool _chek = false;
 
   Future<void> changeLanguage() async {
-    int i = await showDialog<int>(
+    int? i = await showDialog<int>(
         barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
@@ -39,7 +39,7 @@ class _DialogPageState extends State<DialogPage> {
                 ),
               ),
               SimpleDialogOption(
-                onPressed: () => Navigator.of(context).pop(3),
+                onPressed: () => Navigator.of(context)?.pop(3),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 6),
                   child: Row(
@@ -50,7 +50,7 @@ class _DialogPageState extends State<DialogPage> {
                       StatefulBuilder(builder: (context, setState) {
                         return Checkbox(
                           value: _chek,
-                          onChanged: (value) => setState(() => _chek = value),
+                          onChanged: (value) => setState(() => _chek = value!),
                         );
                       }),
                     ],
@@ -61,7 +61,7 @@ class _DialogPageState extends State<DialogPage> {
                 return Checkbox(
                     value: _chek,
                     onChanged: (vale) {
-                      _chek = vale;
+                      _chek = vale!;
                       (context as Element).markNeedsBuild();
                     });
               })
@@ -75,7 +75,7 @@ class _DialogPageState extends State<DialogPage> {
   }
 
   // 弹出底部菜单列表模态对话框
-  Future<int> _showModalBottomSheet() {
+  Future<int?> _showModalBottomSheet() {
     return showModalBottomSheet<int>(
       context: context,
       builder: (BuildContext context) {
@@ -84,7 +84,7 @@ class _DialogPageState extends State<DialogPage> {
           itemBuilder: (BuildContext context, int index) {
             return ListTile(
               title: Text("$index"),
-              onTap: () => Navigator.of(context).pop(index),
+              onTap: () => Navigator.of(context)?.pop(index),
             );
           },
         );
@@ -92,7 +92,7 @@ class _DialogPageState extends State<DialogPage> {
     );
   }
 
-  Future<bool> _showDeleteDialog() {
+  Future<bool?> _showDeleteDialog() {
     return showDialog<bool>(
         context: context,
         builder: (context) => AlertDialog(
@@ -100,10 +100,10 @@ class _DialogPageState extends State<DialogPage> {
               content: Text("我是描述文字、、、、文字" * 40),
               actions: <Widget>[
                 FlatButton(
-                    onPressed: () => Navigator.of(context).pop(false),
+                    onPressed: () => Navigator.of(context)?.pop(false),
                     child: Text("取消")),
                 FlatButton(
-                    onPressed: () => Navigator.of(context).pop(true),
+                    onPressed: () => Navigator.of(context)?.pop(true),
                     child: Text("确认")),
               ],
             ));
@@ -122,7 +122,7 @@ class _DialogPageState extends State<DialogPage> {
               onTap: () {
                 // do something
                 print("$index");
-                Navigator.of(context).pop();
+                Navigator.of(context)?.pop();
               },
             );
           },
@@ -161,7 +161,7 @@ class _DialogPageState extends State<DialogPage> {
     );
   }
 
-  Future<DateTime> _showDatePicker1() {
+  Future<DateTime?> _showDatePicker1() {
     var date = DateTime.now();
     return showDatePicker(
       context: context,
@@ -174,7 +174,7 @@ class _DialogPageState extends State<DialogPage> {
     );
   }
 
-  Future<DateTime> _showDatePicker2() {
+  Future<DateTime?> _showDatePicker2() {
     var date = DateTime.now();
     return showCupertinoModalPopup(
       context: context,
@@ -211,8 +211,8 @@ class _DialogPageState extends State<DialogPage> {
           children: <Widget>[
             RaisedButton(
               onPressed: () async {
-                bool result = await _showDeleteDialog();
-                VaeToast.showToast(result ? "确认删除" : "取消删除");
+                bool? result = await _showDeleteDialog();
+                VaeToast.showToast(result != null ? "确认删除" : "取消删除");
               },
               child: Text("对话框1"),
             ),

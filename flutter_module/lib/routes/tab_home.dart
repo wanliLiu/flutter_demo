@@ -25,18 +25,18 @@ import 'demo_scroll_customview.dart';
 import 'demo_status_bar.dart';
 
 class HomeView extends StatefulWidget {
-  HomeView({Key key}) : super(key: key);
+  HomeView({Key? key}) : super(key: key);
 
   @override
   HomeViewState createState() => HomeViewState();
 }
 
 class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
-  String upContent;
+  String? upContent;
 
   TapGestureRecognizer _tapGestureRecognizer = TapGestureRecognizer();
 
-  void _setBackContent(String content) {
+  void _setBackContent(String? content) {
     setState(() {
       upContent = content;
     });
@@ -47,8 +47,8 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
     _tapGestureRecognizer.dispose();
   }
 
-  Widget backView() => upContent != null && upContent.isNotEmpty
-      ? Padding(padding: EdgeInsets.all(20), child: Text(upContent))
+  Widget backView() => upContent != null && upContent!.isNotEmpty
+      ? Padding(padding: EdgeInsets.all(20), child: Text(upContent!))
       : Text("Nothing");
 
   bool _switchSelected = true; //维护单选开关状态
@@ -126,13 +126,13 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
             child: Text("未注册：onGenerateRoute"),
             onPressed: () {
 //                Navigator.pushNamed(context, "SecondOther");
-              Navigator.of(context).pushNamed("SecondOther");
+              Navigator.of(context)?.pushNamed("SecondOther");
             },
           ),
           RaisedButton(
             child: Text("输入框和表单"),
             onPressed: () async {
-              var result = await Navigator.of(context).pushNamed("textFIled",
+              var result = await Navigator.of(context)?.pushNamed("textFIled",
                   arguments: {
                     "account": "fluttertest",
                     "pwd": "23820302930923"
@@ -148,7 +148,7 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
           RaisedButton(
             child: Text("进度指示器"),
             onPressed: () =>
-                Navigator.of(context).pushNamed("progressIndictor"),
+                Navigator.of(context)?.pushNamed("progressIndictor"),
           ),
           RaisedButton(
             child: Text("Redux"),
@@ -156,30 +156,30 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
           ),
           RaisedButton(
             child: Text("ListView"),
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+            onPressed: () => Navigator.of(context)?.push(MaterialPageRoute(
                 builder: (BuildContext context) =>
                     PageListRoot(ListType.ListView))),
           ),
           RaisedButton(
             child: Text("SingleChildScrollView"),
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+            onPressed: () => Navigator.of(context)?.push(MaterialPageRoute(
                 builder: (BuildContext context) =>
                     PageListRoot(ListType.SingleChildScrollView))),
           ),
           RaisedButton(
             child: Text("GridView"),
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+            onPressed: () => Navigator.of(context)?.push(MaterialPageRoute(
                 builder: (BuildContext context) =>
                     PageListRoot(ListType.GridView))),
           ),
           RaisedButton(
             child: Text("Dialog"),
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+            onPressed: () => Navigator.of(context)?.push(MaterialPageRoute(
                 builder: (BuildContext context) => DialogPage())),
           ),
           RaisedButton(
             child: Text("StaggeredGridView"),
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+            onPressed: () => Navigator.of(context)?.push(MaterialPageRoute(
                 builder: (BuildContext context) =>
                     PageListRoot(ListType.StaggeredGridView))),
           ),
@@ -199,23 +199,23 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
           ),
           RaisedButton(
             child: Text("CustomScrollView"),
-            onPressed: () => Navigator.of(context).push(
+            onPressed: () => Navigator.of(context)?.push(
                 FadeRoute(builder: (BuildContext context) => DemoCustomView())),
           ),
           RaisedButton(
             child: Text("NestedScrollView"),
-            onPressed: () => Navigator.of(context).push(FadeRoute(
+            onPressed: () => Navigator.of(context)?.push(FadeRoute(
                 builder: (BuildContext context) =>
                     CustomScrollViewTestRoute())),
           ),
           RaisedButton(
             child: Text("事件处理"),
-            onPressed: () => Navigator.of(context).push(CupertinoPageRoute(
+            onPressed: () => Navigator.of(context)?.push(CupertinoPageRoute(
                 builder: (BuildContext context) => PointerPage())),
           ),
           RaisedButton(
             child: Text("动画"),
-            onPressed: () => Navigator.of(context).push(PageRouteBuilder(
+            onPressed: () => Navigator.of(context)?.push(PageRouteBuilder(
                 transitionDuration: const Duration(milliseconds: 500),
                 pageBuilder: (BuildContext context, Animation<double> animation,
                     Animation<double> secondaryAnimation) {
@@ -232,12 +232,12 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
           ),
           RaisedButton(
             child: Text("StatusBar"),
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+            onPressed: () => Navigator.of(context)?.push(MaterialPageRoute(
                 builder: (BuildContext context) => DemoStatusBar())),
           ),
           RaisedButton(
             child: Text('DemoCustomLayout'),
-            onPressed: () => Navigator.of(context).push(
+            onPressed: () => Navigator.of(context)?.push(
                 MaterialPageRoute(builder: (context) => DemoCustomLayout())),
           )
         ]),
@@ -280,7 +280,7 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
                     Checkbox(
                         value: !_checkboxSelected,
                         onChanged: (chose) {
-                          _dealCheck(true, chose);
+                          _dealCheck(true, chose ?? false);
                         }),
                     Text(!_checkboxSelected ? "选中" : "未选中")
                   ],
@@ -300,7 +300,7 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
                     Checkbox(
                         value: _checkboxSelected,
                         onChanged: (chose) {
-                          _dealCheck(true, !chose);
+                          _dealCheck(true, !(chose ?? false));
                         }),
                     Text(_checkboxSelected ? "选中" : "未选中")
                   ],
@@ -344,7 +344,7 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
             Builder(builder: (context) {
               return FutureBuilder<int>(
                 future: () async {
-                  return await ChangeNotifierProvider.of<Increment>(context)
+                  return await ChangeNotifierProvider.of<Increment>(context)!
                       .readCounter();
                 }(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -362,7 +362,7 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
                         "$key",
                         style: Theme.of(context)
                             .textTheme
-                            .headline3
+                            .headline3!
                             .copyWith(fontWeight: FontWeight.bold),
                       );
                     }
@@ -427,7 +427,7 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
                     '${inc.counter}',
                     style: Theme.of(context)
                         .textTheme
-                        .headline3
+                        .headline3!
                         .copyWith(fontWeight: FontWeight.bold),
                   ),
                 ),
