@@ -40,7 +40,7 @@ class _TurnBoxState extends State<TurnBox> with SingleTickerProviderStateMixin {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.turns != widget.turns || oldWidget.speed != widget.speed) {
       _controller.animateTo(widget.turns,
-          duration: Duration(milliseconds: widget.speed ?? 300),
+          duration: Duration(milliseconds: widget.speed),
           curve: Curves.easeOut);
     }
   }

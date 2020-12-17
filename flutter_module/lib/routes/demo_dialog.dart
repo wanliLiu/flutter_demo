@@ -39,7 +39,7 @@ class _DialogPageState extends State<DialogPage> {
                 ),
               ),
               SimpleDialogOption(
-                onPressed: () => Navigator.of(context)?.pop(3),
+                onPressed: () => Navigator.of(context).pop(3),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 6),
                   child: Row(
@@ -84,7 +84,7 @@ class _DialogPageState extends State<DialogPage> {
           itemBuilder: (BuildContext context, int index) {
             return ListTile(
               title: Text("$index"),
-              onTap: () => Navigator.of(context)?.pop(index),
+              onTap: () => Navigator.of(context).pop(index),
             );
           },
         );
@@ -100,10 +100,10 @@ class _DialogPageState extends State<DialogPage> {
               content: Text("我是描述文字、、、、文字" * 40),
               actions: <Widget>[
                 FlatButton(
-                    onPressed: () => Navigator.of(context)?.pop(false),
+                    onPressed: () => Navigator.of(context).pop(false),
                     child: Text("取消")),
                 FlatButton(
-                    onPressed: () => Navigator.of(context)?.pop(true),
+                    onPressed: () => Navigator.of(context).pop(true),
                     child: Text("确认")),
               ],
             ));
@@ -122,7 +122,7 @@ class _DialogPageState extends State<DialogPage> {
               onTap: () {
                 // do something
                 print("$index");
-                Navigator.of(context)?.pop();
+                Navigator.of(context).pop();
               },
             );
           },

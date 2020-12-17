@@ -130,7 +130,7 @@ class _TextFiledPageState extends State<TextFiledPage> {
                             child: Text("登录"),
                             onPressed: () {
                               if (Form.of(context)?.validate() ?? false) {
-                                Navigator.of(context)?.pop(
+                                Navigator.of(context).pop(
                                     "用户名：${_nameController.text} \n 密码：${_pwdController.text}");
                               } else
                                 VaeToast.showToast("输入不合法",

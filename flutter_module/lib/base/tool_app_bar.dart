@@ -183,7 +183,6 @@ class Toolbar extends StatefulWidget implements PreferredSizeWidget {
     this.shadowColor,
     this.shape,
     this.backgroundColor,
-    this.foregroundColor,
     this.brightness,
     this.iconTheme,
     this.actionsIconTheme,
@@ -345,68 +344,20 @@ class Toolbar extends StatefulWidget implements PreferredSizeWidget {
   /// zero.
   final ShapeBorder? shape;
 
-  /// The fill color to use for the app bar's [Material].
+  /// The color to use for the app bar's material. Typically this should be set
+  /// along with [brightness], [iconTheme], [textTheme].
   ///
-  /// If null, then the [AppBarTheme.color] is used. If that value is also
-  /// null, then [Toolbar] uses the overall theme's [ColorScheme.primary] if the
-  /// overall theme's brightness is [Brightness.light], and [ColorScheme.surface]
-  /// if the overall theme's [brightness] is [Brightness.dark].
-  ///
-  /// See also:
-  ///
-  ///  * [foregroundColor], which specifies the color for icons and text within
-  ///    the app bar.
-  ///  * [Theme.of], which returns the current overall Material theme as
-  ///    a [ThemeData].
-  ///  * [ThemeData.colorScheme], the thirteen colors that most Material widget
-  ///    default colors are based on.
-  ///  * [ColorScheme.brightness], which indicates if the overall [Theme]
-  ///    is light or dark.
+  /// If this property is null, then [AppBarTheme.color] of
+  /// [ThemeData.appBarTheme] is used. If that is also null, then
+  /// [ThemeData.primaryColor] is used.
   final Color? backgroundColor;
 
-  /// The default color for [Text] and [Icon]s within the app bar.
+  /// The brightness of the app bar's material. Typically this is set along
+  /// with [backgroundColor], [iconTheme], [textTheme].
   ///
-  /// If null, then [AppBarTheme.foregroundColor] is used. If that
-  /// value is also null, then [Toolbar] uses the overall theme's
-  /// [ColorScheme.onPrimary] if the overall theme's brightness is
-  /// [Brightness.light], and [ColorScheme.onSurface] if the overall
-  /// theme's [brightness] is [Brightness.dark].
-  ///
-  /// This color is used to configure [DefaultTextStyle] that contains
-  /// the app bar's children, and the default [IconTheme] widgets that
-  /// are created if [iconTheme] and [actionsIconTheme] are null.
-  ///
-  /// See also:
-  ///
-  ///  * [backgroundColor], which specifies the app bar's background color.
-  ///  * [Theme.of], which returns the current overall Material theme as
-  ///    a [ThemeData].
-  ///  * [ThemeData.colorScheme], the thirteen colors that most Material widget
-  ///    default colors are based on.
-  ///  * [ColorScheme.brightness], which indicates if the overall [Theme]
-  ///    is light or dark.
-  final Color? foregroundColor;
-
-  /// Determines the brightness of the [SystemUiOverlayStyle]: for
-  /// [Brightness.dark], [SystemUiOverlayStyle.light] is used and fo
-  /// [Brightness.light], [SystemUiOverlayStyle.dark] is used.
-  ///
-  /// If this value is null then [AppBarTheme.brightness] is used
-  /// and if that's null then overall theme's brightness is used.
-  ///
-  /// The Toolbar is built within a `AnnotatedRegion<SystemUiOverlayStyle>`
-  /// which causes [SystemChrome.setSystemUIOverlayStyle] to be called
-  /// automatically.  Apps should not enclose the Toolbar with
-  /// their own [AnnotatedRegion].
-  ///
-  /// See also:
-  ///
-  ///  * [Theme.of], which returns the current overall Material theme as
-  ///    a [ThemeData].
-  ///  * [ThemeData.colorScheme], the thirteen colors that most Material widget
-  ///    default colors are based on.
-  ///  * [ColorScheme.brightness], which indicates if the overall [Theme]
-  ///    is light or dark.
+  /// If this property is null, then [AppBarTheme.brightness] of
+  /// [ThemeData.appBarTheme] is used. If that is also null, then
+  /// [ThemeData.primaryColorBrightness] is used.
   final Brightness? brightness;
 
   /// The color, opacity, and size to use for app bar icons. Typically this
@@ -535,7 +486,6 @@ class _ToolbarState extends State<Toolbar> {
     assert(!widget.primary || debugCheckHasMediaQuery(context));
     assert(debugCheckHasMaterialLocalizations(context));
     final ThemeData theme = Theme.of(context);
-    final ColorScheme colorScheme = theme.colorScheme;
     final AppBarTheme appBarTheme = AppBarTheme.of(context);
     final ScaffoldState? scaffold = Scaffold.maybeOf(context);
     final ModalRoute<dynamic>? parentRoute = ModalRoute.of(context);
@@ -547,25 +497,18 @@ class _ToolbarState extends State<Toolbar> {
 
     final double toolbarHeight = widget.toolbarHeight ?? kToolbarHeight;
 
-    final Color backgroundColor = widget.backgroundColor
-        ?? appBarTheme.color
-        ?? (colorScheme.brightness == Brightness.dark ? colorScheme.surface : colorScheme.primary);
-    final Color foregroundColor = widget.foregroundColor
-        ?? appBarTheme.foregroundColor
-        ?? (colorScheme.brightness == Brightness.dark ? colorScheme.onSurface : colorScheme.onPrimary);
-
     IconThemeData overallIconTheme = widget.iconTheme
         ?? appBarTheme.iconTheme
-        ?? theme.iconTheme.copyWith(color: foregroundColor);
+        ?? theme.primaryIconTheme;
     IconThemeData actionsIconTheme = widget.actionsIconTheme
         ?? appBarTheme.actionsIconTheme
         ?? overallIconTheme;
     TextStyle? centerStyle = widget.textTheme?.headline6
         ?? appBarTheme.textTheme?.headline6
-        ?? theme.primaryTextTheme.headline6?.copyWith(color: foregroundColor);
+        ?? theme.primaryTextTheme.headline6;
     TextStyle? sideStyle = widget.textTheme?.bodyText2
         ?? appBarTheme.textTheme?.bodyText2
-        ?? theme.primaryTextTheme.bodyText2?.copyWith(color: foregroundColor);
+        ?? theme.primaryTextTheme.bodyText2;
 
     if (widget.toolbarOpacity != 1.0) {
       final double opacity = const Interval(0.25, 1.0, curve: Curves.fastOutSlowIn).transform(widget.toolbarOpacity);
@@ -574,10 +517,10 @@ class _ToolbarState extends State<Toolbar> {
       if (sideStyle?.color != null)
         sideStyle = sideStyle!.copyWith(color: sideStyle.color!.withOpacity(opacity));
       overallIconTheme = overallIconTheme.copyWith(
-        opacity: opacity * (overallIconTheme.opacity ?? 1.0),
+          opacity: opacity * (overallIconTheme.opacity ?? 1.0)
       );
       actionsIconTheme = actionsIconTheme.copyWith(
-        opacity: opacity * (actionsIconTheme.opacity ?? 1.0),
+          opacity: opacity * (actionsIconTheme.opacity ?? 1.0)
       );
     }
 
@@ -751,19 +694,21 @@ class _ToolbarState extends State<Toolbar> {
         ],
       );
     }
-
     final Brightness brightness = widget.brightness
         ?? appBarTheme.brightness
-        ?? colorScheme.brightness;
+        ?? theme.primaryColorBrightness;
     final SystemUiOverlayStyle overlayStyle = brightness == Brightness.dark
         ? SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.transparent)
         : SystemUiOverlayStyle.dark.copyWith(statusBarColor: Colors.transparent);
+
     return Semantics(
       container: true,
       child: AnnotatedRegion<SystemUiOverlayStyle>(
         value: overlayStyle,
         child: Material(
-          color: backgroundColor,
+          color: widget.backgroundColor
+              ?? appBarTheme.color
+              ?? theme.primaryColor,
           elevation: widget.elevation
               ?? appBarTheme.elevation
               ?? _defaultElevation,
@@ -1561,6 +1506,13 @@ class _RenderAppBarTitleBox extends RenderAligningShiftedBox {
     RenderBox? child,
     TextDirection? textDirection,
   }) : super(child: child, alignment: Alignment.center, textDirection: textDirection);
+
+  @override
+  Size computeDryLayout(BoxConstraints constraints) {
+    final BoxConstraints innerConstraints = constraints.copyWith(maxHeight: double.infinity);
+    final Size childSize = child!.getDryLayout(innerConstraints);
+    return constraints.constrain(childSize);
+  }
 
   @override
   void performLayout() {

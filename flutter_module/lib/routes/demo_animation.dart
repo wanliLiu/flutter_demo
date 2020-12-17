@@ -140,7 +140,7 @@ class HeroAnimationRoute extends StatelessWidget {
               ),
             )),
         onTap: () {
-          Navigator.of(context)?.push(MaterialPageRoute(
+          Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => Scaffold(
                     appBar: AppBar(
                       title: Text("原图"),
@@ -183,7 +183,7 @@ class StaggerAnimation extends StatelessWidget {
     _height = Tween<double>(begin: 0, end: 200).animate(CurvedAnimation(
         parent: controller!, curve: Interval(.0, .6, curve: Curves.ease)));
 
-    _color = ColorTween(begin: Colors.green!, end: Colors.red!).animate(
+    _color = ColorTween(begin: Colors.green, end: Colors.red).animate(
         CurvedAnimation(
             parent: controller!, curve: Interval(.0, .6, curve: Curves.ease)));
 

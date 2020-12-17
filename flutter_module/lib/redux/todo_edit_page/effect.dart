@@ -28,7 +28,7 @@ void _init(Action action, Context<TodoEditState> ctx) {
 }
 
 void _onDone(Action action, Context<TodoEditState> ctx) {
-  Navigator.of(ctx.context)?.pop<ToDoState>(ctx.state.toDo);
+  Navigator.of(ctx.context).pop<ToDoState>(ctx.state.toDo);
 }
 
 void _onChangeTheme(Action action, Context<TodoEditState> ctx) {

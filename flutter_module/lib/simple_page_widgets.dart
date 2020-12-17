@@ -19,7 +19,7 @@ class FirstRouteWidget extends StatelessWidget {
       body: Align(
         alignment: FractionalOffset(0.2, 0.6),
         child: RaisedButton(
-          child: Text(args.toString() ?? 'Open second route'),
+          child: Text(args?.toString() ?? 'Open second route'),
           onPressed: () {
 //            FlutterBoost.singleton.openPage("second", {}, animated: true, resultHandler:(String key , Map<dynamic,dynamic> result){
 //              print("did recieve second route result $key $result");

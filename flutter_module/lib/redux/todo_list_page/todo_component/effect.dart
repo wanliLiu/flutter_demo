@@ -17,7 +17,7 @@ void _onEdit(Action action, Context<ToDoState> ctx) {
         // .push<ToDoState>(MaterialPageRoute<ToDoState>(
         //     builder: (BuildContext buildCtx) =>
         //         edit_page.TodoEditPage().buildPage(ctx.state)))
-        ?.pushNamed('todo_edit', arguments: ctx.state)
+        .pushNamed('todo_edit', arguments: ctx.state)
         .then((dynamic toDo) {
       if (toDo != null) {
         ctx.dispatch(ToDoActionCreator.editAction(toDo));
@@ -38,11 +38,11 @@ void _onRemove(Action action, Context<ToDoState> ctx) async {
                 'Cancel',
                 style: TextStyle(fontSize: 16.0),
               ),
-              onTap: () => Navigator.of(buildContext)?.pop(),
+              onTap: () => Navigator.of(buildContext).pop(),
             ),
             GestureDetector(
               child: const Text('Yes', style: TextStyle(fontSize: 16.0)),
-              onTap: () => Navigator.of(buildContext)?.pop('Yes'),
+              onTap: () => Navigator.of(buildContext).pop('Yes'),
             )
           ],
         );

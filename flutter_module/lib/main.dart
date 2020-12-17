@@ -127,10 +127,10 @@ class MyApp extends StatelessWidget {
               break;
             case "Tips":
               {
-                var input = settings.arguments;
+                final input = settings.arguments;
                 debugPrint("Tips--in-->$input");
                 widget = TipRoute(
-                  text: input.toString() ?? "我是提示 xxx,传过来的数据",
+                  text: input?.toString() ?? "我是提示 xxx,传过来的数据",
                 );
               }
               break;
@@ -260,6 +260,7 @@ class _MyHomePageState extends State<MyHomePage>
 
   Widget get _homeView => Scaffold(
         appBar: Toolbar(
+          toolbarHeight: 48,
           title: Text(widget.title!),
           bottom: _tabSelect == 0
               ? TabBar(
