@@ -1,48 +1,58 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_frame/global_constant.dart';
 
-import 'tool_app_bar.dart';
-
-///
-///
-/// 项目用的顶部AppBar
-///
-///
-class TopToolbar extends Toolbar {
-  TopToolbar(
-      {String? title,
-      List<Widget>? actions,
-      bool? centerTitle: true,
-      Color? backgroundColor: Colors.white})
-      : super(
-            title: Text(title ?? "AppBar"),
-            actions: actions,
-            centerTitle: centerTitle,
-            backgroundColor: backgroundColor,
-            elevation: 0,
-            //不要阴影
-            toolbarHeight: ToolBarHeight);
-}
+import 'tool_bar.dart';
 
 ///
 /// 所有页面的基类显示
 ///
 ///
-class RootContentWidget extends StatelessWidget {
-  RootContentWidget({Key? key, required this.title, required this.content})
-      : super(key: key);
+abstract class BasePageWidget extends StatelessWidget {
+  BasePageWidget({
+    Key? key,
+    required this.pageTitle,
+    this.needToolbar = true,
+    this.toolbar,
+    this.toolbarTitleInCenter,
+    this.toolbarBackgroundColor,
+    this.actions,
+    bool? extendBody,
+    bool? extendBodyBehindAppBar,
+  })  : this.extendBody = extendBody ?? false,
+        this.extendBodyBehindAppBar = extendBodyBehindAppBar ?? false,
+        super(key: key);
 
-  final Widget content;
+  final bool needToolbar;
+  final String pageTitle;
 
-  final String? title;
+  ///有时候肯定不会满足所有的需求，这个时候就[AppBar] 来做
+  ///如果[needToolbar]为true,如果[toolbar]不为空，那么就用[toolbar]
+  final AppBar? toolbar;
+  final bool? toolbarTitleInCenter;
+  final Color? toolbarBackgroundColor;
+
+  final bool extendBody;
+  final bool extendBodyBehindAppBar;
+
+  ///toolbar 右上角的操作按钮
+  final List<Widget>? actions;
+
+  Widget pageBuild(BuildContext context);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TopToolbar(
-        title: title,
-      ),
-      body: content,
+      appBar: needToolbar
+          ? toolbar ??
+              Toolbar(
+                title: pageTitle,
+                actions: actions,
+                centerTitle: toolbarTitleInCenter,
+                backgroundColor: toolbarBackgroundColor,
+              )
+          : null,
+      body: pageBuild(context),
+      extendBody: extendBody,
+      extendBodyBehindAppBar: extendBodyBehindAppBar,
     );
   }
 }
