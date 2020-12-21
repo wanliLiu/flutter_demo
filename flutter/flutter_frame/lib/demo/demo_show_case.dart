@@ -1,20 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_frame/app.dart';
 import 'package:flutter_frame/widget/widget.dart';
+import 'package:provider/provider.dart';
 
-class HomePage extends BasePageWidget {
-  HomePage({Key? key}) : super(key: key, pageTitle: "HomePage");
+class HomePage extends StatefulWidget {
+  HomePage({Key? key}) : super(key: key);
 
   @override
-  Widget pageBuild(BuildContext context) {
-    return Wrap(
-      spacing: 10,
-      children: [
-        RaisedButton(
-          onPressed: () => Navigator.pushNamed(context, NanmeSecondePage),
-          child: Text("第二页"),
-        )
-      ],
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  void _demoForTest(BuildContext context) async {
+    context
+        .read<ActionContentState>()
+        .changeActionContentState(ContentAction.Progressing);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: Toolbar(
+        title: "HomePage",
+      ),
+      body: ActionContentWidget(
+        child: Wrap(
+          spacing: 10,
+          children: [
+            Builder(
+              builder: (context) => RaisedButton(
+                onPressed: () => _demoForTest(context),
+                child: Text("内部加载"),
+              ),
+            ),
+            RaisedButton(
+              onPressed: () => Navigator.pushNamed(context, NanmeSecondePage),
+              child: Text("第二页"),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

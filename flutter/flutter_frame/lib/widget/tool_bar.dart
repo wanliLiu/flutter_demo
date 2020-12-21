@@ -68,7 +68,7 @@ class Toolbar extends AppBar {
       : super(
             title: Text(title ?? ""),
             actions: actions,
-            centerTitle: centerTitle,
+            centerTitle: centerTitle ?? true,
             backgroundColor: backgroundColor,
             elevation: 0,
             leading: _AppBarLeading(),
