@@ -28,12 +28,12 @@ class _HomePageState extends State<HomePage> {
           spacing: 10,
           children: [
             Builder(
-              builder: (context) => RaisedButton(
+              builder: (context) => ElevatedButton(
                 onPressed: () => _demoForTest(context),
                 child: Text("内部加载"),
               ),
             ),
-            RaisedButton(
+            ElevatedButton(
               onPressed: () => Navigator.pushNamed(context, NanmeSecondePage),
               child: Text("第二页"),
             )

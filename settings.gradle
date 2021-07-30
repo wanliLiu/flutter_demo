@@ -9,7 +9,7 @@ include ':flutter:flutter_frame'
 //通过 Depend on the module's source code
 if (useSourceCode.toBoolean()) {
     setBinding(new Binding([gradle: this]))
-//    evaluate(new File(settingsDir,'flutter/flutter_module/.android/include_flutter.groovy'))
-    evaluate(new File(settingsDir,'flutter/flutter_frame/.android/include_flutter.groovy'))
+    evaluate(new File(settingsDir,'flutter/flutter_module/.android/include_flutter.groovy'))
+//    evaluate(new File(settingsDir,'flutter/flutter_frame/.android/include_flutter.groovy'))
 }
 

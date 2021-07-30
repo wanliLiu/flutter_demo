@@ -170,7 +170,7 @@ class DefaultErrorWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(errormsg ?? "哦豁，发生了错误了哦！！！"),
-          RaisedButton(
+          ElevatedButton(
             onPressed: retryCallBack ?? null,
             child: Text('点我重试'),
           )

@@ -638,21 +638,21 @@ class _FloatingAppBarState extends State<_FloatingAppBar> {
     super.dispose();
   }
 
-  RenderSliverFloatingPersistentHeader _headerRenderer() {
-    return context.ancestorRenderObjectOfType(
-        const TypeMatcher<RenderSliverFloatingPersistentHeader>());
-  }
+  // RenderSliverFloatingPersistentHeader _headerRenderer() {
+  //   return context.ancestorRenderObjectOfType(
+  //       const TypeMatcher<RenderSliverFloatingPersistentHeader>());
+  // }
 
   void _isScrollingListener() {
     if (_position == null) return;
 
     // When a scroll stops, then maybe snap the appbar into view.
     // Similarly, when a scroll starts, then maybe stop the snap animation.
-    final RenderSliverFloatingPersistentHeader header = _headerRenderer();
-    if (_position.isScrollingNotifier.value)
-      header?.maybeStopSnapAnimation(_position.userScrollDirection);
-    else
-      header?.maybeStartSnapAnimation(_position.userScrollDirection);
+    // final RenderSliverFloatingPersistentHeader header = _headerRenderer();
+    // if (_position.isScrollingNotifier.value)
+    //   header?.maybeStopSnapAnimation(_position.userScrollDirection);
+    // else
+    //   header?.maybeStartSnapAnimation(_position.userScrollDirection);
   }
 
   @override

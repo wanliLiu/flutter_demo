@@ -42,7 +42,7 @@ class _TextFiledPageState extends State<TextFiledPage> {
       appBar: AppBar(
         title: Text("输入框和表单"),
       ),
-      resizeToAvoidBottomPadding: false,
+      // resizeToAvoidBottomPadding: false,
       resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.all(15.0),
