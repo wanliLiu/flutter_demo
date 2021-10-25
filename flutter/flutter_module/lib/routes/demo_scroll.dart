@@ -65,9 +65,9 @@ class _PageRootState extends State<PageListRoot> with BasePage {
 }
 
 class InfiniteListView extends StatefulWidget {
-  InfiniteListView({Key key, this.controller}) : super(key: key);
+  InfiniteListView({Key? key, this.controller}) : super(key: key);
 
-  final ScrollController controller;
+  final ScrollController? controller;
 
   @override
   _InfiniteListViewState createState() => _InfiniteListViewState();
@@ -175,7 +175,7 @@ class TestGridView extends StatefulWidget {
 
   final bool useStr;
 
-  final ScrollController controller;
+  final ScrollController? controller;
 
   @override
   _TestGridViewState createState() => _TestGridViewState();
@@ -293,15 +293,15 @@ class ItemGridView extends StatelessWidget {
 }
 
 class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
-  final double collapsedHeight;
-  final double expandedHeight;
-  final double paddingTop;
-  final String coverImgUrl;
-  final String title;
+  final double? collapsedHeight;
+  final double? expandedHeight;
+  final double? paddingTop;
+  final String? coverImgUrl;
+  final String? title;
 
   String statusBarMode = 'dark';
 
-  final TabBar bottom;
+  final TabBar? bottom;
 
   SliverCustomHeaderDelegate(
       {this.collapsedHeight,
@@ -313,13 +313,13 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   double get minExtent =>
-      this.collapsedHeight +
-      this.paddingTop +
+      this.collapsedHeight! +
+      this.paddingTop! +
       (bottom?.preferredSize?.height ?? 0);
 
   @override
   double get maxExtent => math.max(
-      paddingTop + expandedHeight + (bottom?.preferredSize?.height ?? 0),
+      paddingTop! + expandedHeight! + (bottom?.preferredSize?.height ?? 0),
       minExtent);
 
   @override
@@ -391,7 +391,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
           // 背景图
           Container(
               constraints: BoxConstraints.expand(),
-              child: Image.network(this.coverImgUrl, fit: BoxFit.cover)),
+              child: Image.network(this.coverImgUrl!, fit: BoxFit.cover)),
           // 收起头部
           Positioned(
             left: 0,
@@ -416,7 +416,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                         onPressed: () => Navigator.pop(context),
                       ),
                       Text(
-                        this.title,
+                        this.title!,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
@@ -449,20 +449,20 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
 class StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
   StickyTabBarDelegate({this.child});
 
-  final TabBar child;
+  final TabBar? child;
 
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     debugPrint('StickyTabBarDelegate--->build--->$shrinkOffset');
-    return child;
+    return child!;
   }
 
   @override
-  double get maxExtent => child.preferredSize.height;
+  double get maxExtent => child!.preferredSize.height;
 
   @override
-  double get minExtent => child.preferredSize.height;
+  double get minExtent => child!.preferredSize.height;
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {

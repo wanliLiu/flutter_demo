@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class _ShowProgressWidget extends StatefulWidget {
-  _ShowProgressWidget({Key key, @required this.child})
+  _ShowProgressWidget({Key? key, required this.child})
       : assert(child != null),
         super(key: key);
 
@@ -12,7 +12,7 @@ class _ShowProgressWidget extends StatefulWidget {
 }
 
 class _ShowProgressWidgetState extends State<_ShowProgressWidget> {
-  double _lastProgress;
+  double? _lastProgress;
   bool _showProgress = false;
   String _progress = "";
 
@@ -33,7 +33,7 @@ class _ShowProgressWidgetState extends State<_ShowProgressWidget> {
     if (progress != _lastProgress) {
       _lastProgress = progress;
       _change = true;
-      _progress = "${(_lastProgress * 100).toInt()}%";
+      _progress = "${(_lastProgress! * 100).toInt()}%";
     }
 
     if (_change) {
@@ -97,12 +97,12 @@ mixin BasePage<T extends StatefulWidget> on State<T> {
   @protected
   Widget get content;
 
-  Widget _content;
+  Widget? _content;
 
   @protected
   Widget get title;
 
-  Widget _title;
+  Widget? _title;
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +114,7 @@ mixin BasePage<T extends StatefulWidget> on State<T> {
       appBar: AppBar(
         title: _title,
       ),
-      body: _ShowProgressWidget(child: _content),
+      body: _ShowProgressWidget(child: _content!),
       floatingActionButton: _showToTopBtn
           ? Builder(
               builder: (context) => FloatingActionButton(

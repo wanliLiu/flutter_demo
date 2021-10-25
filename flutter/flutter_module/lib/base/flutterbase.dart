@@ -40,7 +40,7 @@ class _HomeView extends ComponentElement {
 
 //根据已经掌握的知识来实现一个简版的“Image组件”
 class MyImage extends StatefulWidget {
-  const MyImage({Key key, @required this.imageProvider})
+  const MyImage({Key? key, required this.imageProvider})
       : assert(imageProvider != null),
         super(key: key);
 
@@ -51,8 +51,8 @@ class MyImage extends StatefulWidget {
 }
 
 class _MyImageState extends State<MyImage> {
-  ImageStream _imageStream;
-  ImageInfo _imageInfo;
+  ImageStream? _imageStream;
+  ImageInfo? _imageInfo;
 
   @override
   void didChangeDependencies() {
@@ -68,15 +68,15 @@ class _MyImageState extends State<MyImage> {
   }
 
   void _getImage() {
-    final ImageStream oldImageStream = _imageStream;
+    final ImageStream oldImageStream = _imageStream!;
     // 调用imageProvider.resolve方法，获得ImageStream。
     _imageStream =
         widget.imageProvider.resolve(createLocalImageConfiguration(context));
     //判断新旧ImageStream是否相同，如果不同，则需要调整流的监听器
-    if (_imageStream.key != oldImageStream.key) {
+    if (_imageStream!.key != oldImageStream.key) {
       final ImageStreamListener listener = ImageStreamListener(_updateImage);
       oldImageStream?.removeListener(listener);
-      _imageStream.addListener(listener);
+      _imageStream!.addListener(listener);
     }
   }
 
@@ -103,7 +103,7 @@ class _MyImageState extends State<MyImage> {
 }
 
 class TipRoute extends StatelessWidget {
-  TipRoute({Key key, @required this.text}) : super(key: key);
+  TipRoute({Key? key, required this.text}) : super(key: key);
 
   final String text;
 

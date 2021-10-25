@@ -4,7 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class TextFiledPage extends StatefulWidget {
   const TextFiledPage(
-      {Key key, @required this.defaultName, @required this.defaultPwd})
+      {Key? key, required this.defaultName, required this.defaultPwd})
       : assert(defaultPwd != null),
         assert(defaultName != null),
         super(key: key);
@@ -84,7 +84,7 @@ class _TextFiledPageState extends State<TextFiledPage> {
                         labelText: "用户名",
                         hintText: "用户名或邮箱",
                         prefixIcon: Icon(Icons.person)),
-                    validator: (v) => v.trim().length > 0 ? null : "用户名不能为空",
+                    validator: (v) => v!.trim().length > 0 ? null : "用户名不能为空",
                   ),
                   Container(
                     color: Colors.grey,
@@ -123,13 +123,13 @@ class _TextFiledPageState extends State<TextFiledPage> {
                         hintText: "您的登录密码",
                         prefixIcon: Icon(Icons.lock)),
                     obscureText: true,
-                    validator: (v) => v.trim().length > 15 ? null : "密码不能少于15位",
+                    validator: (v) => v!.trim().length > 15 ? null : "密码不能少于15位",
                   ),
                   Builder(
                       builder: (context) => RaisedButton(
                             child: Text("登录"),
                             onPressed: () {
-                              if (Form.of(context).validate()) {
+                              if (Form.of(context)!.validate()) {
                                 Navigator.of(context).pop(
                                     "用户名：${_nameController.text} \n 密码：${_pwdController.text}");
                               } else

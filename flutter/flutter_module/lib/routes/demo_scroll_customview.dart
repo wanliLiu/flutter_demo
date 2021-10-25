@@ -5,13 +5,13 @@ import 'demo_scroll.dart';
 class StickyBarDelegate extends SliverPersistentHeaderDelegate {
   StickyBarDelegate({this.child});
 
-  final Widget child;
+  final Widget? child;
 
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     debugPrint('StickyTabBarDelegate--->build--->$shrinkOffset');
-    return child;
+    return child!;
   }
 
   @override

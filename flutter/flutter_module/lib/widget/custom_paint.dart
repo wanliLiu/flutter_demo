@@ -92,7 +92,7 @@ class GradientCircularProgressRoute extends StatefulWidget {
 
 class GradientCircularProgressRouteState
     extends State<GradientCircularProgressRoute> with TickerProviderStateMixin {
-  AnimationController _animationController;
+  late AnimationController _animationController;
 
   @override
   void initState() {
@@ -130,7 +130,7 @@ class GradientCircularProgressRouteState
       children: <Widget>[
         AnimatedBuilder(
           animation: _animationController,
-          builder: (BuildContext context, Widget child) {
+          builder: (BuildContext context, Widget? child) {
             return Column(
               children: <Widget>[
                 Wrap(
@@ -184,7 +184,7 @@ class GradientCircularProgressRouteState
                     RotatedBox(
                       quarterTurns: 1,
                       child: GradientCircularProgressIndicator(
-                          colors: [Colors.blue[700], Colors.blue[200]],
+                          colors: [Colors.blue[700]!, Colors.blue[200]!],
                           radius: 30.0,
                           strokeWidth: 3.0,
                           strokeCapRound: true,
@@ -196,7 +196,7 @@ class GradientCircularProgressRouteState
                         Colors.red,
                         Colors.amber,
                         Colors.cyan,
-                        Colors.green[200],
+                        Colors.green[200]!,
                         Colors.blue,
                         Colors.red
                       ],
@@ -208,7 +208,7 @@ class GradientCircularProgressRouteState
                   ],
                 ),
                 GradientCircularProgressIndicator(
-                  colors: [Colors.blue[700], Colors.blue[200]],
+                  colors: [Colors.blue[700]!, Colors.blue[200]!],
                   radius: 50.0,
                   strokeWidth: 10.0,
                   value: _animationController.value,
@@ -216,7 +216,7 @@ class GradientCircularProgressRouteState
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: GradientCircularProgressIndicator(
-                    colors: [Colors.blue[700], Colors.blue[300]],
+                    colors: [Colors.blue[700]!, Colors.blue[300]!],
                     radius: 50.0,
                     strokeWidth: 10.0,
                     value: _animationController.value,
@@ -232,7 +232,7 @@ class GradientCircularProgressRouteState
                       child: TurnBox(
                         turns: .75,
                         child: GradientCircularProgressIndicator(
-                          colors: [Colors.teal, Colors.cyan[500]],
+                          colors: [Colors.teal, Colors.cyan[500]!],
                           radius: 50.0,
                           strokeWidth: 10.0,
                           value: _animationController.value,
@@ -245,7 +245,7 @@ class GradientCircularProgressRouteState
                 TurnBox(
                   turns: .75,
                   child: GradientCircularProgressIndicator(
-                    colors: [Colors.teal, Colors.cyan[500]],
+                    colors: [Colors.teal, Colors.cyan[500]!],
                     radius: 50.0,
                     strokeWidth: 10.0,
                     value: _animationController.value,
@@ -266,7 +266,7 @@ class GradientCircularProgressRouteState
                         child: TurnBox(
                           turns: 0.75,
                           child: GradientCircularProgressIndicator(
-                            colors: [Colors.teal, Colors.cyan[500]],
+                            colors: [Colors.teal, Colors.cyan[500]!],
                             radius: 50.0,
                             strokeWidth: 8.0,
                             value: _animationController.value,
@@ -300,8 +300,8 @@ class GradientCircularProgressRouteState
 class GradientCircularProgressIndicator extends StatelessWidget {
   GradientCircularProgressIndicator(
       {this.strokeWidth = 2.0,
-      @required this.radius,
-      @required this.colors,
+      required this.radius,
+      required this.colors,
       this.stops,
       this.strokeCapRound = false,
       this.backgroundColor = const Color(0xFFEEEEEE),
@@ -318,10 +318,10 @@ class GradientCircularProgressIndicator extends StatelessWidget {
   final bool strokeCapRound;
 
   /// 当前进度，取值范围 [0.0-1.0]
-  final double value;
+  final double? value;
 
   /// 进度条背景色
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
   /// 进度条的总弧度，2*PI为整圆，小于2*PI则不是整圆
   final double totalAngle;
@@ -330,7 +330,7 @@ class GradientCircularProgressIndicator extends StatelessWidget {
   final List<Color> colors;
 
   /// 渐变色的终止点，对应colors属性
-  final List<double> stops;
+  final List<double>? stops;
 
   @override
   Widget build(BuildContext context) {
@@ -369,22 +369,22 @@ class _GradientCircularProgressPainter extends CustomPainter {
       this.backgroundColor = const Color(0xFFEEEEEE),
       this.radius,
       this.total = 2 * pi,
-      @required this.colors,
+      required this.colors,
       this.stops,
       this.value});
 
   final double strokeWidth;
   final bool strokeCapRound;
-  final double value;
-  final Color backgroundColor;
+  final double? value;
+  final Color? backgroundColor;
   final List<Color> colors;
   final double total;
-  final double radius;
-  final List<double> stops;
+  final double? radius;
+  final List<double>? stops;
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (radius != null) size = Size.fromRadius(radius);
+    if (radius != null) size = Size.fromRadius(radius!);
 
     double _offset = strokeWidth / 2.0;
     double _value = value ?? .0;
@@ -404,7 +404,7 @@ class _GradientCircularProgressPainter extends CustomPainter {
 
     // 先画背景
     if (backgroundColor != Colors.transparent) {
-      paint.color = backgroundColor;
+      paint.color = backgroundColor!;
       canvas.drawArc(rect, _start, total, false, paint);
     }
 

@@ -164,7 +164,7 @@ class ProgressRoute extends StatefulWidget {
 
 class _ProgressRouteState extends State<ProgressRoute>
     with SingleTickerProviderStateMixin {
-  AnimationController _animationController;
+  AnimationController? _animationController;
 
   @override
   void initState() {
@@ -172,14 +172,14 @@ class _ProgressRouteState extends State<ProgressRoute>
     _animationController =
         AnimationController(vsync: this, duration: Duration(seconds: 3));
 
-    _animationController..addListener(() => setState(() => {}));
-    _animationController.forward();
+    _animationController!..addListener(() => setState(() => {}));
+    _animationController!.forward();
   }
 
   @override
   void dispose() {
     super.dispose();
-    _animationController.dispose();
+    _animationController!.dispose();
   }
 
   @override
@@ -187,8 +187,8 @@ class _ProgressRouteState extends State<ProgressRoute>
     return CircularProgressIndicator(
       backgroundColor: Colors.grey[200],
       valueColor: ColorTween(begin: Colors.red, end: Colors.blue)
-          .animate(_animationController),
-      value: _animationController.value,
+          .animate(_animationController!),
+      value: _animationController!.value,
     );
   }
 }

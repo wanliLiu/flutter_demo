@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 // 一个通用的InheritedWidget，保存任需要跨组件共享的状态
 class InheritedProvider<T> extends InheritedWidget {
-  const InheritedProvider({Key key, @required this.data, Widget child})
+  const InheritedProvider({Key? key, required this.data, required Widget child})
       : super(key: key, child: child);
 
   final T data;
@@ -15,10 +15,10 @@ class InheritedProvider<T> extends InheritedWidget {
 }
 
 class ChangeNotifierProvider<T extends ChangeNotifier> extends StatefulWidget {
-  ChangeNotifierProvider({Key key, this.data, this.child}) : super(key: key);
+  ChangeNotifierProvider({Key? key, this.data, this.child}) : super(key: key);
 
-  final Widget child;
-  final T data;
+  final Widget? child;
+  final T? data;
 
   @override
   _ChangeNotifierProviderState createState() => _ChangeNotifierProviderState();
@@ -28,11 +28,11 @@ class ChangeNotifierProvider<T extends ChangeNotifier> extends StatefulWidget {
   static T of<T>(BuildContext context, {bool isListen = true}) {
     final provider = isListen
         ? context.dependOnInheritedWidgetOfExactType<
-            InheritedProvider<ChangeNotifier>>()
-        : context
+            InheritedProvider<ChangeNotifier>>()!
+        : (context
             .getElementForInheritedWidgetOfExactType<
                 InheritedProvider<ChangeNotifier>>()
-            ?.widget as InheritedProvider;
+            ?.widget as InheritedProvider?)!;
 
     return provider.data as T;
   }
@@ -48,37 +48,36 @@ class _ChangeNotifierProviderState<T extends ChangeNotifier>
   void didUpdateWidget(ChangeNotifierProvider<T> oldWidget) {
     //当Provider更新时，如果新旧数据不"=="，则解绑旧数据监听，同时添加新数据监听
     if (widget.data != oldWidget.data) {
-      oldWidget.data.removeListener(update);
-      widget.data.addListener(update);
+      oldWidget.data!.removeListener(update);
+      widget.data!.addListener(update);
     }
     super.didUpdateWidget(oldWidget);
   }
 
   @override
   void initState() {
-    widget.data.addListener(update);
+    widget.data!.addListener(update);
     super.initState();
   }
 
   @override
   void dispose() {
-    widget.data.removeListener(update);
+    widget.data!.removeListener(update);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return InheritedProvider<T>(
+    return InheritedProvider<T?>(
       data: widget.data,
-      child: widget.child,
+      child: widget.child!,
     );
   }
 }
 
 class Consumer<T> extends StatelessWidget {
-  const Consumer({Key key, @required this.builder})
-      : assert(builder != null),
-        super(key: key);
+  const Consumer({Key? key, required this.builder})
+      : super(key: key);
 
   final Widget Function(BuildContext context, T value) builder;
 

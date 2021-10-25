@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
 class ShareDataWidget extends InheritedWidget {
-  const ShareDataWidget({Key key, @required this.data, Widget child})
+  const ShareDataWidget({Key? key, required this.data, required Widget child})
       : super(key: key, child: child);
 
   //需要在子树中共享的数据，保存点击次数
   final int data;
 
   //定义一个便捷方法，方便子树中的widget获取共享数据
-  static ShareDataWidget of(BuildContext context, {bool isListen = true}) {
+  static ShareDataWidget? of(BuildContext context, {bool isListen = true}) {
     return isListen
         ? context.dependOnInheritedWidgetOfExactType<ShareDataWidget>()
         : context
             .getElementForInheritedWidgetOfExactType<ShareDataWidget>()
-            ?.widget;
+            ?.widget as ShareDataWidget?;
   }
 
   //该回调决定当data发生变化时，是否通知子树中依赖data的Widget
@@ -34,7 +34,7 @@ class _TestWidgetState extends State<_TestWidget> {
   @override
   Widget build(BuildContext context) {
     debugPrint("build ");
-    return Text(ShareDataWidget.of(context).data.toString());
+    return Text(ShareDataWidget.of(context)!.data.toString());
 //    return Text("大多数");
   }
 

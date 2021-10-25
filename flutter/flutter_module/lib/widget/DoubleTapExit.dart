@@ -5,7 +5,7 @@ import 'package:flutter_module/common/Global.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class DoubleTapExit extends StatefulWidget {
-  DoubleTapExit({Key key, @required this.child})
+  DoubleTapExit({Key? key, required this.child})
       : assert(child != null, "child不能为空"),
         super(key: key);
 

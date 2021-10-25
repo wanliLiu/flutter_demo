@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 
 class TabHistory extends StatelessWidget {
-  TabHistory({Key key, this.controller}) : super(key: key);
+  TabHistory({Key? key, this.controller}) : super(key: key);
 
-  final ScrollController controller;
+  final ScrollController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +106,7 @@ class MyClipper extends CustomClipper<Rect> {
 }
 
 class testFutureBuilder extends StatelessWidget {
-  testFutureBuilder({Key key, bool useStream = false})
+  testFutureBuilder({Key? key, bool useStream = false})
       : _useStream = useStream,
         super(key: key);
 
@@ -114,7 +114,7 @@ class testFutureBuilder extends StatelessWidget {
 
   Future<String> mockNetworkData({String content = "body"}) async {
     String dataUrl = "https://jsonplaceholder.typicode.com/posts";
-    Response response = await get(dataUrl);
+    Response response = await get(Uri.parse(dataUrl));
     return response.body;
   }
 
@@ -124,18 +124,22 @@ class testFutureBuilder extends StatelessWidget {
   }
 
   Widget _StreamBuilder(BuildContext context, AsyncSnapshot<String> snapshot) {
-    if (snapshot.hasError) return Text('Error: ${snapshot.error}');
-    switch (snapshot.connectionState) {
-      case ConnectionState.none:
-        return Text('没有Stream');
-      case ConnectionState.waiting:
-        return Text('等待数据...');
-      case ConnectionState.active:
-        return Text('active: ${snapshot.data}');
-      case ConnectionState.done:
-        return Text('Stream已关闭');
-    }
-    return null; // unreachable
+    if (snapshot.hasError)
+      return Text('Error: ${snapshot.error}');
+    else
+      switch (snapshot.connectionState) {
+        case ConnectionState.none:
+          return Text('没有Stream');
+        case ConnectionState.waiting:
+          return Text('等待数据...');
+        case ConnectionState.active:
+          return Text('active: ${snapshot.data}');
+        case ConnectionState.done:
+          return Text('Stream已关闭');
+        default:
+          return Text('erroe');
+      }
+    // return null; // unreachable
   }
 
   Widget _result(BuildContext context, AsyncSnapshot snapshot) {

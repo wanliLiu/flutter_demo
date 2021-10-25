@@ -26,8 +26,8 @@ class ScalAnimationWidget extends StatefulWidget {
 
 class _ScalAnimationWidgetState extends State<ScalAnimationWidget>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  Animation<double> _animation;
+  late AnimationController _controller;
+  Animation<double>? _animation;
 
   @override
   void initState() {
@@ -36,8 +36,8 @@ class _ScalAnimationWidgetState extends State<ScalAnimationWidget>
     _controller =
         AnimationController(vsync: this, duration: Duration(seconds: 3));
     _animation = CurvedAnimation(parent: _controller, curve: Curves.bounceIn);
-    _animation = Tween(begin: 0.0, end: 300.0).animate(_animation);
-    _animation
+    _animation = Tween(begin: 0.0, end: 300.0).animate(_animation!);
+    _animation!
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed)
           _controller.reverse();
@@ -62,13 +62,13 @@ class _ScalAnimationWidgetState extends State<ScalAnimationWidget>
     debugPrint("_ScalAnimationWidgetState-->build");
 
     return AnimatedBuilder(
-        animation: _animation,
+        animation: _animation!,
         builder: (context, child) => Container(
               alignment: Alignment.topCenter,
               child: Image.asset(
                 "imgs/like.jpeg",
-                width: _animation.value,
-                height: _animation.value,
+                width: _animation!.value,
+                height: _animation!.value,
               ),
             ));
 
@@ -104,12 +104,12 @@ class _ScalAnimationWidgetState extends State<ScalAnimationWidget>
 }
 
 class AnimateImage extends AnimatedWidget {
-  AnimateImage({Key key, Animation<double> animation})
+  AnimateImage({Key? key, required Animation<double> animation})
       : super(key: key, listenable: animation);
 
   @override
   Widget build(BuildContext context) {
-    final Animation<double> _animation = listenable;
+    final Animation<double> _animation = listenable as Animation<double>;
     return Container(
       alignment: Alignment.topCenter,
       child: Image.asset(
@@ -179,7 +179,7 @@ class HeroAnimationRouteB extends StatelessWidget {
 }
 
 class StaggerAnimation extends StatelessWidget {
-  StaggerAnimation({Key key, this.controller}) : super(key: key) {
+  StaggerAnimation({Key? key, required this.controller}) : super(key: key) {
     _height = Tween<double>(begin: 0, end: 200).animate(CurvedAnimation(
         parent: controller, curve: Interval(.0, .6, curve: Curves.ease)));
 
@@ -194,11 +194,11 @@ class StaggerAnimation extends StatelessWidget {
   }
 
   final AnimationController controller;
-  Animation<double> _height;
-  Animation<EdgeInsets> _padding;
-  Animation<Color> _color;
+  late Animation<double> _height;
+  late Animation<EdgeInsets> _padding;
+  late Animation<Color?> _color;
 
-  Widget _buildAnimation(BuildContext context, Widget child) {
+  Widget _buildAnimation(BuildContext context, Widget? child) {
     return Container(
       alignment: Alignment.bottomLeft,
       padding: _padding.value,
@@ -223,7 +223,7 @@ class StaggerRoute extends StatefulWidget {
 
 class _StaggerRouteState extends State<StaggerRoute>
     with TickerProviderStateMixin {
-  AnimationController _controller;
+  AnimationController? _controller;
 
   @override
   void initState() {
@@ -231,20 +231,20 @@ class _StaggerRouteState extends State<StaggerRoute>
 
     _controller =
         AnimationController(duration: Duration(seconds: 2), vsync: this);
-    _controller
+    _controller!
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed)
-          _controller.reverse();
-        else if (status == AnimationStatus.dismissed) _controller.forward();
+          _controller!.reverse();
+        else if (status == AnimationStatus.dismissed) _controller!.forward();
       });
 
-    _controller.forward();
+    _controller!.forward();
   }
 
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
+    _controller!.dispose();
   }
 
   @override
@@ -257,7 +257,7 @@ class _StaggerRouteState extends State<StaggerRoute>
             color: Colors.black.withOpacity(0.1),
             border: Border.all(color: Colors.black.withOpacity(.5))),
         child: StaggerAnimation(
-          controller: _controller,
+          controller: _controller!,
         ),
       ),
     );
@@ -267,8 +267,8 @@ class _StaggerRouteState extends State<StaggerRoute>
 //和SlideTransition唯一的不同就是对动画的反向执行进行了（从左边滑出隐藏）
 class MySlideTransition extends SlideTransition {
   const MySlideTransition({
-    Key key,
-    @required Animation<Offset> position,
+    Key? key,
+    required Animation<Offset> position,
     transformHitTests = true,
     textDirection,
     child,
@@ -295,8 +295,8 @@ class MySlideTransition extends SlideTransition {
 
 class SlideTransitionX extends AnimatedWidget {
   SlideTransitionX({
-    Key key,
-    Animation<double> position,
+    Key? key,
+    required Animation<double> position,
     this.direction = AxisDirection.left,
     this.transformHitTests = true,
     this.child,
@@ -317,15 +317,15 @@ class SlideTransitionX extends AnimatedWidget {
     }
   }
 
-  Animation<double> get position => listenable;
+  Animation<double> get position => listenable as Animation<double>;
 
   final AxisDirection direction;
 
   final bool transformHitTests;
 
-  final Widget child;
+  final Widget? child;
 
-  Tween<Offset> _tween;
+  late Tween<Offset> _tween;
 
   @override
   Widget build(BuildContext context) {

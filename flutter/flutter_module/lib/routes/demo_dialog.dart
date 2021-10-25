@@ -8,10 +8,10 @@ class DialogPage extends StatefulWidget {
 }
 
 class _DialogPageState extends State<DialogPage> {
-  bool _chek = false;
+  bool? _chek = false;
 
   Future<void> changeLanguage() async {
-    int i = await showDialog<int>(
+    int? i = await showDialog<int>(
         barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
@@ -75,7 +75,7 @@ class _DialogPageState extends State<DialogPage> {
   }
 
   // 弹出底部菜单列表模态对话框
-  Future<int> _showModalBottomSheet() {
+  Future<int?> _showModalBottomSheet() {
     return showModalBottomSheet<int>(
       context: context,
       builder: (BuildContext context) {
@@ -92,7 +92,7 @@ class _DialogPageState extends State<DialogPage> {
     );
   }
 
-  Future<bool> _showDeleteDialog() {
+  Future<bool?> _showDeleteDialog() {
     return showDialog<bool>(
         context: context,
         builder: (context) => AlertDialog(
@@ -161,7 +161,7 @@ class _DialogPageState extends State<DialogPage> {
     );
   }
 
-  Future<DateTime> _showDatePicker1() {
+  Future<DateTime?> _showDatePicker1() {
     var date = DateTime.now();
     return showDatePicker(
       context: context,
@@ -174,7 +174,7 @@ class _DialogPageState extends State<DialogPage> {
     );
   }
 
-  Future<DateTime> _showDatePicker2() {
+  Future<DateTime?> _showDatePicker2() {
     var date = DateTime.now();
     return showCupertinoModalPopup(
       context: context,
@@ -211,8 +211,8 @@ class _DialogPageState extends State<DialogPage> {
           children: <Widget>[
             RaisedButton(
               onPressed: () async {
-                bool result = await _showDeleteDialog();
-                VaeToast.showToast(result ? "确认删除" : "取消删除");
+                // bool result = await (_showDeleteDialog() as FutureOr<bool>);
+                // VaeToast.showToast(result ? "确认删除" : "取消删除");
               },
               child: Text("对话框1"),
             ),

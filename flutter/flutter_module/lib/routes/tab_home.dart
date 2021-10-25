@@ -9,7 +9,7 @@ import 'package:flutter_module/base/demo.dart';
 import 'package:flutter_module/base/flutterbase.dart';
 import 'package:flutter_module/base/stateManage.dart';
 import 'package:flutter_module/common/Toast.dart';
-import 'package:flutter_module/redux/app.dart';
+// import 'package:flutter_module/redux/app.dart';
 import 'package:flutter_module/routes/demo_animation.dart';
 import 'package:flutter_module/routes/demo_dialog.dart';
 import 'package:flutter_module/routes/demo_pointer.dart';
@@ -25,18 +25,18 @@ import 'demo_scroll_customview.dart';
 import 'demo_status_bar.dart';
 
 class HomeView extends StatefulWidget {
-  HomeView({Key key}) : super(key: key);
+  HomeView({Key? key}) : super(key: key);
 
   @override
   HomeViewState createState() => HomeViewState();
 }
 
 class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
-  String upContent;
+  String? upContent;
 
   TapGestureRecognizer _tapGestureRecognizer = TapGestureRecognizer();
 
-  void _setBackContent(String content) {
+  void _setBackContent(String? content) {
     setState(() {
       upContent = content;
     });
@@ -47,20 +47,20 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
     _tapGestureRecognizer.dispose();
   }
 
-  Widget backView() => upContent != null && upContent.isNotEmpty
-      ? Padding(padding: EdgeInsets.all(20), child: Text(upContent))
+  Widget backView() => upContent != null && upContent!.isNotEmpty
+      ? Padding(padding: EdgeInsets.all(20), child: Text(upContent!))
       : Text("Nothing");
 
   bool _switchSelected = true; //维护单选开关状态
   bool _checkboxSelected = true; //维护复选框状态
 
-  void _dealCheck(bool isCheck, bool show) {
+  void _dealCheck(bool isCheck, bool? show) {
     setState(() {
       if (isCheck) {
-        _checkboxSelected = !show;
+        _checkboxSelected = !show!;
         _switchSelected = _checkboxSelected;
       } else {
-        _switchSelected = !show;
+        _switchSelected = !show!;
         _checkboxSelected = _switchSelected;
       }
     });
@@ -73,7 +73,7 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
         color: Colors.grey[100],
         padding: EdgeInsets.only(top: 20, bottom: 20),
         child: Wrap(spacing: 10, children: <Widget>[
-          RaisedButton.icon(
+          ElevatedButton.icon(
             icon: Icon(
               Icons.send,
               color: Colors.red,
@@ -94,14 +94,14 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
                 _setBackContent(null);
             },
           ),
-          OutlineButton(
+          OutlinedButton(
             child: Text('开启一个新的'),
             onPressed: () {
               Navigator.push(
                   context, MaterialPageRoute(builder: (_) => PushWidget()));
             },
           ),
-          RaisedButton(
+          ElevatedButton(
             child: Column(
               children: <Widget>[
                 Text.rich(TextSpan(text: "我是", children: [
@@ -115,21 +115,21 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
                   arguments: "不在Target里面获取参数，直接在路由那里的时候获取（外面获取）");
             },
           ),
-          RaisedButton(
+          ElevatedButton(
             child: Text("通过路由打开"),
             onPressed: () {
               Navigator.pushNamed(context, "First",
                   arguments: "命名路由参数传递样例,在里面获取");
             },
           ),
-          RaisedButton(
+          ElevatedButton(
             child: Text("未注册：onGenerateRoute"),
             onPressed: () {
 //                Navigator.pushNamed(context, "SecondOther");
               Navigator.of(context).pushNamed("SecondOther");
             },
           ),
-          RaisedButton(
+          ElevatedButton(
             child: Text("输入框和表单"),
             onPressed: () async {
               var result = await Navigator.of(context).pushNamed("textFIled",
@@ -145,45 +145,45 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
               }
             },
           ),
-          RaisedButton(
+          ElevatedButton(
             child: Text("进度指示器"),
             onPressed: () =>
                 Navigator.of(context).pushNamed("progressIndictor"),
           ),
-          RaisedButton(
-            child: Text("Redux"),
-            onPressed: () => runApp(createApp()),
-          ),
-          RaisedButton(
+          // ElevatedButton(
+          //   child: Text("Redux"),
+          //   onPressed: () => runApp(createApp()),
+          // ),
+          ElevatedButton(
             child: Text("ListView"),
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) =>
                     PageListRoot(ListType.ListView))),
           ),
-          RaisedButton(
+          ElevatedButton(
             child: Text("SingleChildScrollView"),
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) =>
                     PageListRoot(ListType.SingleChildScrollView))),
           ),
-          RaisedButton(
+          ElevatedButton(
             child: Text("GridView"),
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) =>
                     PageListRoot(ListType.GridView))),
           ),
-          RaisedButton(
+          ElevatedButton(
             child: Text("Dialog"),
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) => DialogPage())),
           ),
-          RaisedButton(
+          ElevatedButton(
             child: Text("StaggeredGridView"),
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) =>
                     PageListRoot(ListType.StaggeredGridView))),
           ),
-          RaisedButton(
+          ElevatedButton(
             child: Text("UrlLanucher"),
             onPressed: () async {
               const url = "https://flutter.dev";
@@ -197,23 +197,23 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
                 throw "Could not launch $url";
             },
           ),
-          RaisedButton(
+          ElevatedButton(
             child: Text("CustomScrollView"),
             onPressed: () => Navigator.of(context).push(
                 FadeRoute(builder: (BuildContext context) => DemoCustomView())),
           ),
-          RaisedButton(
+          ElevatedButton(
             child: Text("NestedScrollView"),
             onPressed: () => Navigator.of(context).push(FadeRoute(
                 builder: (BuildContext context) =>
                     CustomScrollViewTestRoute())),
           ),
-          RaisedButton(
+          ElevatedButton(
             child: Text("事件处理"),
             onPressed: () => Navigator.of(context).push(CupertinoPageRoute(
                 builder: (BuildContext context) => PointerPage())),
           ),
-          RaisedButton(
+          ElevatedButton(
             child: Text("动画"),
             onPressed: () => Navigator.of(context).push(PageRouteBuilder(
                 transitionDuration: const Duration(milliseconds: 500),
@@ -230,12 +230,12 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
                       child: child,
                     ))),
           ),
-          RaisedButton(
+          ElevatedButton(
             child: Text("StatusBar"),
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) => DemoStatusBar())),
           ),
-          RaisedButton(
+          ElevatedButton(
             child: Text('DemoCustomLayout'),
             onPressed: () => Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => DemoCustomLayout())),
@@ -300,7 +300,7 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
                     Checkbox(
                         value: _checkboxSelected,
                         onChanged: (chose) {
-                          _dealCheck(true, !chose);
+                          _dealCheck(true, !chose!);
                         }),
                     Text(_checkboxSelected ? "选中" : "未选中")
                   ],
@@ -341,98 +341,98 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
             Text(
               'You have pushed the button this many times:',
             ),
-            Builder(builder: (context) {
-              return FutureBuilder<int>(
-                future: () async {
-                  return await ChangeNotifierProvider.of<Increment>(context)
-                      .readCounter();
-                }(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  Widget child;
-                  int key = -1;
-                  // 请求已结束
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    if (snapshot.hasError) {
-                      // 请求失败，显示错误
-                      child = Text("Error: ${snapshot.error}");
-                    } else {
-                      // 请求成功，显示数据
-                      key = snapshot.data;
-                      child = Text(
-                        "$key",
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline3
-                            .copyWith(fontWeight: FontWeight.bold),
-                      );
-                    }
-                  } else {
-                    // 请求未结束，显示loading
-                    child = SizedBox();
-                  }
-
-                  if (key == -1) key = Random().nextInt(100);
-
-                  return AnimatedSwitcher(
-                      duration: Duration(seconds: 1),
-                      reverseDuration: Duration(milliseconds: 500),
-//                switchInCurve: Curves.bounceIn,
-                      transitionBuilder:
-                          (Widget child, Animation<double> animation) {
-                        return SlideTransitionX(
-                          position: animation,
-                          child: child,
-                          direction: AxisDirection.left,
-                        );
-                      },
-                      child: Container(
-                        key: ValueKey<int>(key),
-                        color: Colors.grey,
-                        alignment: Alignment.center,
-                        width: 100,
-                        height: 60,
-                        child: child,
-                      ));
-                },
-              );
-            }),
-            Consumer<Increment>(builder: (BuildContext context, Increment inc) {
-              return AnimatedSwitcher(
-                duration: Duration(seconds: 1),
-                reverseDuration: Duration(milliseconds: 500),
-//                switchInCurve: Curves.bounceIn,
-                transitionBuilder: (Widget child, Animation<double> animation) {
-                  return SlideTransitionX(
-                    position: animation,
-                    child: child,
-                    direction: AxisDirection.right,
-                  );
-
-//                  return MySlideTransition(
-//                    child: child,
-//                    position:
-//                        Tween<Offset>(begin: Offset(1, 0), end: Offset(0, 0))
-//                            .animate(animation),
-//                  );
-
-//                  return ScaleTransition(
-//                    scale: animation,
-//                    child: child,
-//                  );
-                },
-                child: Container(
-                  key: ValueKey<int>(inc.counter),
-                  color: Colors.grey.withOpacity(0.4),
-                  child: Text(
-                    '${inc.counter}',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline3
-                        .copyWith(fontWeight: FontWeight.bold),
-                  ),
-                ),
-              );
-            }),
+//             Builder(builder: (context) {
+//               return FutureBuilder<int>(
+//                 future: () async {
+//                   return await ChangeNotifierProvider.of<Increment>(context)
+//                       .readCounter();
+//                 }(),
+//                 builder: (BuildContext context, AsyncSnapshot snapshot) {
+//                   Widget child;
+//                   int key = -1;
+//                   // 请求已结束
+//                   if (snapshot.connectionState == ConnectionState.done) {
+//                     if (snapshot.hasError) {
+//                       // 请求失败，显示错误
+//                       child = Text("Error: ${snapshot.error}");
+//                     } else {
+//                       // 请求成功，显示数据
+//                       key = snapshot.data!;
+//                       child = Text(
+//                         "$key",
+//                         // style: Theme.of(context)
+//                         //     .textTheme
+//                         //     .headline3!
+//                         //     .copyWith(fontWeight: FontWeight.bold),
+//                       );
+//                     }
+//                   } else {
+//                     // 请求未结束，显示loading
+//                     child = SizedBox();
+//                   }
+//
+//                   if (key == -1) key = Random().nextInt(100);
+//
+//                   return AnimatedSwitcher(
+//                       duration: Duration(seconds: 1),
+//                       reverseDuration: Duration(milliseconds: 500),
+// //                switchInCurve: Curves.bounceIn,
+//                       transitionBuilder:
+//                           (Widget child, Animation<double> animation) {
+//                         return SlideTransitionX(
+//                           position: animation,
+//                           child: child,
+//                           direction: AxisDirection.left,
+//                         );
+//                       },
+//                       child: Container(
+//                         key: ValueKey<int>(key!),
+//                         color: Colors.grey,
+//                         alignment: Alignment.center,
+//                         width: 100,
+//                         height: 60,
+//                         child: child,
+//                       ));
+//                 },
+//               );
+//             }),
+//             Consumer<Increment>(builder: (BuildContext context, Increment inc) {
+//               return AnimatedSwitcher(
+//                 duration: Duration(seconds: 1),
+//                 reverseDuration: Duration(milliseconds: 500),
+// //                switchInCurve: Curves.bounceIn,
+//                 transitionBuilder: (Widget child, Animation<double> animation) {
+//                   return SlideTransitionX(
+//                     position: animation,
+//                     child: child,
+//                     direction: AxisDirection.right,
+//                   );
+//
+// //                  return MySlideTransition(
+// //                    child: child,
+// //                    position:
+// //                        Tween<Offset>(begin: Offset(1, 0), end: Offset(0, 0))
+// //                            .animate(animation),
+// //                  );
+//
+// //                  return ScaleTransition(
+// //                    scale: animation,
+// //                    child: child,
+// //                  );
+//                 },
+//                 child: Container(
+//                   key: ValueKey<int>(inc.counter!),
+//                   color: Colors.grey.withOpacity(0.4),
+//                   child: Text(
+//                     '${inc.counter}',
+//                     // style: Theme.of(context)
+//                     //     .textTheme
+//                     //     .headline3!
+//                     //     .copyWith(fontWeight: FontWeight.bold),
+//                   ),
+//                 ),
+//               );
+//             }),
           ],
         ),
         _actionButton,

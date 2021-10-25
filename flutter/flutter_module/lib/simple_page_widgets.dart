@@ -9,7 +9,7 @@ class FirstRouteWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //通过命令路由传过来的参数 [ModalRoute]
-    var args = ModalRoute.of(context).settings.arguments;
+    var args = ModalRoute.of(context)!.settings.arguments;
     debugPrint("FirstRouteWidget---->$args");
 
     return Scaffold(
@@ -19,7 +19,7 @@ class FirstRouteWidget extends StatelessWidget {
       body: Align(
         alignment: FractionalOffset(0.2, 0.6),
         child: RaisedButton(
-          child: Text(args ?? 'Open second route'),
+          child: Text(args as String? ?? 'Open second route'),
           onPressed: () {
 //            FlutterBoost.singleton.openPage("second", {}, animated: true, resultHandler:(String key , Map<dynamic,dynamic> result){
 //              print("did recieve second route result $key $result");
@@ -33,14 +33,14 @@ class FirstRouteWidget extends StatelessWidget {
 
 class CounterWidget extends StatefulWidget {
   const CounterWidget(
-      {Key key, @required this.tag, this.initValue: 0, this.child})
+      {Key? key, required this.tag, this.initValue: 0, this.child})
       : assert(tag != null),
         assert(initValue > -1),
         super(key: key);
 
   final int initValue;
   final String tag;
-  final Widget child;
+  final Widget? child;
 
   @override
   CounterWidgetState createState() => CounterWidgetState();
@@ -48,9 +48,9 @@ class CounterWidget extends StatefulWidget {
   ///
   /// 获取stae实力[CounterWidgetState]
   ///
-  static CounterWidgetState of(BuildContext context, {bool nullOk = false}) {
+  static CounterWidgetState? of(BuildContext context, {bool nullOk = false}) {
     assert(context != null);
-    CounterWidgetState state =
+    CounterWidgetState? state =
         context.findAncestorStateOfType<CounterWidgetState>();
 
     assert(() {
@@ -66,7 +66,7 @@ class CounterWidget extends StatefulWidget {
 }
 
 class CounterWidgetState extends State<CounterWidget> {
-  int _counter;
+  late int _counter;
 
   void _debugPritn(String msg) {
     debugPrint("《${widget.tag}》---$msg");
@@ -91,7 +91,7 @@ class CounterWidgetState extends State<CounterWidget> {
 
     if (widget.child != null) {
       result = Column(
-        children: <Widget>[simple, widget.child],
+        children: <Widget>[simple, widget.child!],
       );
     } else
       result = simple;
@@ -154,9 +154,9 @@ class SecondRouteWidget extends StatelessWidget {
                             color: CupertinoColors.activeBlue,
                             child: Text("Press"),
                             onPressed: () {
-                              CounterWidget.of(context).update();
+                              CounterWidget.of(context)!.update();
                               //不一样的获取方式
-                              _globalKey.currentState.update();
+                              _globalKey.currentState!.update();
                             })),
               ),
               CounterWidget(
@@ -175,7 +175,7 @@ class SecondRouteWidget extends StatelessWidget {
               Builder(builder: (context) {
                 // 在Widget树中向上查找最近的父级`Scaffold` widget
                 Scaffold scaffold =
-                    context.findAncestorWidgetOfExactType<Scaffold>();
+                    context.findAncestorWidgetOfExactType<Scaffold>()!;
 //            Scaffold scaffold = Scaffold.of(context);
                 // 直接返回 AppBar的title， 此处实际上是Text("Context测试")
                 return Container(
@@ -240,7 +240,7 @@ class TabRouteWidget extends StatelessWidget {
 }
 
 class FlutterRouteWidget extends StatelessWidget {
-  final String message;
+  final String? message;
 
   FlutterRouteWidget({this.message});
 

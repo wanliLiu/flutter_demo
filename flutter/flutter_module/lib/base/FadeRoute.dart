@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 class FadeRoute extends PageRoute {
-  FadeRoute({@required this.builder});
+  FadeRoute({required this.builder});
 
   final WidgetBuilder builder;
 
   @override
-  Color get barrierColor => null;
+  Color? get barrierColor => null;
 
   @override
-  String get barrierLabel => null;
+  String? get barrierLabel => null;
 
   @override
   Widget buildPage(BuildContext context, Animation<double> animation,
