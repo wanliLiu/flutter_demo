@@ -9,6 +9,7 @@ import 'package:flutter_module/base/demo.dart';
 import 'package:flutter_module/base/flutterbase.dart';
 import 'package:flutter_module/base/stateManage.dart';
 import 'package:flutter_module/common/Toast.dart';
+
 // import 'package:flutter_module/redux/app.dart';
 import 'package:flutter_module/routes/demo_animation.dart';
 import 'package:flutter_module/routes/demo_dialog.dart';
@@ -20,6 +21,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../flutterview.dart';
 import '../simple_page_widgets.dart';
+import 'db_test.dart';
 import 'demo_custom_layout.dart';
 import 'demo_scroll_customview.dart';
 import 'demo_status_bar.dart';
@@ -239,6 +241,11 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
             child: Text('DemoCustomLayout'),
             onPressed: () => Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => DemoCustomLayout())),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => DataBaseTestLayout())),
+            child: Text('DataBase Test'),
           )
         ]),
       );
