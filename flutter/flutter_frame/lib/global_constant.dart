@@ -14,7 +14,7 @@ const Color defualtBackgroundColor = Colors.white;
 ///
 final AppBarTheme appBarTheme = AppBarTheme(
     backgroundColor: Colors.white,
-    backwardsCompatibility: false,
+    // backwardsCompatibility: false,
     centerTitle: true,
     systemOverlayStyle:
         SystemUiOverlayStyle.dark.copyWith(statusBarColor: Colors.transparent),
