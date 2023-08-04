@@ -1,7 +1,6 @@
 include ':app'
 //rootProject.name='FlutterTest'
 
-
 //加上这句话，主要是可以在同一个项目中调试native 和flutter 并不需要单独开工程来跑flutter
 include ':flutter:flutter_module'
 include ':flutter:flutter_frame'
@@ -12,4 +11,3 @@ if (useSourceCode.toBoolean()) {
     evaluate(new File(settingsDir,'flutter/flutter_module/.android/include_flutter.groovy'))
 //    evaluate(new File(settingsDir,'flutter/flutter_frame/.android/include_flutter.groovy'))
 }
-
