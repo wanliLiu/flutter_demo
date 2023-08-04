@@ -69,7 +69,7 @@ class _ParentWidgetState extends State<ParentWidget> {
 }
 
 class TapboxB extends StatelessWidget {
-  TapboxB({Key? key, this.active: false, required this.onChanged})
+  TapboxB({Key? key, this.active = false, required this.onChanged})
       : assert(onChanged != null),
         super(key: key) {
     debugPrint("构造函数");
@@ -114,7 +114,7 @@ class _ParentWidgetCState extends State<ParentWidgetC> {
 }
 
 class TapboxC extends StatefulWidget {
-  TapboxC({Key? key, this.active: false, required this.onChanged})
+  TapboxC({Key? key, this.active = false, required this.onChanged})
       : assert(onChanged != null),
         super(key: key) {
     debugPrint("构造函数");

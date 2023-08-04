@@ -99,10 +99,10 @@ class _DialogPageState extends State<DialogPage> {
               title: Text("我是标题"),
               content: Text("我是描述文字、、、、文字" * 40),
               actions: <Widget>[
-                FlatButton(
+                TextButton(
                     onPressed: () => Navigator.of(context).pop(false),
                     child: Text("取消")),
-                FlatButton(
+                TextButton(
                     onPressed: () => Navigator.of(context).pop(true),
                     child: Text("确认")),
               ],
@@ -209,18 +209,18 @@ class _DialogPageState extends State<DialogPage> {
           spacing: 10,
           runSpacing: 10,
           children: <Widget>[
-            RaisedButton(
+            ElevatedButton(
               onPressed: () async {
                 // bool result = await (_showDeleteDialog() as FutureOr<bool>);
                 // VaeToast.showToast(result ? "确认删除" : "取消删除");
               },
               child: Text("对话框1"),
             ),
-            RaisedButton(
+            ElevatedButton(
               onPressed: () => changeLanguage(),
               child: Text("SimpleDialog"),
             ),
-            RaisedButton(
+            ElevatedButton(
               onPressed: () async {
                 var result = await _showModalBottomSheet();
                 debugPrint("$result");
@@ -228,20 +228,20 @@ class _DialogPageState extends State<DialogPage> {
               child: Text("底部菜单列表"),
             ),
             Builder(builder: (context) {
-              return RaisedButton(
+              return ElevatedButton(
                 onPressed: () => _showBottomSheet(context),
                 child: Text("ShowBottomSheet"),
               );
             }),
-            RaisedButton(
+            ElevatedButton(
               onPressed: () => showLoadingDialog(),
               child: Text("ShowLoadingDialog"),
             ),
-            RaisedButton(
+            ElevatedButton(
               onPressed: () => _showDatePicker1(),
               child: Text("ShowDateTimePicker"),
             ),
-            RaisedButton(
+            ElevatedButton(
               onPressed: () => _showDatePicker2(),
               child: Text("ShowDateTimePicker --IOS"),
             ),

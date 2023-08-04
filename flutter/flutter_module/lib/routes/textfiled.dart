@@ -73,7 +73,7 @@ class _TextFiledPageState extends State<TextFiledPage> {
                       border: InputBorder.none)),
             ),
             Form(
-              autovalidate: true,
+              // autovalidate: true,
               child: Column(
                 children: <Widget>[
                   TextFormField(
@@ -126,7 +126,7 @@ class _TextFiledPageState extends State<TextFiledPage> {
                     validator: (v) => v!.trim().length > 15 ? null : "密码不能少于15位",
                   ),
                   Builder(
-                      builder: (context) => RaisedButton(
+                      builder: (context) => ElevatedButton(
                             child: Text("登录"),
                             onPressed: () {
                               if (Form.of(context)!.validate()) {

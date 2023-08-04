@@ -4,7 +4,7 @@ import 'package:path_provider/path_provider.dart';
 
 class Echo extends StatelessWidget {
   const Echo(
-      {Key? key, required this.text, this.backgroundColor: Colors.blueAccent})
+      {Key? key, required this.text, this.backgroundColor = Colors.blueAccent})
       : super(key: key);
 
   final String text;

@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_module/base/BasePage.dart';
 import 'package:flutter_module/routes/tab_history.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-
 import 'demo_scroll_customview.dart';
 
 enum ListType { SingleChildScrollView, ListView, GridView, StaggeredGridView }
@@ -169,9 +168,9 @@ class _InfiniteListViewState extends State<InfiniteListView> {
 }
 
 class TestGridView extends StatefulWidget {
-  TestGridView({this.useStr: false, this.controller});
+  TestGridView({this.useStr = false, this.controller});
 
-  TestGridView.staggered({this.useStr: true, this.controller});
+  TestGridView.staggered({this.useStr = true, this.controller});
 
   final bool useStr;
 
@@ -216,24 +215,24 @@ class _TestGridViewState extends State<TestGridView> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.useStr)
-      return Scrollbar(
-        child: StaggeredGridView.countBuilder(
-            controller: widget.controller,
-            crossAxisCount: 3,
-            itemCount: _list.length,
-            padding: EdgeInsets.all(10),
-            mainAxisSpacing: 10,
-            crossAxisSpacing: 10,
-            itemBuilder: (BuildContext context, int index) {
-              if (index == _list.length - 1 && _list.length < 400) {
-                _retrieveIcons();
-              }
-              return ItemGridView(_list[index], index);
-            },
-            staggeredTileBuilder: (int index) =>
-                StaggeredTile.count(1, index % 3 == 0 ? 2 : 1)),
-      );
+    // if (widget.useStr)
+    //   return Scrollbar(
+    //     child: StaggeredGridView.countBuilder(
+    //         controller: widget.controller,
+    //         crossAxisCount: 3,
+    //         itemCount: _list.length,
+    //         padding: EdgeInsets.all(10),
+    //         mainAxisSpacing: 10,
+    //         crossAxisSpacing: 10,
+    //         itemBuilder: (BuildContext context, int index) {
+    //           if (index == _list.length - 1 && _list.length < 400) {
+    //             _retrieveIcons();
+    //           }
+    //           return ItemGridView(_list[index], index);
+    //         },
+    //         staggeredTileBuilder: (int index) =>
+    //             StaggeredTile.count(1, index % 3 == 0 ? 2 : 1)),
+    //   );
 
     return GridView.builder(
         controller: widget.controller,

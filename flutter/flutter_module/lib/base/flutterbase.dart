@@ -18,12 +18,12 @@ class _HomeView extends ComponentElement {
     Color primary = Theme.of(this).primaryColor;
     return GestureDetector(
       child: Center(
-        child: RaisedButton(
-            color: Colors.yellow,
-            highlightColor: Colors.yellow[700],
-            splashColor: Colors.grey,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(20))),
+        child: ElevatedButton(
+            // color: Colors.yellow,
+            // highlightColor: Colors.yellow[700],
+            // splashColor: Colors.grey,
+            // shape: RoundedRectangleBorder(
+            //     borderRadius: BorderRadius.all(Radius.circular(20))),
             onPressed: () {
               var t = text.split("")..shuffle();
               text = t.join();
@@ -119,7 +119,7 @@ class TipRoute extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Text(text),
-              RaisedButton(
+              ElevatedButton(
                 onPressed: () {
                   Navigator.of(context)
                       .pop("TipRoute返回--->\n我是TipRoute返回值 你看看你！！！");

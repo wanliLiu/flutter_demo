@@ -18,7 +18,7 @@ class FirstRouteWidget extends StatelessWidget {
       ),
       body: Align(
         alignment: FractionalOffset(0.2, 0.6),
-        child: RaisedButton(
+        child: ElevatedButton(
           child: Text(args as String? ?? 'Open second route'),
           onPressed: () {
 //            FlutterBoost.singleton.openPage("second", {}, animated: true, resultHandler:(String key , Map<dynamic,dynamic> result){
@@ -33,7 +33,7 @@ class FirstRouteWidget extends StatelessWidget {
 
 class CounterWidget extends StatefulWidget {
   const CounterWidget(
-      {Key? key, required this.tag, this.initValue: 0, this.child})
+      {Key? key, required this.tag, this.initValue = 0, this.child})
       : assert(tag != null),
         assert(initValue > -1),
         super(key: key);
@@ -86,7 +86,7 @@ class CounterWidgetState extends State<CounterWidget> {
   @override
   Widget build(BuildContext context) {
     _debugPritn("CounterWidget---》build");
-    Widget simple = FlatButton(onPressed: update, child: Text("点击：$_counter"));
+    Widget simple = TextButton(onPressed: update, child: Text("点击：$_counter"));
     Widget result;
 
     if (widget.child != null) {
@@ -163,12 +163,12 @@ class SecondRouteWidget extends StatelessWidget {
                 key: _globalKey,
                 tag: "第二",
               ),
-              RaisedButton(
+              ElevatedButton(
                 onPressed: () {
                   // 查找父级最近的Scaffold对应的ScaffoldState对象
                   ScaffoldState state = Scaffold.of(context);
                   //调用ScaffoldState的showSnackBar来弹出SnackBar
-                  state.showSnackBar(SnackBar(content: Text("我是SnackBar")));
+                  // state.showSnackBar(SnackBar(content: Text("我是SnackBar")));
                 },
                 child: Text("显示SnackBar"),
               ),
@@ -186,7 +186,7 @@ class SecondRouteWidget extends StatelessWidget {
                 );
               }),
               Center(
-                child: RaisedButton(
+                child: ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context);
                     // Navigate back to first route when tapped.
@@ -226,7 +226,7 @@ class TabRouteWidget extends StatelessWidget {
             child: Text(from),
           ),
           Center(
-            child: RaisedButton(
+            child: ElevatedButton(
               onPressed: () {
 //            FlutterBoost.singleton.openPage("second", {}, animated: true);
               },

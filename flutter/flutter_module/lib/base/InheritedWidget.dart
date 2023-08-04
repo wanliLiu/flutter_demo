@@ -68,7 +68,7 @@ class _InheritedWidgetTestRouteState extends State<InheritedWidgetTestRoute> {
               padding: const EdgeInsets.only(top: 10.0),
               child: _TestWidget(),
             ),
-            RaisedButton(
+            ElevatedButton(
               child: Text("Increment"),
               //每点击一次，将count自增，然后重新build,ShareDataWidget的data将被更新
               onPressed: () => setState(() => ++count),

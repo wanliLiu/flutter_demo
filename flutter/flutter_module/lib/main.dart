@@ -16,7 +16,6 @@ import 'package:flutter_module/routes/tab_school.dart';
 import 'package:flutter_module/widget/DoubleTapExit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import 'base/tool_app_bar.dart';
 import 'flutterDemo.dart';
 import 'routes/textfiled.dart';
 
@@ -219,8 +218,8 @@ class _MyHomePageState extends State<MyHomePage>
       return Builder(
           builder: (context) => FloatingActionButton.extended(
                 onPressed: () {
-                  Scaffold.of(context)
-                      .showSnackBar(SnackBar(content: Text("我是SnackBar")));
+                  // Scaffold.of(context)
+                  //     .showSnackBar(SnackBar(content: Text("我是SnackBar")));
                 },
                 tooltip: 'Increment',
                 icon: Icon(Icons.add),
@@ -260,7 +259,7 @@ class _MyHomePageState extends State<MyHomePage>
       );
 
   Widget get _homeView => Scaffold(
-        appBar: NewAppBar(
+        appBar: AppBar(
           title: Text(widget.title!),
           bottom: _tabSelect == 0
               ? TabBar(

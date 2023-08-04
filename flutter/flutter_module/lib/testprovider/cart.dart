@@ -47,8 +47,8 @@ class _ProviderRouteState extends State<ProviderRoute> {
                             Text("总价：${cart.totalPrice}"));
                   }),
                   Builder(builder: (context) {
-                    debugPrint("RaisedButton build");
-                    return RaisedButton(
+                    debugPrint("ElevatedButton build");
+                    return ElevatedButton(
                         child: Text("添加商品"),
                         onPressed: () =>
                             ChangeNotifierProvider.of<CartModel>(context,isListen: false)

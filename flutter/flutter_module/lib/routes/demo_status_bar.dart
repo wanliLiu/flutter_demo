@@ -44,11 +44,11 @@ class _DemoStatusBarStates extends State<DemoStatusBar> {
                   style: TextStyle(fontSize: 20),
                 ),
               ),
-              RaisedButton(
+              ElevatedButton(
                 child: const Text('Change Color'),
                 onPressed: _changeColor,
               ),
-              RaisedButton(
+              ElevatedButton(
                 child: const Text('设置'),
                 onPressed: () {
                   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle
@@ -56,7 +56,7 @@ class _DemoStatusBarStates extends State<DemoStatusBar> {
                       .copyWith(statusBarColor: Colors.red));
                 },
               ),
-              RaisedButton(
+              ElevatedButton(
                 child: Tooltip(
                   message: "相当于限制方向，和Android中代码写死效果一样",
                   child: const Text('设置屏幕方向'),
@@ -70,13 +70,13 @@ class _DemoStatusBarStates extends State<DemoStatusBar> {
                   ]);
                 },
               ),
-              RaisedButton(
+              ElevatedButton(
                 child: const Text('setEnabledSystemUIOverlays'),
                 onPressed: () {
-                  SystemChrome.setEnabledSystemUIOverlays(<SystemUiOverlay>[
-                    SystemUiOverlay.top,
-                    SystemUiOverlay.bottom
-                  ]);
+                  // SystemChrome.setEnabledSystemUIOverlays(<SystemUiOverlay>[
+                  //   SystemUiOverlay.top,
+                  //   SystemUiOverlay.bottom
+                  // ]);
                 },
               ),
             ],

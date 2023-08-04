@@ -374,7 +374,7 @@ class _AnimatedWidgetsTestState extends State<AnimatedWidgetsTest> {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          RaisedButton(
+          ElevatedButton(
             onPressed: () {
               setState(() {
                 _padding = 20;
@@ -393,7 +393,7 @@ class _AnimatedWidgetsTestState extends State<AnimatedWidgetsTest> {
                 AnimatedPositioned(
                   duration: duration,
                   left: _left,
-                  child: RaisedButton(
+                  child: ElevatedButton(
                     onPressed: () {
                       setState(() {
                         _left = 100;
@@ -411,7 +411,7 @@ class _AnimatedWidgetsTestState extends State<AnimatedWidgetsTest> {
             child: AnimatedAlign(
               duration: duration,
               alignment: _align,
-              child: RaisedButton(
+              child: ElevatedButton(
                 onPressed: () {
                   setState(() {
                     _align = Alignment.center;
@@ -425,7 +425,7 @@ class _AnimatedWidgetsTestState extends State<AnimatedWidgetsTest> {
             duration: duration,
             height: _height,
             color: _color,
-            child: FlatButton(
+            child: TextButton(
               onPressed: () {
                 setState(() {
                   _height = 150;

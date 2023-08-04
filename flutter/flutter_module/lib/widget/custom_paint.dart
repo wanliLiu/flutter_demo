@@ -342,7 +342,7 @@ class GradientCircularProgressIndicator extends StatelessWidget {
     }
     var _colors = colors;
     if (_colors == null) {
-      Color color = Theme.of(context).accentColor;
+      Color color = Theme.of(context).canvasColor;
       _colors = [color, color];
     }
     return Transform.rotate(
@@ -364,7 +364,7 @@ class GradientCircularProgressIndicator extends StatelessWidget {
 
 class _GradientCircularProgressPainter extends CustomPainter {
   const _GradientCircularProgressPainter(
-      {this.strokeWidth: 10.0,
+      {this.strokeWidth = 10.0,
       this.strokeCapRound = false,
       this.backgroundColor = const Color(0xFFEEEEEE),
       this.radius,
