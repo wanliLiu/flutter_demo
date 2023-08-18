@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_module/base/provider.dart';
+import 'package:flutter_demon/base/provider.dart';
 
 class Item {
   double price;

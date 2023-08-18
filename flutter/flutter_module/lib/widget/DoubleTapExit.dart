@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_module/common/Global.dart';
+import 'package:flutter_demon/common/Global.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class DoubleTapExit extends StatefulWidget {

@@ -3,17 +3,17 @@ import 'dart:collection';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_module/common/Global.dart';
-import 'package:flutter_module/common/Toast.dart';
+import 'package:flutter_demon/common/Global.dart';
+import 'package:flutter_demon/common/Toast.dart';
 
-// import 'package:flutter_module/redux/app.dart';
-import 'package:flutter_module/routes/demo_scroll.dart';
-import 'package:flutter_module/routes/progress.dart';
-import 'package:flutter_module/routes/tab_business.dart';
-import 'package:flutter_module/routes/tab_history.dart';
-import 'package:flutter_module/routes/tab_home.dart';
-import 'package:flutter_module/routes/tab_school.dart';
-import 'package:flutter_module/widget/DoubleTapExit.dart';
+// import 'package:flutter_demon/redux/app.dart';
+import 'package:flutter_demon/routes/demo_scroll.dart';
+import 'package:flutter_demon/routes/progress.dart';
+import 'package:flutter_demon/routes/tab_business.dart';
+import 'package:flutter_demon/routes/tab_history.dart';
+import 'package:flutter_demon/routes/tab_home.dart';
+import 'package:flutter_demon/routes/tab_school.dart';
+import 'package:flutter_demon/widget/DoubleTapExit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'flutterDemo.dart';

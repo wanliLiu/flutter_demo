@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_module/widget/TurnBox.dart';
+import 'package:flutter_demon/widget/TurnBox.dart';
 
 class CustomPaintDemo extends StatelessWidget {
   @override

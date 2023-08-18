@@ -3,8 +3,8 @@ import 'dart:math' as math;
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_module/base/BasePage.dart';
-import 'package:flutter_module/routes/tab_history.dart';
+import 'package:flutter_demon/base/BasePage.dart';
+import 'package:flutter_demon/routes/tab_history.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'demo_scroll_customview.dart';
 

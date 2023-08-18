@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_module/common/Global.dart';
+import 'package:flutter_demon/common/Global.dart';
 import 'package:path_provider/path_provider.dart';
 
 class Echo extends StatelessWidget {
