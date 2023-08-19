@@ -6,17 +6,15 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_demon/base/FadeRoute.dart';
 import 'package:flutter_demon/base/demo.dart';
-import 'package:flutter_demon/base/flutterbase.dart';
-import 'package:flutter_demon/base/stateManage.dart';
 import 'package:flutter_demon/common/Toast.dart';
 
-// import 'package:flutter_demon/redux/app.dart';
 import 'package:flutter_demon/routes/demo_animation.dart';
 import 'package:flutter_demon/routes/demo_dialog.dart';
 import 'package:flutter_demon/routes/demo_pointer.dart';
 import 'package:flutter_demon/routes/demo_scroll.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../flutterview.dart';
@@ -27,7 +25,7 @@ import 'demo_scroll_customview.dart';
 import 'demo_status_bar.dart';
 
 class HomeView extends StatefulWidget {
-  HomeView({Key? key}) : super(key: key);
+  const HomeView({Key? key}) : super(key: key);
 
   @override
   HomeViewState createState() => HomeViewState();
@@ -36,7 +34,7 @@ class HomeView extends StatefulWidget {
 class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
   String? upContent;
 
-  TapGestureRecognizer _tapGestureRecognizer = TapGestureRecognizer();
+  final TapGestureRecognizer _tapGestureRecognizer = TapGestureRecognizer();
 
   void _setBackContent(String? content) {
     setState(() {
@@ -44,14 +42,15 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
     });
   }
 
+  @override
   void dispose() {
     super.dispose();
     _tapGestureRecognizer.dispose();
   }
 
   Widget backView() => upContent != null && upContent!.isNotEmpty
-      ? Padding(padding: EdgeInsets.all(20), child: Text(upContent!))
-      : Text("Nothing");
+      ? Padding(padding: const EdgeInsets.all(20), child: Text(upContent!))
+      : const Text("Nothing");
 
   bool _switchSelected = true; //维护单选开关状态
   bool _checkboxSelected = true; //维护复选框状态
@@ -73,14 +72,14 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
 
   Widget get _actionButton => Container(
         color: Colors.grey[100],
-        padding: EdgeInsets.only(top: 20, bottom: 20),
+        padding: const EdgeInsets.only(top: 20, bottom: 20),
         child: Wrap(spacing: 10, children: <Widget>[
           ElevatedButton.icon(
-            icon: Icon(
+            icon: const Icon(
               Icons.send,
               color: Colors.red,
             ),
-            label: Text("打开提示页面(返回值）"),
+            label: const Text("打开提示页面(返回值）"),
             onPressed: () async {
               var result = await Navigator.pushNamed(context, "Tips",
                   arguments: "Hello,我是通过onGenerateRoute过来的，并获取返回来的数据,注意：\n\n"
@@ -92,19 +91,20 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
 
               if (result is String && result.isNotEmpty) {
                 _setBackContent(result);
-              } else
+              } else {
                 _setBackContent(null);
+              }
             },
           ),
           OutlinedButton(
-            child: Text('开启一个新的'),
+            child: const Text('开启一个新的'),
             onPressed: () {
               Navigator.push(
                   context, MaterialPageRoute(builder: (_) => PushWidget()));
             },
           ),
           ElevatedButton(
-            child: Column(
+            child: const Column(
               children: <Widget>[
                 Text.rich(TextSpan(text: "我是", children: [
                   TextSpan(text: "一头猪", style: TextStyle(color: Colors.red))
@@ -118,21 +118,21 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
             },
           ),
           ElevatedButton(
-            child: Text("通过路由打开"),
+            child: const Text("通过路由打开"),
             onPressed: () {
               Navigator.pushNamed(context, "First",
                   arguments: "命名路由参数传递样例,在里面获取");
             },
           ),
           ElevatedButton(
-            child: Text("未注册：onGenerateRoute"),
+            child: const Text("未注册：onGenerateRoute"),
             onPressed: () {
 //                Navigator.pushNamed(context, "SecondOther");
               Navigator.of(context).pushNamed("SecondOther");
             },
           ),
           ElevatedButton(
-            child: Text("输入框和表单"),
+            child: const Text("输入框和表单"),
             onPressed: () async {
               var result = await Navigator.of(context).pushNamed("textFIled",
                   arguments: {
@@ -148,7 +148,7 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
             },
           ),
           ElevatedButton(
-            child: Text("进度指示器"),
+            child: const Text("进度指示器"),
             onPressed: () =>
                 Navigator.of(context).pushNamed("progressIndictor"),
           ),
@@ -157,36 +157,36 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
           //   onPressed: () => runApp(createApp()),
           // ),
           ElevatedButton(
-            child: Text("ListView"),
+            child: const Text("ListView"),
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) =>
                     PageListRoot(ListType.ListView))),
           ),
           ElevatedButton(
-            child: Text("SingleChildScrollView"),
+            child: const Text("SingleChildScrollView"),
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) =>
                     PageListRoot(ListType.SingleChildScrollView))),
           ),
           ElevatedButton(
-            child: Text("GridView"),
+            child: const Text("GridView"),
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) =>
                     PageListRoot(ListType.GridView))),
           ),
           ElevatedButton(
-            child: Text("Dialog"),
+            child: const Text("Dialog"),
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) => DialogPage())),
           ),
           ElevatedButton(
-            child: Text("StaggeredGridView"),
+            child: const Text("StaggeredGridView"),
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) =>
                     PageListRoot(ListType.StaggeredGridView))),
           ),
           ElevatedButton(
-            child: Text("UrlLanucher"),
+            child: const Text("UrlLanucher"),
             onPressed: () async {
               const url = "https://flutter.dev";
               if (await canLaunch(url)) {
@@ -200,23 +200,23 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
             },
           ),
           ElevatedButton(
-            child: Text("CustomScrollView"),
+            child: const Text("CustomScrollView"),
             onPressed: () => Navigator.of(context).push(
                 FadeRoute(builder: (BuildContext context) => DemoCustomView())),
           ),
           ElevatedButton(
-            child: Text("NestedScrollView"),
+            child: const Text("NestedScrollView"),
             onPressed: () => Navigator.of(context).push(FadeRoute(
                 builder: (BuildContext context) =>
                     CustomScrollViewTestRoute())),
           ),
           ElevatedButton(
-            child: Text("事件处理"),
+            child: const Text("事件处理"),
             onPressed: () => Navigator.of(context).push(CupertinoPageRoute(
                 builder: (BuildContext context) => PointerPage())),
           ),
           ElevatedButton(
-            child: Text("动画"),
+            child: const Text("动画"),
             onPressed: () => Navigator.of(context).push(PageRouteBuilder(
                 transitionDuration: const Duration(milliseconds: 500),
                 pageBuilder: (BuildContext context, Animation<double> animation,
@@ -233,19 +233,19 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
                     ))),
           ),
           ElevatedButton(
-            child: Text("StatusBar"),
+            child: const Text("StatusBar"),
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) => DemoStatusBar())),
           ),
           ElevatedButton(
-            child: Text('DemoCustomLayout'),
+            child: const Text('DemoCustomLayout'),
             onPressed: () => Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => DemoCustomLayout())),
           ),
           ElevatedButton(
             onPressed: () => Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => DataBaseTestLayout())),
-            child: Text('DataBase Test'),
+            child: const Text('DataBase Test'),
           )
         ]),
       );
@@ -262,7 +262,7 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             TapBoxA(),
-            IconButton(icon: Icon(Icons.thumb_up), onPressed: () {}),
+            IconButton(icon: const Icon(Icons.thumb_up), onPressed: () {}),
             ParentWidget(),
             ParentWidgetC()
           ],
@@ -323,123 +323,122 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
             Text.rich(TextSpan(text: "我是一个", children: [
               TextSpan(
                 text: "@打不死的小强",
-                style: TextStyle(color: Colors.blue),
+                style: const TextStyle(color: Colors.blue),
                 recognizer: _tapGestureRecognizer
                   ..onTap = () => VaeToast.showToast("@打不死的小强",
                       gravity: ToastGravity.CENTER),
               ),
-              TextSpan(text: "新多岁的老")
+              const TextSpan(text: "新多岁的老")
             ])),
             DefaultTextStyle(
-                style: TextStyle(color: Colors.red, fontSize: 20),
+                style: const TextStyle(color: Colors.red, fontSize: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    Text("我是第一"),
-                    Text("我是第二"),
+                    const Text("我是第一"),
+                    const Text("我是第二"),
                     CustomHome(),
-                    Text(
+                    const Text(
                       "我是第三",
                       style: TextStyle(color: Colors.blue, fontSize: 10),
                     )
                   ],
                 )),
             backView(),
-            Text(
+            const Text(
               'You have pushed the button this many times:',
             ),
-//             Builder(builder: (context) {
-//               return FutureBuilder<int>(
-//                 future: () async {
-//                   return await ChangeNotifierProvider.of<Increment>(context)
-//                       .readCounter();
-//                 }(),
-//                 builder: (BuildContext context, AsyncSnapshot snapshot) {
-//                   Widget child;
-//                   int key = -1;
-//                   // 请求已结束
-//                   if (snapshot.connectionState == ConnectionState.done) {
-//                     if (snapshot.hasError) {
-//                       // 请求失败，显示错误
-//                       child = Text("Error: ${snapshot.error}");
-//                     } else {
-//                       // 请求成功，显示数据
-//                       key = snapshot.data!;
-//                       child = Text(
-//                         "$key",
-//                         // style: Theme.of(context)
-//                         //     .textTheme
-//                         //     .headline3!
-//                         //     .copyWith(fontWeight: FontWeight.bold),
-//                       );
-//                     }
-//                   } else {
-//                     // 请求未结束，显示loading
-//                     child = SizedBox();
-//                   }
-//
-//                   if (key == -1) key = Random().nextInt(100);
-//
-//                   return AnimatedSwitcher(
-//                       duration: Duration(seconds: 1),
-//                       reverseDuration: Duration(milliseconds: 500),
-// //                switchInCurve: Curves.bounceIn,
-//                       transitionBuilder:
-//                           (Widget child, Animation<double> animation) {
-//                         return SlideTransitionX(
-//                           position: animation,
-//                           child: child,
-//                           direction: AxisDirection.left,
-//                         );
-//                       },
-//                       child: Container(
-//                         key: ValueKey<int>(key!),
-//                         color: Colors.grey,
-//                         alignment: Alignment.center,
-//                         width: 100,
-//                         height: 60,
-//                         child: child,
-//                       ));
-//                 },
-//               );
-//             }),
-//             Consumer<Increment>(builder: (BuildContext context, Increment inc) {
-//               return AnimatedSwitcher(
-//                 duration: Duration(seconds: 1),
-//                 reverseDuration: Duration(milliseconds: 500),
-// //                switchInCurve: Curves.bounceIn,
-//                 transitionBuilder: (Widget child, Animation<double> animation) {
-//                   return SlideTransitionX(
-//                     position: animation,
-//                     child: child,
-//                     direction: AxisDirection.right,
-//                   );
-//
-// //                  return MySlideTransition(
-// //                    child: child,
-// //                    position:
-// //                        Tween<Offset>(begin: Offset(1, 0), end: Offset(0, 0))
-// //                            .animate(animation),
-// //                  );
-//
-// //                  return ScaleTransition(
-// //                    scale: animation,
-// //                    child: child,
-// //                  );
-//                 },
-//                 child: Container(
-//                   key: ValueKey<int>(inc.counter!),
-//                   color: Colors.grey.withOpacity(0.4),
-//                   child: Text(
-//                     '${inc.counter}',
-//                     // style: Theme.of(context)
-//                     //     .textTheme
-//                     //     .headline3!
-//                     //     .copyWith(fontWeight: FontWeight.bold),
-//                   ),
-//                 ),
-//               );
-//             }),
+            Builder(builder: (context) {
+              return FutureBuilder<int>(
+                future: () async {
+                  return await context.read<Increment>().readCounter();
+                }(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  Widget child;
+                  int key = -1;
+                  // 请求已结束
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasError) {
+                      // 请求失败，显示错误
+                      child = Text("Error: ${snapshot.error}");
+                    } else {
+                      // 请求成功，显示数据
+                      key = snapshot.data!;
+                      child = Text(
+                        "$key",
+                        // style: Theme.of(context)
+                        //     .textTheme
+                        //     .headline3!
+                        //     .copyWith(fontWeight: FontWeight.bold),
+                      );
+                    }
+                  } else {
+                    // 请求未结束，显示loading
+                    child = const SizedBox();
+                  }
+
+                  if (key == -1) key = Random().nextInt(100);
+
+                  return AnimatedSwitcher(
+                      duration: const Duration(seconds: 1),
+                      reverseDuration: const Duration(milliseconds: 500),
+//                switchInCurve: Curves.bounceIn,
+                      transitionBuilder:
+                          (Widget child, Animation<double> animation) {
+                        return SlideTransitionX(
+                          position: animation,
+                          child: child,
+                          direction: AxisDirection.left,
+                        );
+                      },
+                      child: Container(
+                        key: ValueKey<int>(key!),
+                        color: Colors.grey,
+                        alignment: Alignment.center,
+                        width: 100,
+                        height: 60,
+                        child: child,
+                      ));
+                },
+              );
+            }),
+            Consumer<Increment>(
+              builder: (context, inc, _) => AnimatedSwitcher(
+                duration: const Duration(seconds: 1),
+                reverseDuration: const Duration(milliseconds: 500),
+//                switchInCurve: Curves.bounceIn,
+                transitionBuilder: (Widget child, Animation<double> animation) {
+                  return SlideTransitionX(
+                    position: animation,
+                    child: child,
+                    direction: AxisDirection.right,
+                  );
+
+//                  return MySlideTransition(
+//                    child: child,
+//                    position:
+//                        Tween<Offset>(begin: Offset(1, 0), end: Offset(0, 0))
+//                            .animate(animation),
+//                  );
+
+//                  return ScaleTransition(
+//                    scale: animation,
+//                    child: child,
+//                  );
+                },
+                child: Container(
+                  key: ValueKey<int>(inc.counter!),
+                  color: Colors.grey.withOpacity(0.4),
+                  child: Text(
+                    '${inc.counter}',
+                    // style: Theme.of(context)
+                    //     .textTheme
+                    //     .headline3!
+                    //     .copyWith(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
         _actionButton,

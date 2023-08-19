@@ -77,7 +77,7 @@ enum ContentAction {
 class ActionContentState with ChangeNotifier {
   ContentAction currentAction;
 
-  ActionContentState({this.currentAction: ContentAction.Contenting});
+  ActionContentState({this.currentAction = ContentAction.Contenting});
 
   void changeActionContentState(ContentAction action) async{
     currentAction = ContentAction.Progressing;

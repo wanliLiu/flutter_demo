@@ -1,23 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'flutterDemo.dart';
-import 'testprovider/cart.dart';
-//import 'package:flutter_boost/flutter_boost.dart';
-
 class FirstRouteWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //通过命令路由传过来的参数 [ModalRoute]
-    var args = ModalRoute.of(context)!.settings.arguments;
+    var args = ModalRoute
+        .of(context)!
+        .settings
+        .arguments;
     debugPrint("FirstRouteWidget---->$args");
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('First Route'),
+        title: const Text('First Route'),
       ),
       body: Align(
-        alignment: FractionalOffset(0.2, 0.6),
+        alignment: const FractionalOffset(0.2, 0.6),
         child: ElevatedButton(
           child: Text(args as String? ?? 'Open second route'),
           onPressed: () {
@@ -51,7 +50,7 @@ class CounterWidget extends StatefulWidget {
   static CounterWidgetState? of(BuildContext context, {bool nullOk = false}) {
     assert(context != null);
     CounterWidgetState? state =
-        context.findAncestorStateOfType<CounterWidgetState>();
+    context.findAncestorStateOfType<CounterWidgetState>();
 
     assert(() {
       if (state == null && !nullOk) {
@@ -86,7 +85,8 @@ class CounterWidgetState extends State<CounterWidget> {
   @override
   Widget build(BuildContext context) {
     _debugPritn("CounterWidget---》build");
-    Widget simple = TextButton(onPressed: update, child: Text("点击：$_counter"));
+    Widget simple = TextButton(
+        onPressed: update, child: Text("点击：$_counter"));
     Widget result;
 
     if (widget.child != null) {
@@ -138,58 +138,55 @@ class SecondRouteWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Second Route"),
+          title: const Text("Second Route"),
         ),
         body: Builder(
-          builder: (context) => Column(
-            children: <Widget>[
-              InheritedWidgetTestRoute(),
-              ProviderRoute(),
-              CounterWidget(
-                tag: "第一",
-                child: Builder(
-                    builder: (context) =>
+          builder: (context) =>
+              Column(
+                children: <Widget>[
+                  CounterWidget(
+                    tag: "第一",
+                    child: Builder(
+                        builder: (context) =>
                         //ios风格的
                         CupertinoButton(
                             color: CupertinoColors.activeBlue,
-                            child: Text("Press"),
+                            child: const Text("Press"),
                             onPressed: () {
                               CounterWidget.of(context)!.update();
                               //不一样的获取方式
                               _globalKey.currentState!.update();
                             })),
-              ),
-              CounterWidget(
-                key: _globalKey,
-                tag: "第二",
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  // 查找父级最近的Scaffold对应的ScaffoldState对象
-                  ScaffoldState state = Scaffold.of(context);
-                  //调用ScaffoldState的showSnackBar来弹出SnackBar
-                  // state.showSnackBar(SnackBar(content: Text("我是SnackBar")));
-                },
-                child: Text("显示SnackBar"),
-              ),
-              Builder(builder: (context) {
-                // 在Widget树中向上查找最近的父级`Scaffold` widget
-                Scaffold scaffold =
+                  ),
+                  CounterWidget(
+                    key: _globalKey,
+                    tag: "第二",
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("我是SnackBar")));
+                    },
+                    child: const Text("显示SnackBar"),
+                  ),
+                  Builder(builder: (context) {
+                    // 在Widget树中向上查找最近的父级`Scaffold` widget
+                    Scaffold scaffold =
                     context.findAncestorWidgetOfExactType<Scaffold>()!;
 //            Scaffold scaffold = Scaffold.of(context);
-                // 直接返回 AppBar的title， 此处实际上是Text("Context测试")
-                return Container(
-                  color: Colors.red,
-                  margin: EdgeInsets.all(10),
-                  padding: EdgeInsets.all(20),
-                  child: (scaffold.appBar as AppBar).title,
-                );
-              }),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    // Navigate back to first route when tapped.
+                    // 直接返回 AppBar的title， 此处实际上是Text("Context测试")
+                    return Container(
+                      color: Colors.red,
+                      margin: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(20),
+                      child: (scaffold.appBar as AppBar).title,
+                    );
+                  }),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        // Navigate back to first route when tapped.
 //
 //            BoostContainerSettings settings = BoostContainer.of(context).settings;
 //            if(settings.params.containsKey("result_id")){
@@ -198,12 +195,12 @@ class SecondRouteWidget extends StatelessWidget {
 //            }
 //
 //            FlutterBoost.singleton.closePageForContext(context);
-                  },
-                  child: Text('Go back!'),
-                ),
+                      },
+                      child: const Text('Go back!'),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
         ));
   }
 }
@@ -217,12 +214,12 @@ class TabRouteWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Tab Route"),
+        title: const Text("Tab Route"),
       ),
       body: Column(
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: Text(from),
           ),
           Center(
@@ -230,7 +227,7 @@ class TabRouteWidget extends StatelessWidget {
               onPressed: () {
 //            FlutterBoost.singleton.openPage("second", {}, animated: true);
               },
-              child: Text('Open second route'),
+              child: const Text('Open second route'),
             ),
           ),
         ],
@@ -248,18 +245,18 @@ class FlutterRouteWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('flutter_boost_example'),
+        title: const Text('flutter_boost_example'),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
             margin: const EdgeInsets.only(top: 80.0),
+            alignment: AlignmentDirectional.center,
             child: Text(
               message ?? "This is a flutter activity",
-              style: TextStyle(fontSize: 28.0, color: Colors.blue),
+              style: const TextStyle(fontSize: 28.0, color: Colors.blue),
             ),
-            alignment: AlignmentDirectional.center,
           ),
           Expanded(child: Container()),
           InkWell(
@@ -267,7 +264,7 @@ class FlutterRouteWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 margin: const EdgeInsets.all(8.0),
                 color: Colors.yellow,
-                child: Text(
+                child: const Text(
                   'open flutter page',
                   style: TextStyle(fontSize: 22.0, color: Colors.black),
                 )),
@@ -284,7 +281,7 @@ class FlutterRouteWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 margin: const EdgeInsets.all(8.0),
                 color: Colors.yellow,
-                child: Text(
+                child: const Text(
                   'open native page',
                   style: TextStyle(fontSize: 22.0, color: Colors.black),
                 )),
@@ -301,7 +298,7 @@ class FlutterRouteWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 margin: const EdgeInsets.all(8.0),
                 color: Colors.yellow,
-                child: Text(
+                child: const Text(
                   'push flutter widget',
                   style: TextStyle(fontSize: 22.0, color: Colors.black),
                 )),
@@ -315,7 +312,7 @@ class FlutterRouteWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 margin: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 80.0),
                 color: Colors.yellow,
-                child: Text(
+                child: const Text(
                   'open flutter fragment page',
                   style: TextStyle(fontSize: 22.0, color: Colors.black),
                 )),
@@ -337,26 +334,26 @@ class FragmentRouteWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('flutter_boost_example'),
+        title: const Text('flutter_boost_example'),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
             margin: const EdgeInsets.only(top: 80.0),
-            child: Text(
+            alignment: AlignmentDirectional.center,
+            child: const Text(
               "This is a flutter fragment",
               style: TextStyle(fontSize: 28.0, color: Colors.blue),
             ),
-            alignment: AlignmentDirectional.center,
           ),
           Container(
             margin: const EdgeInsets.only(top: 32.0),
+            alignment: AlignmentDirectional.center,
             child: Text(
               params['tag'] ?? '',
-              style: TextStyle(fontSize: 28.0, color: Colors.red),
+              style: const TextStyle(fontSize: 28.0, color: Colors.red),
             ),
-            alignment: AlignmentDirectional.center,
           ),
           Expanded(child: Container()),
           InkWell(
@@ -364,7 +361,7 @@ class FragmentRouteWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 margin: const EdgeInsets.all(8.0),
                 color: Colors.yellow,
-                child: Text(
+                child: const Text(
                   'open native page',
                   style: TextStyle(fontSize: 22.0, color: Colors.black),
                 )),
@@ -376,7 +373,7 @@ class FragmentRouteWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 margin: const EdgeInsets.all(8.0),
                 color: Colors.yellow,
-                child: Text(
+                child: const Text(
                   'open flutter page',
                   style: TextStyle(fontSize: 22.0, color: Colors.black),
                 )),
@@ -388,7 +385,7 @@ class FragmentRouteWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 margin: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 80.0),
                 color: Colors.yellow,
-                child: Text(
+                child: const Text(
                   'open flutter fragment page',
                   style: TextStyle(fontSize: 22.0, color: Colors.black),
                 )),
@@ -403,7 +400,7 @@ class FragmentRouteWidget extends StatelessWidget {
 
 class PushWidget extends StatefulWidget {
   @override
-  _PushWidgetState createState() => _PushWidgetState();
+  State<PushWidget> createState() => _PushWidgetState();
 }
 
 class _PushWidgetState extends State<PushWidget> {

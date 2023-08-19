@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_demon/common/Global.dart';
 import 'package:flutter_demon/common/Toast.dart';
 
-// import 'package:flutter_demon/redux/app.dart';
 import 'package:flutter_demon/routes/demo_scroll.dart';
 import 'package:flutter_demon/routes/progress.dart';
 import 'package:flutter_demon/routes/tab_business.dart';
@@ -15,6 +14,7 @@ import 'package:flutter_demon/routes/tab_home.dart';
 import 'package:flutter_demon/routes/tab_school.dart';
 import 'package:flutter_demon/widget/DoubleTapExit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
 import 'flutterDemo.dart';
 import 'routes/textfiled.dart';
@@ -208,22 +208,21 @@ class _MyHomePageState extends State<MyHomePage>
       return Builder(
           builder: (context) => FloatingActionButton(
                 onPressed: () {
-                  ChangeNotifierProvider.of<Increment>(context, isListen: false)
-                      .changeValue();
+                  context.read<Increment>().changeValue();
                 },
                 tooltip: 'Increment',
-                child: Icon(Icons.add),
+                child: const Icon(Icons.add),
               ));
     } else if (_selectedIndex == 1) {
       return Builder(
           builder: (context) => FloatingActionButton.extended(
                 onPressed: () {
-                  // Scaffold.of(context)
-                  //     .showSnackBar(SnackBar(content: Text("我是SnackBar")));
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(const SnackBar(content: Text("我是SnackBar")));
                 },
                 tooltip: 'Increment',
-                icon: Icon(Icons.add),
-                label: Text("测试"),
+                icon: const Icon(Icons.add),
+                label: const Text("测试"),
               ));
     }
 
@@ -233,24 +232,24 @@ class _MyHomePageState extends State<MyHomePage>
   Widget get tabBarView => TabBarView(
         controller: _tabController,
         children: tabs.map((e) {
-          Widget deschild = Text(
+          Widget deschild = const Text(
             "没有页面",
             textScaleFactor: 2,
           );
           switch (e) {
             case "Base":
-              deschild = HomeView(
+              deschild = const HomeView(
                 key: PageStorageKey("Base"),
               );
               break;
             case "Clip":
               deschild = TabHistory(
-                key: PageStorageKey("Clip"),
+                key: const PageStorageKey("Clip"),
               );
               break;
             case "Scroll":
               deschild = InfiniteListView(
-                key: PageStorageKey("Scroll"),
+                key: const PageStorageKey("Scroll"),
               );
               break;
           }
@@ -263,9 +262,9 @@ class _MyHomePageState extends State<MyHomePage>
           title: Text(widget.title!),
           bottom: _tabSelect == 0
               ? TabBar(
-                  labelStyle:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                  unselectedLabelStyle: TextStyle(fontSize: 16),
+                  labelStyle: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 20),
+                  unselectedLabelStyle: const TextStyle(fontSize: 16),
                   controller: _tabController,
                   tabs: tabs
                       .map((e) => Tab(
@@ -276,11 +275,11 @@ class _MyHomePageState extends State<MyHomePage>
               : null,
           leading: Builder(
               builder: (context) => IconButton(
-                  icon: Icon(Icons.memory),
+                  icon: const Icon(Icons.memory),
                   onPressed: () => Scaffold.of(context).openEndDrawer())),
         ),
         bottomNavigationBar: BottomNavigationBar(
-          items: <BottomNavigationBarItem>[
+          items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
             BottomNavigationBarItem(
                 icon: Icon(Icons.business), label: "Business"),
@@ -291,13 +290,16 @@ class _MyHomePageState extends State<MyHomePage>
           onTap: _onTabTapped,
         ),
 //        backgroundColor: Colors.grey[100],
-        drawer: MyDrawer(),
-        endDrawer: MyDrawer(),
+        drawer: const MyDrawer(),
+        endDrawer: const MyDrawer(),
         body: () {
-          if (_tabSelect == 0)
+          if (_tabSelect == 0) {
             return tabBarView;
-          else if (_tabSelect == 1) return TabBusiness();
-          return TabSchool();
+          } else if (_tabSelect == 1) {
+            return TabBusiness();
+          } else {
+            return TabSchool();
+          }
         }(),
         floatingActionButton: floatActionButton(),
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
@@ -306,10 +308,15 @@ class _MyHomePageState extends State<MyHomePage>
   @override
   Widget build(BuildContext context) {
     return DoubleTapExit(
-        child: ChangeNotifierProvider<Increment>(
-      data: Increment(),
-      child: _homeView,
-    ));
+      child: MultiProvider(
+        providers: [
+          Provider<Increment>(
+            create: (_) => Increment(),
+          )
+        ],
+        child: _homeView,
+      ),
+    );
   }
 }
 
@@ -322,43 +329,41 @@ class MyDrawer extends StatelessWidget {
       child: MediaQuery.removePadding(
           context: context,
           removeTop: true,
-          child: Container(
-            child: Column(
-              children: <Widget>[
-                ClipOval(
-                    child: Image.asset(
-                  "imgs/like.jpeg",
-                  fit: BoxFit.cover,
-                  width: 80,
-                  height: 80,
-                )),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 18),
-                  child: Text(
-                    "Wendux",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
+          child: Column(
+            children: <Widget>[
+              ClipOval(
+                  child: Image.asset(
+                "imgs/like.jpeg",
+                fit: BoxFit.cover,
+                width: 80,
+                height: 80,
+              )),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 18),
+                child: Text(
+                  "Wendux",
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                Expanded(
-                  child: ListView(
-                    children: <Widget>[
-                      ListTile(
-                        leading: const Icon(Icons.add),
-                        title: const Text("Add account"),
-                      ),
-                      ListTile(
-                        leading: const Icon(Icons.settings),
-                        title: const Text("Manage accounts"),
-                      )
-                    ],
-                  ),
+              ),
+              Expanded(
+                child: ListView(
+                  children: const <Widget>[
+                    ListTile(
+                      leading: Icon(Icons.add),
+                      title: Text("Add account"),
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.settings),
+                      title: Text("Manage accounts"),
+                    )
+                  ],
                 ),
-                CircleAvatar(
-                  radius: 40,
-                  backgroundImage: AssetImage("imgs/like.jpeg"),
-                ),
-              ],
-            ),
+              ),
+              const CircleAvatar(
+                radius: 40,
+                backgroundImage: AssetImage("imgs/like.jpeg"),
+              ),
+            ],
           )),
     );
   }

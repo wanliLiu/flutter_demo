@@ -111,10 +111,10 @@ class TipRoute extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("提示"),
+        title: const Text("提示"),
       ),
       body: Padding(
-        padding: EdgeInsets.all(18),
+        padding: const EdgeInsets.all(18),
         child: Center(
           child: Column(
             children: <Widget>[
@@ -124,7 +124,7 @@ class TipRoute extends StatelessWidget {
                   Navigator.of(context)
                       .pop("TipRoute返回--->\n我是TipRoute返回值 你看看你！！！");
                 },
-                child: Text("返回"),
+                child: const Text("返回"),
               )
             ],
           ),
