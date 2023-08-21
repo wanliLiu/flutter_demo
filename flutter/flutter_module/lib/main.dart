@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:collection';
+import 'dart:io';
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_demon/common/Global.dart';
 import 'package:flutter_demon/common/Toast.dart';
@@ -15,6 +17,7 @@ import 'package:flutter_demon/routes/tab_school.dart';
 import 'package:flutter_demon/widget/DoubleTapExit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import 'package:window_size/window_size.dart';
 
 import 'flutterDemo.dart';
 import 'routes/textfiled.dart';
@@ -31,7 +34,27 @@ FlutterErrorDetails? makeDetails(Object obj, StackTrace stack) {
   // 构建错误信息
 }
 
+const double windowWidth = 480;
+const double windowHeight = 854;
+
+void setupWindow() {
+  if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
+    setWindowTitle('Twitter Api Demo');
+    setWindowMinSize(const Size(windowWidth, windowHeight));
+    setWindowMaxSize(const Size(windowWidth, windowHeight));
+    getCurrentScreen().then((screen) {
+      setWindowFrame(Rect.fromCenter(
+        center: screen!.frame.center,
+        width: windowWidth,
+        height: windowHeight,
+      ));
+    });
+  }
+}
+
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  setupWindow();
   //可以定义我们错误处理，比如日志上报，等等
   FlutterError.onError = (FlutterErrorDetails details) {
     //同时调用系统的，然后logcat打印出来
