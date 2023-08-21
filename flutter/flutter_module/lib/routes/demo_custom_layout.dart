@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class DemoCustomLayout extends StatefulWidget {
   @override
-  _DemoCustomLayoutState createState() => _DemoCustomLayoutState();
+  State<DemoCustomLayout> createState() => _DemoCustomLayoutState();
 }
 
 class _DemoCustomLayoutState extends State<DemoCustomLayout> {
@@ -10,7 +10,7 @@ class _DemoCustomLayoutState extends State<DemoCustomLayout> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('CustomLayout'),
+        title: const Text('CustomLayout'),
       ),
       body: _DemoSingleChildLayout(),
     );
@@ -25,7 +25,7 @@ class _TestSingleChildLayout extends SingleChildLayoutDelegate {
 
   @override
   BoxConstraints getConstraintsForChild(BoxConstraints constraints) {
-    return BoxConstraints.tightFor(width: 100, height: 50);
+    return const BoxConstraints.tightFor(width: 100, height: 50);
   }
 
   @override
@@ -48,14 +48,14 @@ class _DemoSingleChildLayout extends StatelessWidget {
           delegate: _TestSingleChildLayout(),
           child: Container(
             color: Colors.red,
-            constraints: BoxConstraints.expand(width: 80, height: 40),
+            constraints: const BoxConstraints.expand(width: 80, height: 40),
           ),
         ),
         CustomSingleChildLayout(
           delegate: _TestSingleChildLayout(),
           child: Container(
             color: Colors.red,
-            constraints: BoxConstraints.expand(width: 80, height: 40),
+            constraints: const BoxConstraints.expand(width: 80, height: 40),
           ),
         ),
       ],
@@ -63,10 +63,7 @@ class _DemoSingleChildLayout extends StatelessWidget {
 
     return Stack(
       fit: StackFit.passthrough,
-      children: <Widget>[
-        child,
-        _DemoMultiChildLayout()
-      ],
+      children: <Widget>[child, _DemoMultiChildLayout()],
     );
   }
 }
@@ -75,14 +72,15 @@ class _TestMultiChild extends MultiChildLayoutDelegate {
   @override
   void performLayout(Size size) {
     if (hasChild('demo1')) {
-      Size trailingSize =
-          layoutChild('demo1', BoxConstraints.tightFor(width: 84, height: 45));
-      positionChild('demo1', Offset(40, 150));
+      Size trailingSize = layoutChild(
+          'demo1', const BoxConstraints.tightFor(width: 84, height: 45));
+      positionChild('demo1', const Offset(40, 150));
     }
 
     if (hasChild('demo2')) {
-      layoutChild('demo2', BoxConstraints.tightFor(width: 100, height: 100));
-      positionChild('demo2', Offset(100, 250));
+      layoutChild(
+          'demo2', const BoxConstraints.tightFor(width: 100, height: 100));
+      positionChild('demo2', const Offset(100, 250));
     }
   }
 
@@ -103,16 +101,16 @@ class _DemoMultiChildLayout extends StatelessWidget {
             child: Container(
               color: Colors.red,
               alignment: Alignment.center,
-              constraints: BoxConstraints.expand(width: 80, height: 40),
-              child: Text('demo1'),
+              constraints: const BoxConstraints.expand(width: 80, height: 40),
+              child: const Text('demo1'),
             )),
         LayoutId(
           id: "demo2",
           child: Container(
             color: Colors.red,
             alignment: Alignment.center,
-            constraints: BoxConstraints.expand(width: 80, height: 40),
-            child: Text('demo2'),
+            constraints: const BoxConstraints.expand(width: 80, height: 40),
+            child: const Text('demo2'),
           ),
         )
       ],

@@ -99,8 +99,8 @@ void do_database() async {
     age: 35,
   );
 
-  var init_time = Random().nextInt(100);
-  for(var index = init_time; index < 20 + init_time; index ++ ) {
+  var initTime = Random().nextInt(100);
+  for(var index = initTime; index < 20 + initTime; index ++ ) {
     await insertDog(Dog(
       id: index,
       name: "Fido data is $index",
@@ -160,7 +160,7 @@ class Dog {
 }
 class DataBaseTestLayout extends StatefulWidget {
   @override
-  _DataBaseTestLayoutState createState() => _DataBaseTestLayoutState();
+  State<DataBaseTestLayout> createState() => _DataBaseTestLayoutState();
 }
 
 class _DataBaseTestLayoutState extends State<DataBaseTestLayout> {
@@ -176,9 +176,9 @@ class _DataBaseTestLayoutState extends State<DataBaseTestLayout> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('DataBaseTest'),
+        title: const Text('DataBaseTest'),
       ),
-      body: Text("Nothing"),
+      body: const Text("Nothing"),
     );
 
   }

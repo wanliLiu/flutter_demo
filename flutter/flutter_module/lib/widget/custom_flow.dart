@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class FlowMenu extends StatefulWidget {
   @override
-  _FlowMenuState createState() => _FlowMenuState();
+  State<FlowMenu> createState() => _FlowMenuState();
 }
 
 class _FlowMenuState extends State<FlowMenu>
@@ -38,7 +38,7 @@ class _FlowMenuState extends State<FlowMenu>
       child: RawMaterialButton(
         fillColor: lastTapped == icon ? Colors.amber[700] : Colors.blue,
         splashColor: Colors.amber[100],
-        shape: CircleBorder(),
+        shape: const CircleBorder(),
         constraints: BoxConstraints.tight(Size(buttonDiameter, buttonDiameter)),
         onPressed: () {
           _updateMenu(icon);

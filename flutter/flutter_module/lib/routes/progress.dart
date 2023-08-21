@@ -2,21 +2,22 @@ import 'package:flutter/material.dart';
 
 class ProgressPage extends StatefulWidget {
   @override
-  _ProgressPageState createState() => _ProgressPageState();
+  State<ProgressPage> createState() => _ProgressPageState();
 }
 
 class _ProgressPageState extends State<ProgressPage> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('进度指示器'),
+        title: const Text('进度指示器'),
       ),
       body: Stack(
         fit: StackFit.loose,
         alignment: AlignmentDirectional.bottomCenter,
         children: <Widget>[
           Container(
-              constraints: BoxConstraints.expand(),
+              constraints: const BoxConstraints.expand(),
               padding: const EdgeInsets.all(10),
               color: Colors.grey[400],
               child: Wrap(
@@ -26,16 +27,16 @@ class _ProgressPageState extends State<ProgressPage> {
                 children: <Widget>[
                   RefreshProgressIndicator(
                     backgroundColor: Colors.grey[200],
-                    valueColor: AlwaysStoppedAnimation(Colors.teal),
+                    valueColor: const AlwaysStoppedAnimation(Colors.teal),
                   ),
-                  Chip(
+                  const Chip(
                     avatar: CircleAvatar(
                       backgroundColor: Colors.blue,
                       child: Text("A"),
                     ),
                     label: Text("我是谁"),
                   ),
-                  Chip(
+                  const Chip(
                     label: Text("---我是谁----"),
                   ),
                   SizedBox(
@@ -43,38 +44,38 @@ class _ProgressPageState extends State<ProgressPage> {
                     height: 2,
                     child: LinearProgressIndicator(
                       backgroundColor: Colors.grey[200],
-                      valueColor: AlwaysStoppedAnimation(Colors.teal),
+                      valueColor: const AlwaysStoppedAnimation(Colors.teal),
                     ),
                   ),
                   SizedBox(
                     height: 10,
                     child: LinearProgressIndicator(
                       backgroundColor: Colors.grey[200],
-                      valueColor: AlwaysStoppedAnimation(Colors.teal),
+                      valueColor: const AlwaysStoppedAnimation(Colors.teal),
                     ),
                   ),
                   LinearProgressIndicator(
                     value: .3,
                     backgroundColor: Colors.grey[200],
-                    valueColor: AlwaysStoppedAnimation(Colors.teal),
+                    valueColor: const AlwaysStoppedAnimation(Colors.teal),
                   ),
                   SizedBox(
                     width: 80,
                     height: 80,
                     child: CircularProgressIndicator(
                       backgroundColor: Colors.grey[200],
-                      valueColor: AlwaysStoppedAnimation(Colors.teal),
+                      valueColor: const AlwaysStoppedAnimation(Colors.teal),
                     ),
                   ),
                   CircularProgressIndicator(
                     value: .5,
                     backgroundColor: Colors.grey[200],
-                    valueColor: AlwaysStoppedAnimation(Colors.teal),
+                    valueColor: const AlwaysStoppedAnimation(Colors.teal),
                   ),
                   ProgressRoute(),
                   Container(
                     color: Colors.blue[50],
-                    child: Align(
+                    child: const Align(
                       alignment: Alignment.topCenter,
                       widthFactor: 2,
                       heightFactor: 1.5,
@@ -90,21 +91,21 @@ class _ProgressPageState extends State<ProgressPage> {
             top: 450,
             child: Container(
               color: Colors.red,
-              padding: EdgeInsets.all(10),
-              child: Text(
+              padding: const EdgeInsets.all(10),
+              child: const Text(
                 "hello world",
                 style: TextStyle(color: Colors.white),
               ),
             ),
           ),
           Positioned(
-              top: 50,
+              top: 100,
               width: 200,
               left: 20,
               child: Container(
                 color: Colors.green,
                 child:
-                    Text("Coming again", style: TextStyle(color: Colors.white)),
+                    const Text("Positioned  Coming again", style: TextStyle(color: Colors.white)),
               )),
           Container(
             width: 200,
@@ -112,7 +113,7 @@ class _ProgressPageState extends State<ProgressPage> {
             //容器外填充
 //            constraints: BoxConstraints.tightFor(width: 200.0, height: 150.0),
             //卡片大小
-            decoration: BoxDecoration(
+            decoration:const BoxDecoration(
                 //背景装饰
                 gradient: RadialGradient(
                     //背景径向渐变
@@ -130,7 +131,7 @@ class _ProgressPageState extends State<ProgressPage> {
             //卡片倾斜变换
             alignment: Alignment.center,
             //卡片内文字居中
-            child: Text(
+            child: const Text(
               //卡片文字
               "5.20", style: TextStyle(color: Colors.white, fontSize: 40.0),
             ),
@@ -142,14 +143,21 @@ class _ProgressPageState extends State<ProgressPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-          IconButton(icon: Icon(Icons.home),onPressed: (){},),
-          SizedBox(),
-          IconButton(icon: Icon(Icons.business),onPressed: (){},),
-        ],),
+            IconButton(
+              icon: const Icon(Icons.home),
+              onPressed: () {},
+            ),
+            const SizedBox(),
+            IconButton(
+              icon: const Icon(Icons.business),
+              onPressed: () {},
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         tooltip: 'Increment Counter',
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         onPressed: () {},
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -159,7 +167,7 @@ class _ProgressPageState extends State<ProgressPage> {
 
 class ProgressRoute extends StatefulWidget {
   @override
-  _ProgressRouteState createState() => _ProgressRouteState();
+  State<ProgressRoute> createState() => _ProgressRouteState();
 }
 
 class _ProgressRouteState extends State<ProgressRoute>
@@ -172,7 +180,7 @@ class _ProgressRouteState extends State<ProgressRoute>
     _animationController =
         AnimationController(vsync: this, duration: Duration(seconds: 3));
 
-    _animationController!..addListener(() => setState(() => {}));
+    _animationController!.addListener(() => setState(() => {}));
     _animationController!.forward();
   }
 

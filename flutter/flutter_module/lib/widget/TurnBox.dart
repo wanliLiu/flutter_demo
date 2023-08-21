@@ -5,16 +5,15 @@ import 'custom_paint.dart';
 
 class TurnBox extends StatefulWidget {
   const TurnBox(
-      {Key? key,  this.turns = 0, this.speed =  10, required this.child})
-      : assert(child != null),
-        super(key: key);
+      {Key? key, this.turns = 0, this.speed = 10, required this.child})
+      : super(key: key);
 
   final double turns;
   final int speed;
   final Widget child;
 
   @override
-  _TurnBoxState createState() => _TurnBoxState();
+  State<TurnBox> createState() => _TurnBoxState();
 }
 
 class _TurnBoxState extends State<TurnBox> with SingleTickerProviderStateMixin {
@@ -78,7 +77,7 @@ class FixedSizeLayoutDelegate extends SingleChildLayoutDelegate {
 
 class TurnBoxRoute extends StatefulWidget {
   @override
-  _TurnBoxRouteState createState() => new _TurnBoxRouteState();
+  State<TurnBoxRoute> createState() => _TurnBoxRouteState();
 }
 
 class _TurnBoxRouteState extends State<TurnBoxRoute> {
@@ -89,9 +88,9 @@ class _TurnBoxRouteState extends State<TurnBoxRoute> {
     debugPrint("_TurnBoxRouteState---build");
     MediaQueryData data = MediaQuery.of(context);
     return ConstrainedBox(
-        constraints: BoxConstraints.expand(),
+        constraints: const BoxConstraints.expand(),
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(vertical: 10),
+          padding: const EdgeInsets.symmetric(vertical: 10),
           child: Column(
             children: <Widget>[
               Container(
@@ -104,7 +103,7 @@ class _TurnBoxRouteState extends State<TurnBoxRoute> {
               TurnBox(
                 turns: _turns,
                 speed: 500,
-                child: Icon(
+                child: const Icon(
                   Icons.refresh,
                   size: 50,
                 ),
@@ -112,13 +111,13 @@ class _TurnBoxRouteState extends State<TurnBoxRoute> {
               TurnBox(
                 turns: _turns,
                 speed: 1000,
-                child: Icon(
+                child: const Icon(
                   Icons.refresh,
                   size: 150.0,
                 ),
               ),
               ElevatedButton(
-                child: Text("顺时针旋转1/5圈"),
+                child: const Text("顺时针旋转1/5圈"),
                 onPressed: () {
                   setState(() {
                     _turns += .2;
@@ -126,7 +125,7 @@ class _TurnBoxRouteState extends State<TurnBoxRoute> {
                 },
               ),
               ElevatedButton(
-                child: Text("逆时针旋转1/5圈"),
+                child: const Text("逆时针旋转1/5圈"),
                 onPressed: () {
                   setState(() {
                     _turns -= .2;
@@ -137,7 +136,7 @@ class _TurnBoxRouteState extends State<TurnBoxRoute> {
                 color: Colors.blue,
                 padding: const EdgeInsets.all(5.0),
                 child: CustomSingleChildLayout(
-                  delegate: FixedSizeLayoutDelegate(size: Size(100.0, 50.0)),
+                  delegate: const FixedSizeLayoutDelegate(size: Size(100.0, 50.0)),
                   child: Container(
                     color: Colors.red,
                     width: 100.0,

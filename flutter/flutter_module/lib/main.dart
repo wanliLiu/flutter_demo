@@ -333,9 +333,7 @@ class _MyHomePageState extends State<MyHomePage>
     return DoubleTapExit(
       child: MultiProvider(
         providers: [
-          Provider<Increment>(
-            create: (_) => Increment(),
-          )
+          ChangeNotifierProvider<Increment>(create: (_) => Increment(),)
         ],
         child: _homeView,
       ),

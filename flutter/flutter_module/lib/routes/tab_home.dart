@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_demon/base/FadeRoute.dart';
 import 'package:flutter_demon/base/demo.dart';
 import 'package:flutter_demon/common/Toast.dart';
-
 import 'package:flutter_demon/routes/demo_animation.dart';
 import 'package:flutter_demon/routes/demo_dialog.dart';
 import 'package:flutter_demon/routes/demo_pointer.dart';
@@ -72,182 +71,185 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
 
   Widget get _actionButton => Container(
         color: Colors.grey[100],
-        padding: const EdgeInsets.only(top: 20, bottom: 20),
-        child: Wrap(spacing: 10, children: <Widget>[
-          ElevatedButton.icon(
-            icon: const Icon(
-              Icons.send,
-              color: Colors.red,
-            ),
-            label: const Text("打开提示页面(返回值）"),
-            onPressed: () async {
-              var result = await Navigator.pushNamed(context, "Tips",
-                  arguments: "Hello,我是通过onGenerateRoute过来的，并获取返回来的数据,注意：\n\n"
-                      "1.通过没有注册的路由传过来的参数是在：RouteSettings.arguments\n\n"
-                      "2.通过注册路由传过来的参数，是通过：ModalRoute.of(context).settings.arguments获取\n\n"
-                      "以上两点尤其要注意\n\n");
+        padding: const EdgeInsets.all(10),
+        child: Wrap(
+            spacing: 10,
+            runSpacing: 10,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: <Widget>[
+              ElevatedButton.icon(
+                icon: const Icon(
+                  Icons.send,
+                  color: Colors.red,
+                ),
+                label: const Text("打开提示页面(返回值）"),
+                onPressed: () async {
+                  var result = await Navigator.pushNamed(context, "Tips",
+                      arguments:
+                          "Hello,我是通过onGenerateRoute过来的，并获取返回来的数据,注意：\n\n"
+                          "1.通过没有注册的路由传过来的参数是在：RouteSettings.arguments\n\n"
+                          "2.通过注册路由传过来的参数，是通过：ModalRoute.of(context).settings.arguments获取\n\n"
+                          "以上两点尤其要注意\n\n");
 
-              debugPrint("路由返回值：$result");
+                  debugPrint("路由返回值：$result");
 
-              if (result is String && result.isNotEmpty) {
-                _setBackContent(result);
-              } else {
-                _setBackContent(null);
-              }
-            },
-          ),
-          OutlinedButton(
-            child: const Text('开启一个新的'),
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => PushWidget()));
-            },
-          ),
-          ElevatedButton(
-            child: const Column(
-              children: <Widget>[
-                Text.rich(TextSpan(text: "我是", children: [
-                  TextSpan(text: "一头猪", style: TextStyle(color: Colors.red))
-                ])),
-                Text("目标节点获取参数")
-              ],
-            ),
-            onPressed: () {
-              Navigator.pushNamed(context, "FlutterRoute",
-                  arguments: "不在Target里面获取参数，直接在路由那里的时候获取（外面获取）");
-            },
-          ),
-          ElevatedButton(
-            child: const Text("通过路由打开"),
-            onPressed: () {
-              Navigator.pushNamed(context, "First",
-                  arguments: "命名路由参数传递样例,在里面获取");
-            },
-          ),
-          ElevatedButton(
-            child: const Text("未注册：onGenerateRoute"),
-            onPressed: () {
+                  if (result is String && result.isNotEmpty) {
+                    _setBackContent(result);
+                  } else {
+                    _setBackContent(null);
+                  }
+                },
+              ),
+              OutlinedButton(
+                child: const Text('开启一个新的'),
+                onPressed: () {
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (_) => PushWidget()));
+                },
+              ),
+              ElevatedButton(
+                child: const Column(
+                  children: <Widget>[
+                    Text.rich(TextSpan(text: "我是", children: [
+                      TextSpan(text: "一头猪", style: TextStyle(color: Colors.red))
+                    ])),
+                    Text("目标节点获取参数")
+                  ],
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, "FlutterRoute",
+                      arguments: "不在Target里面获取参数，直接在路由那里的时候获取（外面获取）");
+                },
+              ),
+              ElevatedButton(
+                child: const Text("通过路由打开"),
+                onPressed: () {
+                  Navigator.pushNamed(context, "First",
+                      arguments: "命名路由参数传递样例,在里面获取");
+                },
+              ),
+              ElevatedButton(
+                child: const Text("未注册：onGenerateRoute"),
+                onPressed: () {
 //                Navigator.pushNamed(context, "SecondOther");
-              Navigator.of(context).pushNamed("SecondOther");
-            },
-          ),
-          ElevatedButton(
-            child: const Text("输入框和表单"),
-            onPressed: () async {
-              var result = await Navigator.of(context).pushNamed("textFIled",
-                  arguments: {
+                  Navigator.of(context).pushNamed("SecondOther");
+                },
+              ),
+              ElevatedButton(
+                child: const Text("输入框和表单"),
+                onPressed: () async {
+                  var result = await Navigator.of(context)
+                      .pushNamed("textFIled", arguments: {
                     "account": "fluttertest",
                     "pwd": "23820302930923"
                   });
-              if (result != null && result is String) {
-                Fluttertoast.showToast(
-                    msg: result,
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.CENTER);
-              }
-            },
-          ),
-          ElevatedButton(
-            child: const Text("进度指示器"),
-            onPressed: () =>
-                Navigator.of(context).pushNamed("progressIndictor"),
-          ),
-          // ElevatedButton(
-          //   child: Text("Redux"),
-          //   onPressed: () => runApp(createApp()),
-          // ),
-          ElevatedButton(
-            child: const Text("ListView"),
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    PageListRoot(ListType.ListView))),
-          ),
-          ElevatedButton(
-            child: const Text("SingleChildScrollView"),
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    PageListRoot(ListType.SingleChildScrollView))),
-          ),
-          ElevatedButton(
-            child: const Text("GridView"),
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    PageListRoot(ListType.GridView))),
-          ),
-          ElevatedButton(
-            child: const Text("Dialog"),
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => DialogPage())),
-          ),
-          ElevatedButton(
-            child: const Text("StaggeredGridView"),
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    PageListRoot(ListType.StaggeredGridView))),
-          ),
-          ElevatedButton(
-            child: const Text("UrlLanucher"),
-            onPressed: () async {
-              const url = "https://flutter.dev";
-              if (await canLaunch(url)) {
-                await launch(url,
-                    enableDomStorage: true,
-                    enableJavaScript: true,
-                    forceWebView: true,
-                    statusBarBrightness: Brightness.light);
-              } else
-                throw "Could not launch $url";
-            },
-          ),
-          ElevatedButton(
-            child: const Text("CustomScrollView"),
-            onPressed: () => Navigator.of(context).push(
-                FadeRoute(builder: (BuildContext context) => DemoCustomView())),
-          ),
-          ElevatedButton(
-            child: const Text("NestedScrollView"),
-            onPressed: () => Navigator.of(context).push(FadeRoute(
-                builder: (BuildContext context) =>
-                    CustomScrollViewTestRoute())),
-          ),
-          ElevatedButton(
-            child: const Text("事件处理"),
-            onPressed: () => Navigator.of(context).push(CupertinoPageRoute(
-                builder: (BuildContext context) => PointerPage())),
-          ),
-          ElevatedButton(
-            child: const Text("动画"),
-            onPressed: () => Navigator.of(context).push(PageRouteBuilder(
-                transitionDuration: const Duration(milliseconds: 500),
-                pageBuilder: (BuildContext context, Animation<double> animation,
-                    Animation<double> secondaryAnimation) {
-                  return AnimationPage();
+                  if (result != null && result is String) {
+                    Fluttertoast.showToast(
+                        msg: result,
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER);
+                  }
                 },
-                transitionsBuilder: (BuildContext context,
+              ),
+              ElevatedButton(
+                child: const Text("进度指示器"),
+                onPressed: () =>
+                    Navigator.of(context).pushNamed("progressIndictor"),
+              ),
+              // ElevatedButton(
+              //   child: Text("Redux"),
+              //   onPressed: () => runApp(createApp()),
+              // ),
+              ElevatedButton(
+                child: const Text("ListView"),
+                onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        PageListRoot(ListType.ListView))),
+              ),
+              ElevatedButton(
+                child: const Text("SingleChildScrollView"),
+                onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        PageListRoot(ListType.SingleChildScrollView))),
+              ),
+              ElevatedButton(
+                child: const Text("GridView"),
+                onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        PageListRoot(ListType.GridView))),
+              ),
+              ElevatedButton(
+                child: const Text("Dialog"),
+                onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => DialogPage())),
+              ),
+              ElevatedButton(
+                child: const Text("StaggeredGridView"),
+                onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        PageListRoot(ListType.StaggeredGridView))),
+              ),
+              ElevatedButton(
+                child: const Text("UrlLanucher"),
+                onPressed: () async {
+                  var url = Uri.parse("https://flutter.dev");
+                  if (await canLaunchUrl(url)) {
+                    await launchUrl(url);
+                  } else {
+                    throw "Could not launch $url";
+                  }
+                },
+              ),
+              ElevatedButton(
+                child: const Text("CustomScrollView"),
+                onPressed: () => Navigator.of(context).push(FadeRoute(
+                    builder: (BuildContext context) => DemoCustomView())),
+              ),
+              ElevatedButton(
+                child: const Text("NestedScrollView"),
+                onPressed: () => Navigator.of(context).push(FadeRoute(
+                    builder: (BuildContext context) =>
+                        CustomScrollViewTestRoute())),
+              ),
+              ElevatedButton(
+                child: const Text("事件处理"),
+                onPressed: () => Navigator.of(context).push(CupertinoPageRoute(
+                    builder: (BuildContext context) => PointerPage())),
+              ),
+              ElevatedButton(
+                child: const Text("动画"),
+                onPressed: () => Navigator.of(context).push(PageRouteBuilder(
+                    transitionDuration: const Duration(milliseconds: 500),
+                    pageBuilder: (BuildContext context,
                         Animation<double> animation,
-                        Animation<double> secondaryAnimation,
-                        Widget child) =>
-                    FadeTransition(
-                      opacity: animation,
-                      child: child,
-                    ))),
-          ),
-          ElevatedButton(
-            child: const Text("StatusBar"),
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => DemoStatusBar())),
-          ),
-          ElevatedButton(
-            child: const Text('DemoCustomLayout'),
-            onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => DemoCustomLayout())),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => DataBaseTestLayout())),
-            child: const Text('DataBase Test'),
-          )
-        ]),
+                        Animation<double> secondaryAnimation) {
+                      return AnimationPage();
+                    },
+                    transitionsBuilder: (BuildContext context,
+                            Animation<double> animation,
+                            Animation<double> secondaryAnimation,
+                            Widget child) =>
+                        FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        ))),
+              ),
+              ElevatedButton(
+                child: const Text("StatusBar"),
+                onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) => DemoStatusBar())),
+              ),
+              ElevatedButton(
+                child: const Text('DemoCustomLayout'),
+                onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => DemoCustomLayout())),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => DataBaseTestLayout())),
+                child: const Text('DataBase Test'),
+              )
+            ]),
       );
 
   @override
@@ -348,7 +350,7 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
             const Text(
               'You have pushed the button this many times:',
             ),
-            Builder(builder: (context) {
+            Consumer<Increment>(builder: (context, inc, _) {
               return FutureBuilder<int>(
                 future: () async {
                   return await context.read<Increment>().readCounter();
@@ -392,7 +394,7 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
                         );
                       },
                       child: Container(
-                        key: ValueKey<int>(key!),
+                        key: ValueKey<int>(key),
                         color: Colors.grey,
                         alignment: Alignment.center,
                         width: 100,
@@ -427,7 +429,7 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
 //                  );
                 },
                 child: Container(
-                  key: ValueKey<int>(inc.counter!),
+                  key: ValueKey<int>(inc.counter),
                   color: Colors.grey.withOpacity(0.4),
                   child: Text(
                     '${inc.counter}',

@@ -56,8 +56,8 @@ class _ShowProgressWidgetState extends State<_ShowProgressWidget> {
                 maintainState: true,
                 child: CircleAvatar(
                   radius: 30,
-                  child: Text(_progress),
                   backgroundColor: Colors.black54,
+                  child: Text(_progress),
                 ))
           ],
         ));
@@ -106,8 +106,8 @@ mixin BasePage<T extends StatefulWidget> on State<T> {
 
   @override
   Widget build(BuildContext context) {
-    if (_content == null) _content = content;
-    if (_title == null) _title = title;
+    _content ??= content;
+    _title ??= title;
 
     debugPrint("BasePage------>build");
     return Scaffold(
@@ -120,11 +120,11 @@ mixin BasePage<T extends StatefulWidget> on State<T> {
               builder: (context) => FloatingActionButton(
                     onPressed: () {
                       controller.animateTo(.0,
-                          duration: Duration(milliseconds: 200),
+                          duration: const Duration(milliseconds: 200),
                           curve: Curves.ease);
                     },
                     tooltip: 'Increment',
-                    child: Icon(Icons.add),
+                    child: const Icon(Icons.add),
                   ))
           : null,
     );

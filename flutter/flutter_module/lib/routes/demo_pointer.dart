@@ -8,7 +8,7 @@ class PointerPage extends StatelessWidget {
     debugPrint("PointerPage--build");
     return Scaffold(
       appBar: AppBar(
-        title: Text("事件处理"),
+        title: const Text("事件处理"),
       ),
       body: ListView(
         children: <Widget>[
@@ -30,26 +30,26 @@ class PointerPage extends StatelessWidget {
           Listener(
 //            behavior: HitTestBehavior.opaque,
             child: ConstrainedBox(
-                child: Center(
+                constraints: BoxConstraints.tight(const Size(300, 100)),
+                child: const Center(
                   child: Text("Box A"),
-                ),
-                constraints: BoxConstraints.tight(Size(300, 100))),
+                )),
             onPointerDown: (event) => debugPrint("down A"),
           ),
           Stack(
             children: <Widget>[
               Listener(
                 child: ConstrainedBox(
-                  constraints: BoxConstraints.tight(Size(300.0, 100.0)),
-                  child: DecoratedBox(
+                  constraints: BoxConstraints.tight(const Size(300.0, 100.0)),
+                  child: const DecoratedBox(
                       decoration: BoxDecoration(color: Colors.blue)),
                 ),
                 onPointerDown: (event) => print("down0"),
               ),
               Listener(
                 child: ConstrainedBox(
-                  constraints: BoxConstraints.tight(Size(200.0, 50.0)),
-                  child: Center(child: Text("左上角200*100范围内非文本区域点击")),
+                  constraints: BoxConstraints.tight(const Size(200.0, 50.0)),
+                  child: const  Center(child: Text("左上角200*100范围内非文本区域点击")),
                 ),
                 onPointerDown: (event) => print("down1"),
 //                behavior: HitTestBehavior.translucent, //放开此行注释后可以"点透"
@@ -126,7 +126,7 @@ class _DragState extends State<_Drag> with SingleTickerProviderStateMixin {
           top: _top,
           left: _left,
           child: GestureDetector(
-            child: CircleAvatar(child: Text("A")),
+            child:const  CircleAvatar(child: Text("A")),
             //手指按下时会触发此回调
             onPanDown: (DragDownDetails e) {
               //打印手指按下的位置(相对于屏幕)
@@ -168,17 +168,17 @@ class _TouchPointerState extends State<TouchPointer> {
   @override
   Widget build(BuildContext context) {
     return Listener(
+      onPointerDown: _dealPointer,
+      onPointerMove: _dealPointer,
+      onPointerUp: _dealPointer,
+      onPointerCancel: _dealPointer,
       child: Container(
         width: double.infinity,
         height: 100,
         color: Colors.blue,
         child: Text(_event?.toString() ?? "",
-            style: TextStyle(color: Colors.white)),
+            style: const TextStyle(color: Colors.white)),
       ),
-      onPointerDown: _dealPointer,
-      onPointerMove: _dealPointer,
-      onPointerUp: _dealPointer,
-      onPointerCancel: _dealPointer,
     );
   }
 }

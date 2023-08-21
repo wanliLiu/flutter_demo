@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_demon/base/BasePage.dart';
 import 'package:flutter_demon/routes/tab_history.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+
 import 'demo_scroll_customview.dart';
 
 enum ListType { SingleChildScrollView, ListView, GridView, StaggeredGridView }
@@ -16,7 +16,7 @@ class PageListRoot extends StatefulWidget {
   final ListType type;
 
   @override
-  _PageRootState createState() => _PageRootState();
+  State<PageListRoot> createState() => _PageRootState();
 }
 
 class _PageRootState extends State<PageListRoot> with BasePage {
@@ -24,42 +24,44 @@ class _PageRootState extends State<PageListRoot> with BasePage {
   Widget get content {
     debugPrint("_PageRootState------>content");
 
-    if (widget.type == ListType.SingleChildScrollView)
+    if (widget.type == ListType.SingleChildScrollView) {
       return TabHistory(
         controller: controller,
       );
-    else if (widget.type == ListType.ListView)
+    } else if (widget.type == ListType.ListView) {
       return InfiniteListView(
         controller: controller,
       );
-    else if (widget.type == ListType.GridView)
+    } else if (widget.type == ListType.GridView) {
       return TestGridView(
         controller: controller,
       );
-    else if (widget.type == ListType.StaggeredGridView)
+    } else if (widget.type == ListType.StaggeredGridView) {
       return TestGridView.staggered(
         controller: controller,
       );
-    else
-      return Center(
+    } else {
+      return const Center(
         child: Text("没有"),
       );
+    }
   }
 
   @override
   Widget get title {
-    if (widget.type == ListType.SingleChildScrollView)
-      return Text("SingleChildScrollView");
-    else if (widget.type == ListType.ListView)
-      return Text("ListView");
-    else if (widget.type == ListType.GridView)
-      return Text("GridView");
-    else if (widget.type == ListType.StaggeredGridView)
-      return Text("StaggeredGridView");
-    else
-      return Center(
+    if (widget.type == ListType.SingleChildScrollView) {
+      return const Text("SingleChildScrollView");
+    } else if (widget.type == ListType.ListView) {
+      return const Text("ListView");
+    } else if (widget.type == ListType.GridView) {
+      return const Text("GridView");
+    } else if (widget.type == ListType.StaggeredGridView) {
+      return const Text("StaggeredGridView");
+    } else {
+      return const Center(
         child: Text("没有"),
       );
+    }
   }
 }
 
@@ -74,7 +76,7 @@ class InfiniteListView extends StatefulWidget {
 
 class _InfiniteListViewState extends State<InfiniteListView> {
   static const loadingTag = "##loading##";
-  var _words = <String>[loadingTag];
+  final _words = <String>[loadingTag];
 
   @override
   void initState() {
@@ -83,7 +85,7 @@ class _InfiniteListViewState extends State<InfiniteListView> {
   }
 
   void _retrieveData() {
-    Future.delayed(Duration(milliseconds: 500)).then((e) {
+    Future.delayed(const Duration(milliseconds: 500)).then((e) {
       _words.insertAll(_words.length - 1,
           generateWordPairs().take(20).map((e) => e.asPascalCase).toList());
 
@@ -98,8 +100,8 @@ class _InfiniteListViewState extends State<InfiniteListView> {
       children: <Widget>[
         Container(
           color: Colors.blue,
-          padding: EdgeInsets.all(16),
-          child: Text(
+          padding: const EdgeInsets.all(16),
+          child: const Text(
             "商品列表",
             style: TextStyle(color: Colors.white),
           ),
@@ -110,25 +112,26 @@ class _InfiniteListViewState extends State<InfiniteListView> {
               child: ListView.separated(
                 itemCount: _words.length,
                 controller: widget.controller,
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 itemBuilder: (BuildContext context, int index) {
                   if (_words[index] == loadingTag) {
                     if (_words.length - 1 < 500) {
                       _retrieveData();
                       return Container(
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         alignment: Alignment.center,
-                        child: RefreshProgressIndicator(),
+                        child: const RefreshProgressIndicator(),
                       );
-                    } else
+                    } else {
                       return Container(
                         alignment: Alignment.center,
                         padding: const EdgeInsets.all(16),
-                        child: Text(
+                        child: const Text(
                           "没有更多了",
                           style: TextStyle(color: Colors.grey),
                         ),
                       );
+                    }
                   }
 
                   return index % 4 == 0
@@ -140,10 +143,11 @@ class _InfiniteListViewState extends State<InfiniteListView> {
                             ),
                             Container(
                               color: Colors.grey,
-                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
                               child: Text(
                                 "我是分类-->$index",
-                                style: TextStyle(color: Colors.red),
+                                style: const TextStyle(color: Colors.red),
                                 textScaleFactor: 2,
                               ),
                             )
@@ -153,7 +157,8 @@ class _InfiniteListViewState extends State<InfiniteListView> {
                           title: Text(_words[index]),
                         );
                 },
-                separatorBuilder: (BuildContext context, int index) => Padding(
+                separatorBuilder: (BuildContext context, int index) =>
+                    const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: Divider(
                     height: 1,
@@ -177,11 +182,11 @@ class TestGridView extends StatefulWidget {
   final ScrollController? controller;
 
   @override
-  _TestGridViewState createState() => _TestGridViewState();
+  State<TestGridView> createState() => _TestGridViewState();
 }
 
 class _TestGridViewState extends State<TestGridView> {
-  List<ItemData> _list = [];
+  final List<ItemData> _list = [];
 
   @override
   void initState() {
@@ -191,23 +196,23 @@ class _TestGridViewState extends State<TestGridView> {
 
   //模拟异步获取数据
   void _retrieveIcons() {
-    Future.delayed(Duration(milliseconds: 200)).then((e) {
+    Future.delayed(const Duration(milliseconds: 200)).then((e) {
       setState(() {
         _list.addAll([
-          ItemData(Colors.blue, Icons.ac_unit),
-          ItemData(Colors.red, Icons.airport_shuttle),
-          ItemData(Colors.yellow, Icons.all_inclusive),
-          ItemData(Colors.grey, Icons.beach_access),
-          ItemData(Colors.blueGrey, Icons.cake),
-          ItemData(Colors.teal, Icons.free_breakfast),
-          ItemData(Colors.deepPurple, Icons.ac_unit),
-          ItemData(Colors.blue, Icons.ac_unit),
-          ItemData(Colors.red, Icons.airport_shuttle),
-          ItemData(Colors.yellow, Icons.all_inclusive),
-          ItemData(Colors.grey, Icons.beach_access),
-          ItemData(Colors.blueGrey, Icons.cake),
-          ItemData(Colors.teal, Icons.free_breakfast),
-          ItemData(Colors.deepPurple, Icons.ac_unit),
+          const ItemData(Colors.blue, Icons.ac_unit),
+          const ItemData(Colors.red, Icons.airport_shuttle),
+          const ItemData(Colors.yellow, Icons.all_inclusive),
+          const ItemData(Colors.grey, Icons.beach_access),
+          const ItemData(Colors.blueGrey, Icons.cake),
+          const ItemData(Colors.teal, Icons.free_breakfast),
+          const ItemData(Colors.deepPurple, Icons.ac_unit),
+          const ItemData(Colors.blue, Icons.ac_unit),
+          const ItemData(Colors.red, Icons.airport_shuttle),
+          const ItemData(Colors.yellow, Icons.all_inclusive),
+          const ItemData(Colors.grey, Icons.beach_access),
+          const ItemData(Colors.blueGrey, Icons.cake),
+          const ItemData(Colors.teal, Icons.free_breakfast),
+          const ItemData(Colors.deepPurple, Icons.ac_unit),
         ]);
       });
     });
@@ -237,8 +242,8 @@ class _TestGridViewState extends State<TestGridView> {
     return GridView.builder(
         controller: widget.controller,
         itemCount: _list.length,
-        padding: EdgeInsets.all(10),
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        padding: const EdgeInsets.all(10),
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
 //            mainAxisSpacing: 10,
 //            crossAxisSpacing: 10,
 //            crossAxisCount: 2,
@@ -281,7 +286,7 @@ class ItemGridView extends StatelessWidget {
               radius: 13,
               child: Text(
                 "$index",
-                style: TextStyle(fontSize: 13),
+                style: const TextStyle(fontSize: 13),
               ),
             ),
           )
@@ -312,13 +317,13 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   double get minExtent =>
-      this.collapsedHeight! +
-      this.paddingTop! +
-      (bottom?.preferredSize?.height ?? 0);
+      collapsedHeight! +
+      paddingTop! +
+      (bottom?.preferredSize.height ?? 0);
 
   @override
   double get maxExtent => math.max(
-      paddingTop! + expandedHeight! + (bottom?.preferredSize?.height ?? 0),
+      paddingTop! + expandedHeight! + (bottom?.preferredSize.height ?? 0),
       minExtent);
 
   @override
@@ -327,7 +332,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
   }
 
   Color _makeStickyHeaderBgColor(shrinkOffset) {
-    final int alpha = (shrinkOffset / (this.maxExtent - this.minExtent) * 255)
+    final int alpha = (shrinkOffset / (maxExtent - minExtent) * 255)
         .clamp(0, 255)
         .toInt();
     return Color.fromARGB(alpha, 255, 255, 255);
@@ -337,7 +342,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
     if (shrinkOffset <= 50) {
       return isIcon ? Colors.white : Colors.transparent;
     } else {
-      final int alpha = (shrinkOffset / (this.maxExtent - this.minExtent) * 255)
+      final int alpha = (shrinkOffset / (maxExtent - minExtent) * 255)
           .clamp(0, 255)
           .toInt();
       return Color.fromARGB(alpha, 0, 0, 0);
@@ -345,16 +350,16 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
   }
 
   void _updateStatusBarBrightness(shrinkOffset) {
-    if (shrinkOffset > 50 && this.statusBarMode == 'dark') {
-      this.statusBarMode = 'light';
-      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    if (shrinkOffset > 50 && statusBarMode == 'dark') {
+      statusBarMode = 'light';
+      SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarBrightness: Brightness.light,
         statusBarIconBrightness: Brightness.light,
       ));
-    } else if (shrinkOffset <= 50 && this.statusBarMode == 'light') {
-      this.statusBarMode = 'dark';
-      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    } else if (shrinkOffset <= 50 && statusBarMode == 'light') {
+      statusBarMode = 'dark';
+      SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarBrightness: Brightness.dark,
         statusBarIconBrightness: Brightness.dark,
@@ -381,27 +386,27 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
 //    debugPrint("twen-->${twen.toString()}");
 
 //    _updateStatusBarBrightness(shrinkOffset);
-    Widget topChild = Container(
-      height: this.maxExtent,
+    Widget topChild = SizedBox(
+      height: maxExtent,
       width: MediaQuery.of(context).size.width,
       child: Stack(
         fit: StackFit.expand,
         children: <Widget>[
           // 背景图
           Container(
-              constraints: BoxConstraints.expand(),
-              child: Image.network(this.coverImgUrl!, fit: BoxFit.cover)),
+              constraints: const BoxConstraints.expand(),
+              child: Image.network(coverImgUrl!, fit: BoxFit.cover)),
           // 收起头部
           Positioned(
             left: 0,
             right: 0,
             top: 0,
             child: Container(
-              color: this._makeStickyHeaderBgColor(shrinkOffset), // 背景颜色
+              color: _makeStickyHeaderBgColor(shrinkOffset), // 背景颜色
               child: SafeArea(
                 bottom: false,
-                child: Container(
-                  height: this.collapsedHeight,
+                child: SizedBox(
+                  height: collapsedHeight,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -409,24 +414,24 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                       IconButton(
                         icon: Icon(
                           Icons.arrow_back_ios,
-                          color: this._makeStickyHeaderTextColor(
+                          color: _makeStickyHeaderTextColor(
                               shrinkOffset, true), // 返回图标颜色
                         ),
                         onPressed: () => Navigator.pop(context),
                       ),
                       Text(
-                        this.title!,
+                        title!,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
-                          color: this._makeStickyHeaderTextColor(
+                          color: _makeStickyHeaderTextColor(
                               shrinkOffset, false), // 标题颜色
                         ),
                       ),
                       IconButton(
                         icon: Icon(
                           Icons.share,
-                          color: this._makeStickyHeaderTextColor(
+                          color: _makeStickyHeaderTextColor(
                               shrinkOffset, true), // 分享图标颜色
                         ),
                         onPressed: () {},
@@ -471,7 +476,7 @@ class StickyTabBarDelegate extends SliverPersistentHeaderDelegate {
 
 class CustomScrollViewTestRoute extends StatefulWidget {
   @override
-  _CustomScrollViewTestRouteState createState() =>
+  State<CustomScrollViewTestRoute> createState() =>
       _CustomScrollViewTestRouteState();
 }
 
@@ -501,7 +506,7 @@ class _CustomScrollViewTestRouteState extends State<CustomScrollViewTestRoute>
     List<Widget> tabview = [];
 
     tabview.add(CustomScrollView(
-      key: PageStorageKey<String>('tab one'),
+      key: const PageStorageKey<String>('tab one'),
       slivers: <Widget>[
         //AppBar，包含一个导航栏
 //          SliverAppBar(
@@ -575,15 +580,15 @@ class _CustomScrollViewTestRouteState extends State<CustomScrollViewTestRoute>
                 child: Container(
               alignment: Alignment.center,
               color: Colors.red,
-              child: Text("我是Sticker---不管用"),
+              child: const Text("我是Sticker---不管用"),
             ))),
 
         SliverToBoxAdapter(
           child: Container(
-            constraints: BoxConstraints.expand(height: 70),
+            constraints: const BoxConstraints.expand(height: 70),
             alignment: Alignment.center,
             color: Colors.red.withOpacity(0.5),
-            child: Text(
+            child: const Text(
               "各种滑动视图混用--SliverGrid",
               style: TextStyle(
                   fontSize: 26,
@@ -603,7 +608,7 @@ class _CustomScrollViewTestRouteState extends State<CustomScrollViewTestRoute>
                   child: Text("Grid item $index"),
                 );
               }, childCount: 20),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   mainAxisSpacing: 10,
                   crossAxisSpacing: 10,
@@ -612,10 +617,10 @@ class _CustomScrollViewTestRouteState extends State<CustomScrollViewTestRoute>
 
         SliverToBoxAdapter(
           child: Container(
-            constraints: BoxConstraints.expand(height: 70),
+            constraints: const BoxConstraints.expand(height: 70),
             alignment: Alignment.center,
             color: Colors.red.withOpacity(0.5),
-            child: Text(
+            child: const Text(
               "各种滑动视图混用---SliverList",
               style: TextStyle(
                   fontSize: 26,
@@ -635,10 +640,10 @@ class _CustomScrollViewTestRouteState extends State<CustomScrollViewTestRoute>
 
         SliverToBoxAdapter(
           child: Container(
-            constraints: BoxConstraints.expand(height: 70),
+            constraints: const BoxConstraints.expand(height: 70),
             alignment: Alignment.center,
             color: Colors.red.withOpacity(0.5),
-            child: Text(
+            child: const Text(
               "各种滑动视图混用---SliverFixedExtentList",
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -651,10 +656,10 @@ class _CustomScrollViewTestRouteState extends State<CustomScrollViewTestRoute>
         SliverFixedExtentList(
             delegate: SliverChildBuilderDelegate((context, index) {
               //创建列表项
-              return new Container(
+              return Container(
                 alignment: Alignment.center,
                 color: Colors.lightBlue[100 * (index % 9)],
-                child: new Text('list item $index'),
+                child: Text('list item $index'),
               );
             }, childCount: 25),
             itemExtent: 70)
@@ -662,7 +667,7 @@ class _CustomScrollViewTestRouteState extends State<CustomScrollViewTestRoute>
     ));
 
     tabview.add(CustomScrollView(
-      key: PageStorageKey<String>('tab two'),
+      key: const PageStorageKey<String>('tab two'),
       slivers: <Widget>[
         Builder(builder: (context) {
           return SliverOverlapInjector(
@@ -672,10 +677,10 @@ class _CustomScrollViewTestRouteState extends State<CustomScrollViewTestRoute>
         SliverFixedExtentList(
             delegate: SliverChildBuilderDelegate((context, index) {
               //创建列表项
-              return new Container(
+              return Container(
                 alignment: Alignment.center,
                 color: Colors.lightBlue[100 * (index % 9)],
-                child: new Text('list item $index'),
+                child: Text('list item $index'),
               );
             }, childCount: 25),
             itemExtent: 70)

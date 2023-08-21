@@ -32,7 +32,7 @@ class Flutterview extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Echo(
+            const Echo(
               text: "我是文字内容",
               backgroundColor: Colors.yellow,
             ),
@@ -80,8 +80,9 @@ class PathDirecory extends StatelessWidget {
         (await getApplicationDocumentsDirectory()).path;
 
     var externalStorageDirectory = "";
-    if (Global.isAndroid)
+    if (Global.isAndroid) {
       externalStorageDirectory = (await getExternalStorageDirectory())!.path;
+    }
 
     return "\ntemporaryDirectory:\n$temporaryDirectory\n\n"
         "applicationSupportDirectory:\n$applicationSupportDirectory\n\n"
@@ -96,15 +97,17 @@ class PathDirecory extends StatelessWidget {
       future: getPath(),
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.hasError)
-            return Text("error");
-          else
+          if (snapshot.hasError) {
+            return const Text("error");
+          } else {
             return Text(
               snapshot.data!,
-              style: TextStyle(fontSize: 16, wordSpacing: 10),
+              style: const TextStyle(fontSize: 16, wordSpacing: 10),
             );
-        } else
-          return CircularProgressIndicator();
+          }
+        } else {
+          return const CircularProgressIndicator();
+        }
       },
     );
   }

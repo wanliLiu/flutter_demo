@@ -5,7 +5,7 @@ class AnimationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("动画"),
+        title: const Text("动画"),
       ),
       body: ListView(
         children: <Widget>[
@@ -21,7 +21,7 @@ class AnimationPage extends StatelessWidget {
 
 class ScalAnimationWidget extends StatefulWidget {
   @override
-  _ScalAnimationWidgetState createState() => _ScalAnimationWidgetState();
+  State<ScalAnimationWidget> createState() => _ScalAnimationWidgetState();
 }
 
 class _ScalAnimationWidgetState extends State<ScalAnimationWidget>
@@ -34,15 +34,16 @@ class _ScalAnimationWidgetState extends State<ScalAnimationWidget>
     super.initState();
 
     _controller =
-        AnimationController(vsync: this, duration: Duration(seconds: 3));
+        AnimationController(vsync: this, duration: const Duration(seconds: 3));
     _animation = CurvedAnimation(parent: _controller, curve: Curves.bounceIn);
     _animation = Tween(begin: 0.0, end: 300.0).animate(_animation!);
-    _animation!
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed)
-          _controller.reverse();
-        else if (status == AnimationStatus.dismissed) _controller.forward();
-      });
+    _animation!.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _controller.reverse();
+      } else if (status == AnimationStatus.dismissed) {
+        _controller.forward();
+      }
+    });
 
 //    _animation
 //      ..addListener(() {
@@ -143,7 +144,7 @@ class HeroAnimationRoute extends StatelessWidget {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => Scaffold(
                     appBar: AppBar(
-                      title: Text("原图"),
+                      title: const Text("原图"),
                     ),
                     body: HeroAnimationRouteB(),
                   )));
@@ -230,13 +231,14 @@ class _StaggerRouteState extends State<StaggerRoute>
     super.initState();
 
     _controller =
-        AnimationController(duration: Duration(seconds: 2), vsync: this);
-    _controller!
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed)
-          _controller!.reverse();
-        else if (status == AnimationStatus.dismissed) _controller!.forward();
-      });
+        AnimationController(duration: const Duration(seconds: 2), vsync: this);
+    _controller!.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _controller!.reverse();
+      } else if (status == AnimationStatus.dismissed) {
+        _controller!.forward();
+      }
+    });
 
     _controller!.forward();
   }
@@ -283,8 +285,9 @@ class MySlideTransition extends SlideTransition {
   Widget build(BuildContext context) {
     Offset offset = position.value;
     //动画反向执行时，调整x偏移，实现“从左边滑出隐藏”
-    if (position.status == AnimationStatus.reverse)
+    if (position.status == AnimationStatus.reverse) {
       offset = Offset(-offset.dx, offset.dy);
+    }
     return FractionalTranslation(
       translation: offset,
       transformHitTests: transformHitTests,
@@ -303,16 +306,20 @@ class SlideTransitionX extends AnimatedWidget {
   }) : super(key: key, listenable: position) {
     switch (direction) {
       case AxisDirection.up:
-        _tween = Tween<Offset>(begin: Offset(0, 1), end: Offset(0, 0));
+        _tween =
+            Tween<Offset>(begin: const Offset(0, 1), end: const Offset(0, 0));
         break;
       case AxisDirection.down:
-        _tween = Tween<Offset>(begin: Offset(0, -1), end: Offset(0, 0));
+        _tween =
+            Tween<Offset>(begin: const Offset(0, -1), end: const Offset(0, 0));
         break;
       case AxisDirection.right:
-        _tween = Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0));
+        _tween =
+            Tween<Offset>(begin: const Offset(-1, 0), end: const Offset(0, 0));
         break;
       case AxisDirection.left:
-        _tween = Tween<Offset>(begin: Offset(1, 0), end: Offset(0, 0));
+        _tween =
+            Tween<Offset>(begin: const Offset(1, 0), end: const Offset(0, 0));
         break;
     }
   }
@@ -357,7 +364,7 @@ class SlideTransitionX extends AnimatedWidget {
 
 class AnimatedWidgetsTest extends StatefulWidget {
   @override
-  _AnimatedWidgetsTestState createState() => _AnimatedWidgetsTestState();
+  State<AnimatedWidgetsTest> createState() => _AnimatedWidgetsTestState();
 }
 
 class _AnimatedWidgetsTestState extends State<AnimatedWidgetsTest> {
@@ -366,11 +373,11 @@ class _AnimatedWidgetsTestState extends State<AnimatedWidgetsTest> {
   double _height = 100;
   double _left = 0;
   Color _color = Colors.red;
-  TextStyle _style = TextStyle(color: Colors.black);
+  TextStyle _style = const TextStyle(color: Colors.black);
 
   @override
   Widget build(BuildContext context) {
-    var duration = Duration(milliseconds: 800);
+    var duration = const Duration(milliseconds: 800);
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -383,7 +390,7 @@ class _AnimatedWidgetsTestState extends State<AnimatedWidgetsTest> {
             child: AnimatedPadding(
               duration: duration,
               padding: EdgeInsets.all(_padding),
-              child: Text("AnimatedPadding"),
+              child: const Text("AnimatedPadding"),
             ),
           ),
           SizedBox(
@@ -399,7 +406,7 @@ class _AnimatedWidgetsTestState extends State<AnimatedWidgetsTest> {
                         _left = 100;
                       });
                     },
-                    child: Text("AnimatedPositioned"),
+                    child: const Text("AnimatedPositioned"),
                   ),
                 )
               ],
@@ -417,7 +424,7 @@ class _AnimatedWidgetsTestState extends State<AnimatedWidgetsTest> {
                     _align = Alignment.center;
                   });
                 },
-                child: Text("AnimatedAlign"),
+                child: const Text("AnimatedAlign"),
               ),
             ),
           ),
@@ -432,18 +439,20 @@ class _AnimatedWidgetsTestState extends State<AnimatedWidgetsTest> {
                   _color = Colors.blue;
                 });
               },
-              child: Text(
+              child: const Text(
                 "AnimatedContainer",
                 style: TextStyle(color: Colors.white),
               ),
             ),
           ),
           AnimatedDefaultTextStyle(
+            style: _style,
+            duration: duration,
             child: GestureDetector(
-              child: Text("hello world"),
+              child: const Text("hello world"),
               onTap: () {
                 setState(() {
-                  _style = TextStyle(
+                  _style = const TextStyle(
                     color: Colors.blue,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -453,12 +462,10 @@ class _AnimatedWidgetsTestState extends State<AnimatedWidgetsTest> {
                 });
               },
             ),
-            style: _style,
-            duration: duration,
           ),
         ].map((e) {
           return Padding(
-            padding: EdgeInsets.symmetric(vertical: 16),
+            padding: const EdgeInsets.symmetric(vertical: 16),
             child: e,
           );
         }).toList(),

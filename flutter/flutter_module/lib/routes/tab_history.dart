@@ -21,10 +21,6 @@ class TabHistory extends StatelessWidget {
       padding: const EdgeInsets.all(15.0),
       child: Column(
         children: <Widget>[
-          testFutureBuilder(),
-          testFutureBuilder(
-            useStream: true,
-          ),
           avatar,
           ClipOval(
             child: avatar,
@@ -36,7 +32,7 @@ class TabHistory extends StatelessWidget {
           Container(
             width: 150,
             height: 100,
-            foregroundDecoration: BoxDecoration(
+            foregroundDecoration: const BoxDecoration(
 //              borderRadius: BorderRadius.all( Radius.circular(50)),
                 shape: BoxShape.circle,
                 image: DecorationImage(
@@ -44,7 +40,7 @@ class TabHistory extends StatelessWidget {
             child: avatar,
           ),
           ConstrainedBox(
-            constraints: BoxConstraints.loose(Size(100, double.infinity)),
+            constraints: BoxConstraints.loose(const Size(100, double.infinity)),
             child: Row(
 //            mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -53,7 +49,7 @@ class TabHistory extends StatelessWidget {
                   widthFactor: .5,
                   child: avatar,
                 ),
-                Text(
+                const Text(
                   "你好世界",
                   style: TextStyle(color: Colors.green),
                 )
@@ -61,7 +57,7 @@ class TabHistory extends StatelessWidget {
             ),
           ),
           ConstrainedBox(
-            constraints: BoxConstraints.loose(Size(100, double.infinity)),
+            constraints: BoxConstraints.loose(const Size(100, double.infinity)),
             child: Row(
 //            mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -72,7 +68,7 @@ class TabHistory extends StatelessWidget {
                     child: avatar,
                   ),
                 ),
-                Text(
+                const Text(
                   "你好世界",
                   style: TextStyle(color: Colors.green),
                 )
@@ -80,15 +76,19 @@ class TabHistory extends StatelessWidget {
             ),
           ),
           DecoratedBox(
-            decoration: BoxDecoration(color: Colors.red),
+            decoration: const BoxDecoration(color: Colors.red),
             child: ClipRect(
               clipper: MyClipper(),
               child: avatar,
             ),
           ),
+          testFutureBuilder(),
+          testFutureBuilder(
+            useStream: true,
+          ),
         ].map((e) {
           return Padding(
-            padding: EdgeInsets.symmetric(vertical: 16),
+            padding: const EdgeInsets.symmetric(vertical: 16),
             child: e,
           );
         }).toList(),
@@ -99,7 +99,7 @@ class TabHistory extends StatelessWidget {
 
 class MyClipper extends CustomClipper<Rect> {
   @override
-  Rect getClip(Size size) => Rect.fromLTWH(10.0, 10.0, 50.0, 50.0);
+  Rect getClip(Size size) => const Rect.fromLTWH(10.0, 10.0, 50.0, 50.0);
 
   @override
   bool shouldReclip(CustomClipper<Rect> oldClipper) => false;
@@ -120,25 +120,26 @@ class testFutureBuilder extends StatelessWidget {
 
   Stream<String> counter() {
 //    return Stream.fromFuture(mockNetworkData(content: "title"));
-    return Stream.periodic(Duration(seconds: 1), (i) => i.toString());
+    return Stream.periodic(const Duration(seconds: 1), (i) => i.toString());
   }
 
   Widget _StreamBuilder(BuildContext context, AsyncSnapshot<String> snapshot) {
-    if (snapshot.hasError)
+    if (snapshot.hasError) {
       return Text('Error: ${snapshot.error}');
-    else
+    } else {
       switch (snapshot.connectionState) {
         case ConnectionState.none:
-          return Text('没有Stream');
+          return const Text('没有Stream');
         case ConnectionState.waiting:
-          return Text('等待数据...');
+          return const Text('等待数据...');
         case ConnectionState.active:
           return Text('active: ${snapshot.data}');
         case ConnectionState.done:
-          return Text('Stream已关闭');
+          return const Text('Stream已关闭');
         default:
-          return Text('erroe');
+          return const Text('erroe');
       }
+    }
     // return null; // unreachable
   }
 
@@ -155,7 +156,7 @@ class testFutureBuilder extends StatelessWidget {
       }
     } else {
       // 请求未结束，显示loading
-      return CircularProgressIndicator();
+      return const CircularProgressIndicator();
     }
   }
 
