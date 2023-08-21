@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_demon/common/Toast.dart';
 
 class DialogPage extends StatefulWidget {
   @override
@@ -23,9 +22,9 @@ class _DialogPageState extends State<DialogPage> {
                   // 返回1
                   Navigator.pop(context, 1);
                 },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 6),
-                  child: const Text('中文简体'),
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 6),
+                  child: Text('中文简体'),
                 ),
               ),
               SimpleDialogOption(
@@ -33,9 +32,9 @@ class _DialogPageState extends State<DialogPage> {
                   // 返回2
                   Navigator.pop(context, 2);
                 },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 6),
-                  child: const Text('美国英语'),
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 6),
+                  child: Text('美国英语'),
                 ),
               ),
               SimpleDialogOption(
@@ -46,7 +45,7 @@ class _DialogPageState extends State<DialogPage> {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Text("Dialog状态管理 StatefulBuilder"),
+                      const Text("Dialog状态管理 StatefulBuilder"),
                       StatefulBuilder(builder: (context, setState) {
                         return Checkbox(
                           value: _chek,
@@ -136,7 +135,7 @@ class _DialogPageState extends State<DialogPage> {
       context: context,
       barrierDismissible: true, //点击遮罩不关闭对话框
       builder: (context) {
-        return UnconstrainedBox(
+        return const UnconstrainedBox(
 //          constrainedAxis: Axis.vertical,
           child: SizedBox(
             width: 230,
@@ -149,7 +148,7 @@ class _DialogPageState extends State<DialogPage> {
                 children: <Widget>[
                   CircularProgressIndicator(),
                   Padding(
-                    padding: const EdgeInsets.only(top: 26.0),
+                    padding: EdgeInsets.only(top: 26.0),
                     child: Text("请稍后..."),
                   )
                 ],
@@ -169,7 +168,7 @@ class _DialogPageState extends State<DialogPage> {
       firstDate: date,
       lastDate: date.add(
         //未来30天可选
-        Duration(days: 30),
+        const Duration(days: 30),
       ),
     );
   }
@@ -185,7 +184,7 @@ class _DialogPageState extends State<DialogPage> {
             mode: CupertinoDatePickerMode.dateAndTime,
             minimumDate: date,
             maximumDate: date.add(
-              Duration(days: 30),
+              const Duration(days: 30),
             ),
             maximumYear: date.year + 1,
             onDateTimeChanged: (DateTime value) {
@@ -201,10 +200,10 @@ class _DialogPageState extends State<DialogPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Dialog"),
+        title: const Text("Dialog"),
       ),
       body: Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Wrap(
           spacing: 10,
           runSpacing: 10,
@@ -214,36 +213,36 @@ class _DialogPageState extends State<DialogPage> {
                 // bool result = await (_showDeleteDialog() as FutureOr<bool>);
                 // VaeToast.showToast(result ? "确认删除" : "取消删除");
               },
-              child: Text("对话框1"),
+              child: const Text("对话框1"),
             ),
             ElevatedButton(
               onPressed: () => changeLanguage(),
-              child: Text("SimpleDialog"),
+              child: const Text("SimpleDialog"),
             ),
             ElevatedButton(
               onPressed: () async {
                 var result = await _showModalBottomSheet();
                 debugPrint("$result");
               },
-              child: Text("底部菜单列表"),
+              child: const Text("底部菜单列表"),
             ),
             Builder(builder: (context) {
               return ElevatedButton(
                 onPressed: () => _showBottomSheet(context),
-                child: Text("ShowBottomSheet"),
+                child: const Text("ShowBottomSheet"),
               );
             }),
             ElevatedButton(
               onPressed: () => showLoadingDialog(),
-              child: Text("ShowLoadingDialog"),
+              child: const Text("ShowLoadingDialog"),
             ),
             ElevatedButton(
               onPressed: () => _showDatePicker1(),
-              child: Text("ShowDateTimePicker"),
+              child: const Text("ShowDateTimePicker"),
             ),
             ElevatedButton(
               onPressed: () => _showDatePicker2(),
-              child: Text("ShowDateTimePicker --IOS"),
+              child: const Text("ShowDateTimePicker --IOS"),
             ),
           ],
         ),
