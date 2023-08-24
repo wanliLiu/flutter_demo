@@ -167,6 +167,12 @@ class HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
                         PageListRoot(ListType.ListView))),
               ),
               ElevatedButton(
+                child: const Text("PullLoadMore"),
+                onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        PageListRoot(ListType.DemoPullLoad))),
+              ),
+              ElevatedButton(
                 child: const Text("SingleChildScrollView"),
                 onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext context) =>

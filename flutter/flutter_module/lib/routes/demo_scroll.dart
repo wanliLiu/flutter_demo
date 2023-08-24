@@ -7,8 +7,15 @@ import 'package:flutter_demon/base/BasePage.dart';
 import 'package:flutter_demon/routes/tab_history.dart';
 
 import 'demo_scroll_customview.dart';
+import 'demon_pull_load.dart';
 
-enum ListType { SingleChildScrollView, ListView, GridView, StaggeredGridView }
+enum ListType {
+  SingleChildScrollView,
+  ListView,
+  GridView,
+  StaggeredGridView,
+  DemoPullLoad
+}
 
 class PageListRoot extends StatefulWidget {
   PageListRoot(this.type);
@@ -40,6 +47,8 @@ class _PageRootState extends State<PageListRoot> with BasePage {
       return TestGridView.staggered(
         controller: controller,
       );
+    } else if (widget.type == ListType.DemoPullLoad) {
+      return const NewsPage();
     } else {
       return const Center(
         child: Text("没有"),
@@ -57,6 +66,8 @@ class _PageRootState extends State<PageListRoot> with BasePage {
       return const Text("GridView");
     } else if (widget.type == ListType.StaggeredGridView) {
       return const Text("StaggeredGridView");
+    } else if (widget.type == ListType.DemoPullLoad) {
+      return const Text("DemoPullLoad");
     } else {
       return const Center(
         child: Text("没有"),
@@ -84,13 +95,18 @@ class _InfiniteListViewState extends State<InfiniteListView> {
     _retrieveData();
   }
 
-  void _retrieveData() {
-    Future.delayed(const Duration(milliseconds: 500)).then((e) {
+  Future<void> _retrieveData() async {
+    await Future.delayed(const Duration(milliseconds: 4000)).then((e) {
       _words.insertAll(_words.length - 1,
-          generateWordPairs().take(20).map((e) => e.asPascalCase).toList());
-
+          generateWordPairs().take(100).map((e) => e.asPascalCase).toList());
       setState(() {});
     });
+  }
+
+  // 下拉刷新
+  Future<void> _onRefresh() async {
+    // 持续两秒
+    await _retrieveData();
   }
 
   @override
@@ -108,61 +124,64 @@ class _InfiniteListViewState extends State<InfiniteListView> {
         ),
         Expanded(
             flex: 1,
-            child: Scrollbar(
-              child: ListView.separated(
-                itemCount: _words.length,
-                controller: widget.controller,
-                padding: const EdgeInsets.all(10),
-                itemBuilder: (BuildContext context, int index) {
-                  if (_words[index] == loadingTag) {
-                    if (_words.length - 1 < 500) {
-                      _retrieveData();
-                      return Container(
-                        padding: const EdgeInsets.all(16),
-                        alignment: Alignment.center,
-                        child: const RefreshProgressIndicator(),
-                      );
-                    } else {
-                      return Container(
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.all(16),
-                        child: const Text(
-                          "没有更多了",
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                      );
-                    }
-                  }
-
-                  return index % 4 == 0
-                      ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            ListTile(
-                              title: Text(_words[index]),
-                            ),
-                            Container(
-                              color: Colors.grey,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
-                              child: Text(
-                                "我是分类-->$index",
-                                style: const TextStyle(color: Colors.red),
-                                textScaleFactor: 2,
-                              ),
-                            )
-                          ],
-                        )
-                      : ListTile(
-                          title: Text(_words[index]),
+            child: RefreshIndicator(
+              onRefresh: _onRefresh,
+              child: Scrollbar(
+                child: ListView.separated(
+                  itemCount: _words.length,
+                  controller: widget.controller,
+                  padding: const EdgeInsets.all(10),
+                  itemBuilder: (BuildContext context, int index) {
+                    if (_words[index] == loadingTag) {
+                      if (_words.length - 1 < 500) {
+                        _retrieveData();
+                        return Container(
+                          padding: const EdgeInsets.all(16),
+                          alignment: Alignment.center,
+                          child: const RefreshProgressIndicator(),
                         );
-                },
-                separatorBuilder: (BuildContext context, int index) =>
-                    const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: Divider(
-                    height: 1,
-                    color: Colors.grey,
+                      } else {
+                        return Container(
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.all(16),
+                          child: const Text(
+                            "没有更多了",
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        );
+                      }
+                    }
+
+                    return index % 4 == 0
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: <Widget>[
+                              ListTile(
+                                title: Text(_words[index]),
+                              ),
+                              Container(
+                                color: Colors.grey,
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 16),
+                                child: Text(
+                                  "我是分类-->$index",
+                                  style: const TextStyle(color: Colors.red),
+                                  textScaleFactor: 2,
+                                ),
+                              )
+                            ],
+                          )
+                        : ListTile(
+                            title: Text(_words[index]),
+                          );
+                  },
+                  separatorBuilder: (BuildContext context, int index) =>
+                      const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Divider(
+                      height: 1,
+                      color: Colors.grey,
+                    ),
                   ),
                 ),
               ),
@@ -317,9 +336,7 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   double get minExtent =>
-      collapsedHeight! +
-      paddingTop! +
-      (bottom?.preferredSize.height ?? 0);
+      collapsedHeight! + paddingTop! + (bottom?.preferredSize.height ?? 0);
 
   @override
   double get maxExtent => math.max(
@@ -332,9 +349,8 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
   }
 
   Color _makeStickyHeaderBgColor(shrinkOffset) {
-    final int alpha = (shrinkOffset / (maxExtent - minExtent) * 255)
-        .clamp(0, 255)
-        .toInt();
+    final int alpha =
+        (shrinkOffset / (maxExtent - minExtent) * 255).clamp(0, 255).toInt();
     return Color.fromARGB(alpha, 255, 255, 255);
   }
 
@@ -342,9 +358,8 @@ class SliverCustomHeaderDelegate extends SliverPersistentHeaderDelegate {
     if (shrinkOffset <= 50) {
       return isIcon ? Colors.white : Colors.transparent;
     } else {
-      final int alpha = (shrinkOffset / (maxExtent - minExtent) * 255)
-          .clamp(0, 255)
-          .toInt();
+      final int alpha =
+          (shrinkOffset / (maxExtent - minExtent) * 255).clamp(0, 255).toInt();
       return Color.fromARGB(alpha, 0, 0, 0);
     }
   }

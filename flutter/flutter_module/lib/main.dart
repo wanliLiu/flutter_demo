@@ -30,8 +30,11 @@ void reportErrorAndLog(FlutterErrorDetails? details) {
   //上报错误和日志逻辑
 }
 
-FlutterErrorDetails? makeDetails(Object obj, StackTrace stack) {
+FlutterErrorDetails? makeDetails(Object error, StackTrace stack) {
   // 构建错误信息
+  // 构建错误信息
+  debugPrint(error.toString());
+  debugPrintStack(stackTrace: stack);
 }
 
 const double windowWidth = 480;
@@ -39,7 +42,7 @@ const double windowHeight = 854;
 
 void setupWindow() {
   if (!kIsWeb && (Platform.isWindows || Platform.isLinux || Platform.isMacOS)) {
-    setWindowTitle('Twitter Api Demo');
+    setWindowTitle('Flutter Api Demo');
     setWindowMinSize(const Size(windowWidth, windowHeight));
     setWindowMaxSize(const Size(windowWidth, windowHeight));
     getCurrentScreen().then((screen) {
